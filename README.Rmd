@@ -1,0 +1,110 @@
+---
+output: github_document
+---
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/"
+)
+options(width = 100)
+library(TweetLocViz)
+```
+
+# TweetLocViz
+
+The goal of `TweetLocViz` is to facilitate topic modeling in R with Twitter data. `TweetLocViz` provides a broad range of methods to sample, pre-process and visualize Tweets to make modeling the public discourse easy and accessible. This `README` covers the most important features. For more details
+use `vignette("TweetLocViz")`.
+
+## Installation
+
+You can install `TweetLocViz` from CRAN with:
+
+```{r cran-installation, eval=FALSE}
+install.packages("TweetLocViz")
+```
+
+You can install `TweetLocViz` from github with:
+
+```{r gh-installation, eval = FALSE}
+## install remotes package if it's not already
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes")
+}
+
+## install dev version of TweetLocViz from github
+remotes::install_github("abuchmueller/TweetLocViz")
+```
+
+## Example: Collect your tweets
+
+Make sure you have a regular Twitter Account before start to sample your Tweets. 
+For more sophisticated sampling you'll need a developer account. Use `vignette("sampling", package = "TweetLocViz")` to learn more about Twitter's endpoints.
+
+### Work in Progress: Use included examples for now as `get_tweets()` is not well documented.
+
+```{r}
+# get_tweets()
+```
+
+
+## Parse your tweets
+
+```{r}
+dat <- parse_stream("inst/extdata/tweets 20191027-141233.json")
+```
+
+## Pool tweets into document pools
+
+```{r}
+pool <- pool_tweets(dat)
+pool.corpus <- pool$corpus
+```
+
+```{r}
+pool.dfm <- pool$document_term_matrix
+```
+
+## Find optimal number of topics
+
+```{r}
+find_lda(pool.dfm)
+```
+
+## Fit LDA model
+
+```{r}
+model <- fit_lda(pool.dfm, n_topics = 3)
+```
+
+
+## View most relevant terms for each topic
+
+```{r}
+lda_terms(model)
+```
+
+or which hashtags are heavily associated with each topic
+
+```{r}
+lda_hashtags(model)
+```
+
+## LDA Distribution
+
+Check the distribution of your LDA Model with
+
+```{r}
+lda_distribution(model)
+```
+
+
+## Visualize with `LDAvis`
+
+Hint: Make sure you have `servr` package installed.
+
+```{r, eval=FALSE}
+to_ldavis(model, pool.corpus, pool.dfm)
+```
+
