@@ -20,6 +20,7 @@
 # TODO: LAT/LNG to BBOX conversion support
 # TODO: Keyword filtering
 # TODO: Add more locations (e.g. EU, UK, China ... currently only cities supported)
+# TODO: add lang, location/country filtering.
 
 # This is a wrapper function for rtweet::stream_tweets() and rtweet::search_tweets()
 get_tweets <- function(endpoint = 'stream',

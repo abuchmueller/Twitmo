@@ -69,7 +69,7 @@ lda_hashtags <- function(lda_model) {
 
 #' View distribution of fitted LDA Models
 #' @description View the distribution of your fitted LDA model.
-#' @usage lda_distribution(lda_model, param = "beta", tidy = FALSE).
+#' @usage lda_distribution(lda_model, param = "gamma", tidy = FALSE)
 #' @param lda_model Object of class \link[topicmodels:TopicModel-class]{LDA}).
 #' @param param String. Specify either "beta" to return the term distribution.
 #' over topics (term per document) or "gamma" for the document distribution over.
@@ -85,7 +85,7 @@ lda_distribution <- function(lda_model, param = "gamma", tidy = FALSE) {
     if (is.logical(tidy)) {
       if (!tidy) {
         # % Each document (hashtag) belongs to a topic
-        warning('beta has no base R support. Use `tidy = TRUE`')
+        warning('param = "beta" has no base R support. Use `tidy = TRUE`')
       }
 
       if (tidy) {

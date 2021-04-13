@@ -12,6 +12,7 @@
 # TODO: Add STM Support
 # TODO: Add Emojis to STM Metadata
 # TODO: Create a class for pooled tweets.
+# TODO: specify min pool size
 
 
 pool_tweets <- function(data) {

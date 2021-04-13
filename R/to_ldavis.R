@@ -19,7 +19,7 @@ to_ldavis <- function(fitted, corpus, doc_term){
   library(LDAvis)
 
   # Conversion of quanteda objects onto their tm counterparts
-  # TODO: Test class atrribute
+
   # Convert our quanteda corpus to a tm corpus object for LDAvis
   corpus <- quanteda::convert(corpus, to="data.frame")
   corpus <- tm::SimpleCorpus(tm::DataframeSource(corpus),
