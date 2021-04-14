@@ -1,6 +1,6 @@
 #' Prepare for Tweets for topic modeling by pooling
-#' @description Pools tweets by hashtags using cosine similarity to create l
-#' onger pseudo-documents for better LDA estimation and creates n-gram tokens.
+#' @description Pools tweets by hashtags using cosine similarity to create
+#' longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 #' The method applies an implementation of the pooling algorithm from Mehrotra et al.2013.
 #' @details This function pools parsed stream into hashtags.
 #' @param data Data frame of parsed tweets.
@@ -15,9 +15,21 @@
 # TODO: specify min pool size
 
 
-pool_tweets <- function(data) {
+pool_tweets <- function(data,
+                        remove_numbers = TRUE,
+                        remove_punct = TRUE,
+                        remove_symbols = TRUE,
+                        remove_url = TRUE,
+                        remove_separators = TRUE) {
 
   library(magrittr)
+
+  stopifnot(is.logical(remove_numbers),
+            is.logical(remove_punct),
+            is.logical(remove_symbols),
+            is.logical(remove_url),
+            is.logical(remove_separators))
+
 
   cat("\n")
   cat(nrow(data), "Tweets found", sep = " ")
@@ -32,7 +44,7 @@ pool_tweets <- function(data) {
   cat("Pooling", nrow(all_tweets_w_hashtags), "Tweets with Hashtags", sep = " ")
 
   hashtags.unique <- lapply(data$hashtags, unique)
-  hashtags.unique  <- unique(hashtags.unique )
+  hashtags.unique  <- unique(hashtags.unique)
   cat("\n")
   cat(length(hashtags.unique), "Unique Hashtags found", sep = " ")
 
@@ -92,14 +104,20 @@ pool_tweets <- function(data) {
 
   quanteda::docnames(doc.corpus) <- document_hashtag_pools$hashtags
 
+  tokens.pooled <- quanteda::tokens(doc.corpus,
+                                    what = "word",
+                                    remove_punct = remove_punct,
+                                    remove_symbols = remove_symbols,
+                                    remove_numbers = remove_numbers,
+                                    remove_url = remove_url,
+                                    remove_separators = remove_separators,
+                                    split_hyphens = FALSE,
+                                    include_docvars = TRUE,
+                                    padding = FALSE
+  ) %>% quanteda::tokens_remove(quanteda::stopwords("english"))
+
   pooled.dfm <-
-    quanteda::dfm(doc.corpus,
-        remove_numbers = TRUE,
-        remove_punct = TRUE,
-        remove_symbols = TRUE,
-        remove_url = TRUE,
-        remove_separators = TRUE,
-        remove = stopwords::stopwords(language = "en")) %>%
+    quanteda::dfm(tokens.pooled) %>%
     quanteda::dfm_trim() %>%
     quanteda::dfm_tfidf(.)
 
@@ -110,19 +128,25 @@ pool_tweets <- function(data) {
 
   unpooled.corpus <- quanteda::corpus(c.nohashtag, text_field = 'text')
 
+  tokens.unpooled <- quanteda::tokens(unpooled.corpus ,
+                                    what = "word",
+                                    remove_punct = remove_punct,
+                                    remove_symbols = remove_symbols,
+                                    remove_numbers = remove_numbers,
+                                    remove_url = remove_url,
+                                    remove_separators = remove_separators,
+                                    split_hyphens = FALSE,
+                                    include_docvars = TRUE,
+                                    padding = FALSE
+  ) %>% quanteda::tokens_remove(quanteda::stopwords("english"))
+
   unpooled.dfm <-
-    quanteda::dfm(unpooled.corpus,
-        remove_numbers = TRUE,
-        remove_punct = TRUE,
-        remove_symbols = TRUE,
-        remove_url = TRUE,
-        remove_separators = TRUE,
-        remove = stopwords::stopwords(language = "en")) %>%
+    quanteda::dfm(tokens.unpooled ) %>%
     quanteda::dfm_trim() %>%
     quanteda::dfm_tfidf(.)
 
   # calculate cosine similarities between pooled tweets and tweets without hashtags
-  h <- suppressWarnings(quanteda::textstat_simil(pooled.dfm,
+  h <- suppressWarnings(quanteda.textstats::textstat_simil(pooled.dfm,
                       unpooled.dfm,
                       margin = "documents",
                       method = "cosine"))
@@ -150,18 +174,24 @@ pool_tweets <- function(data) {
 
   quanteda::docnames(doc.corpus) <- document_hashtag_pools$hashtags
 
-  # Final pooled dfm
-  pooled.dfm <-
-    quanteda::dfm(doc.corpus,
-        remove_numbers = TRUE,
-        remove_punct = TRUE,
-        remove_symbols = TRUE,
-        remove_url = TRUE,
-        remove_separators = TRUE,
-        remove = stopwords::stopwords(language = "en"))
+  tokens.final <- quanteda::tokens(doc.corpus,
+                                    what = "word",
+                                    remove_punct = remove_punct,
+                                    remove_symbols = remove_symbols,
+                                    remove_numbers = remove_numbers,
+                                    remove_url = remove_url,
+                                    remove_separators = remove_separators,
+                                    split_hyphens = FALSE,
+                                    include_docvars = TRUE,
+                                    padding = FALSE
+  ) %>% quanteda::tokens_remove(quanteda::stopwords("english"))
 
-  ret_list <- list("corpus" = doc.corpus,
-                   "document_term_matrix" = pooled.dfm)
+  # Final pooled dfm
+  pooled.dfm <- quanteda::dfm(tokens.final)
+
+  ret_list <- list("data" = a,
+                   "corpus" = doc.corpus,
+                   "document_term_atrix" = pooled.dfm)
   cat('Done')
   return(ret_list)
 }
