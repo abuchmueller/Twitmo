@@ -4,7 +4,14 @@
 \alias{pool_tweets}
 \title{Prepare for Tweets for topic modeling by pooling}
 \usage{
-pool_tweets(data)
+pool_tweets(
+  data,
+  remove_numbers = TRUE,
+  remove_punct = TRUE,
+  remove_symbols = TRUE,
+  remove_url = TRUE,
+  remove_separators = TRUE
+)
 }
 \arguments{
 \item{data}{Data frame of parsed tweets.}
@@ -13,8 +20,8 @@ pool_tweets(data)
 List with corpus object and dfm object of pooled tweets.
 }
 \description{
-Pools tweets by hashtags using cosine similarity to create l
-onger pseudo-documents for better LDA estimation and creates n-gram tokens.
+Pools tweets by hashtags using cosine similarity to create
+longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 The method applies an implementation of the pooling algorithm from Mehrotra et al.2013.
 }
 \details{

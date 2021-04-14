@@ -14,13 +14,13 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     dplyr,
+    magrittr,
     rtweet,
     quanteda,
     ldatuning,
     topicmodels,
     stm,
     tm,
-    magrittr,
     ldatuning
 Suggests:
     ggplot2,
