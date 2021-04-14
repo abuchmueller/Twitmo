@@ -7,11 +7,11 @@
 #'
 #' @export
 
-fit_lda <- function(pooled_dfm, n_topics) {
+fit_lda <- function(pooled_dfm, n_topics, ...) {
   ###### LDA ######
   n_topics <- n_topics
   dfm2topicmodels <- quanteda::convert(pooled_dfm, to = "topicmodels")
-  lda.model <- topicmodels::LDA(dfm2topicmodels, n_topics)
+  lda.model <- topicmodels::LDA(dfm2topicmodels, n_topics, ...)
 
   return(lda.model)
 
