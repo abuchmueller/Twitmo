@@ -22,7 +22,7 @@ pool_tweets <- function(data,
                         remove_url = TRUE,
                         remove_separators = TRUE) {
 
-  library(magrittr)
+  quanteda_options(pattern_hashtag = NULL, pattern_username = NULL)
 
   stopifnot(is.logical(remove_numbers),
             is.logical(remove_punct),
