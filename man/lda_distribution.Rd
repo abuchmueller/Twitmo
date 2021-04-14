@@ -4,7 +4,7 @@
 \alias{lda_distribution}
 \title{View distribution of fitted LDA Models}
 \usage{
-lda_distribution(lda_model, param = "beta", tidy = FALSE).
+lda_distribution(lda_model, param = "gamma", tidy = FALSE)
 }
 \arguments{
 \item{lda_model}{Object of class \link[topicmodels:TopicModel-class]{LDA}).}
