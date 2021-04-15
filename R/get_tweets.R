@@ -36,11 +36,9 @@ get_tweets <- function(endpoint = 'stream',
     )
   }
 
-  query <- q
   if (endpoint == 'search') {
-    rtweet::search_tweets(q = query,
-                          n = sample_size,
-                          geocode = lookup_coords(location),
+    rtweet::search_tweets(n = sample_size,
+                          geocode = rtweet::lookup_coords(location),
                           include_rts = FALSE,
                           retryonratelimit = TRUE,
                           ...)
