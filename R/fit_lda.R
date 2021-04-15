@@ -22,12 +22,14 @@ fit_lda <- function(pooled_dfm, n_topics, ...) {
 #' @usage find_lda(pooled_dfm, search_space)
 #' @param pooled_dfm object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets
 #' @param search_space Vector with number of topics to compare different models.
+#' @param method The method to be used for fitting.
+#' Currently method = "VEM" or method = "Gibbs" are supported.
 #' @return Plot with different metrics compared.
 #'
 #' @export
 
 
-find_lda <- function(pooled_dfm, search_space = seq(1, 10, 2)) {
+find_lda <- function(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs") {
 
   dfm2topicmodels <- quanteda::convert(pooled_dfm, to = "topicmodels")
 
@@ -38,7 +40,7 @@ find_lda <- function(pooled_dfm, search_space = seq(1, 10, 2)) {
                                                                 "CaoJuan2009",
                                                                 "Arun2010",
                                                                 "Deveaud2014"),
-                                                    method = "Gibbs"
+                                                    method = method
   )
   return(ldatuning::FindTopicsNumber_plot(ldatuning_metrics))
 }
