@@ -3,7 +3,8 @@
 #' longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 #' The method applies an implementation of the pooling algorithm from Mehrotra et al.2013.
 #' @details This function pools parsed stream into hashtags.
-#' @param data Data frame of parsed tweets.
+#' @param data Data frame of parsed tweets either by using `parse_stream()` or
+#' `jsonlite::stream_in()` and `rtweet::tweets_with_users(s)`.
 #' @return List with corpus object and dfm object of pooled tweets.
 #'
 #' @export
@@ -23,7 +24,7 @@ pool_tweets <- function(data,
                         remove_separators = TRUE,
                         cosine_threshold = 0.8) {
 
-  quanteda_options(pattern_hashtag = NULL, pattern_username = NULL)
+  quanteda::quanteda_options(pattern_hashtag = NULL, pattern_username = NULL)
 
   stopifnot(is.logical(remove_numbers),
             is.logical(remove_punct),
@@ -106,7 +107,7 @@ pool_tweets <- function(data,
   quanteda::docnames(doc.corpus) <- document_hashtag_pools$hashtags
 
   tokens.pooled <- quanteda::tokens(doc.corpus,
-                                    what = "word",
+                                    what = "word1",
                                     remove_punct = remove_punct,
                                     remove_symbols = remove_symbols,
                                     remove_numbers = remove_numbers,
@@ -118,7 +119,7 @@ pool_tweets <- function(data,
   ) %>% quanteda::tokens_remove(quanteda::stopwords("english"))
 
   pooled.dfm <-
-    quanteda::dfm(tokens.pooled) %>%
+    quanteda::dfm(tokens.pooled,  tolower = TRUE) %>%
     quanteda::dfm_trim() %>%
     quanteda::dfm_tfidf(.)
 
@@ -130,7 +131,7 @@ pool_tweets <- function(data,
   unpooled.corpus <- quanteda::corpus(c.nohashtag, text_field = 'text')
 
   tokens.unpooled <- quanteda::tokens(unpooled.corpus ,
-                                    what = "word",
+                                    what = "word1",
                                     remove_punct = remove_punct,
                                     remove_symbols = remove_symbols,
                                     remove_numbers = remove_numbers,
@@ -142,7 +143,7 @@ pool_tweets <- function(data,
   ) %>% quanteda::tokens_remove(quanteda::stopwords("english"))
 
   unpooled.dfm <-
-    quanteda::dfm(tokens.unpooled ) %>%
+    quanteda::dfm(tokens.unpooled,  tolower = TRUE) %>%
     quanteda::dfm_trim() %>%
     quanteda::dfm_tfidf(.)
 
@@ -176,7 +177,7 @@ pool_tweets <- function(data,
   quanteda::docnames(doc.corpus) <- document_hashtag_pools$hashtags
 
   tokens.final <- quanteda::tokens(doc.corpus,
-                                    what = "word",
+                                    what = "word1",
                                     remove_punct = remove_punct,
                                     remove_symbols = remove_symbols,
                                     remove_numbers = remove_numbers,
@@ -188,9 +189,10 @@ pool_tweets <- function(data,
   ) %>% quanteda::tokens_remove(quanteda::stopwords("english"))
 
   # Final pooled dfm
-  pooled.dfm <- quanteda::dfm(tokens.final)
+  pooled.dfm <- quanteda::dfm(tokens.final,  tolower = TRUE)
 
   ret_list <- list("data" = a,
+                   "tokens" = tokens.final,
                    "corpus" = doc.corpus,
                    "document_term_matrix" = pooled.dfm)
   cat('Done')
