@@ -1,7 +1,7 @@
 #' Prepare for Tweets for topic modeling by pooling
 #' @description Pools tweets by hashtags using cosine similarity to create
 #' longer pseudo-documents for better LDA estimation and creates n-gram tokens.
-#' The method applies an implementation of the pooling algorithm from Mehrotra et al.2013.
+#' The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
 #' @details This function pools parsed stream into hashtags.
 #' @param data Data frame of parsed tweets either by using `parse_stream()` or
 #' `jsonlite::stream_in()` and `rtweet::tweets_with_users(s)`.
