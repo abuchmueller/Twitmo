@@ -45,8 +45,9 @@ pool_tweets <- function(data,
   cat("\n")
   cat("Pooling", nrow(all_tweets_w_hashtags), "Tweets with Hashtags", sep = " ")
 
-  hashtags.unique <- lapply(data$hashtags, unique)
+  hashtags.unique <- unlist(data$hashtags)
   hashtags.unique  <- unique(hashtags.unique)
+  hashtags.unique <- hashtags.unique[!is.na(hashtags.unique)]
   cat("\n")
   cat(length(hashtags.unique), "Unique Hashtags found", sep = " ")
 
