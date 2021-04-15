@@ -10,11 +10,13 @@ pool_tweets(
   remove_punct = TRUE,
   remove_symbols = TRUE,
   remove_url = TRUE,
-  remove_separators = TRUE
+  remove_separators = TRUE,
+  cosine_threshold = 0.8
 )
 }
 \arguments{
-\item{data}{Data frame of parsed tweets.}
+\item{data}{Data frame of parsed tweets either by using `parse_stream()` or
+\code{jsonlite::stream_in()} and \code{`rtweet::tweets_with_users(s)`}.}
 }
 \value{
 List with corpus object and dfm object of pooled tweets.
@@ -22,7 +24,7 @@ List with corpus object and dfm object of pooled tweets.
 \description{
 Pools tweets by hashtags using cosine similarity to create
 longer pseudo-documents for better LDA estimation and creates n-gram tokens.
-The method applies an implementation of the pooling algorithm from Mehrotra et al.2013.
+The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
 }
 \details{
 This function pools parsed stream into hashtags.

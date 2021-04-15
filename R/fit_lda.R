@@ -121,3 +121,67 @@ lda_distribution <- function(lda_model, param = "gamma", tidy = FALSE) {
 
 }
 
+#' Predict topics of tweets using fitted LDA model
+#' @description Predict topics of tweets using fitted LDA model.
+#' @param data Data frame of parsed tweets either by using `parse_stream()` or
+#' \code{jsonlite::stream_in()} and \code{`rtweet::tweets_with_users(s)`}.
+#' @param lda_model Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA}).
+#' @param response Type of response. Either "prob" for probabilities or
+#' "max" one topic (default).
+#' @return Data frame of topic predictions or predicted probabilities per topic (see response).
+#'
+#' @export
+
+predict_lda <- function(data, lda_model,
+                        response = "max",
+                        remove_numbers = TRUE,
+                        remove_punct = TRUE,
+                        remove_symbols = TRUE,
+                        remove_url = TRUE,
+                        remove_separators = TRUE) {
+
+  quanteda::quanteda_options(pattern_hashtag = NULL, pattern_username = NULL)
+
+  stopifnot(is.logical(remove_numbers),
+            is.logical(remove_punct),
+            is.logical(remove_symbols),
+            is.logical(remove_url),
+            is.logical(remove_separators))
+
+  # Predict topics of tweets using fitted LDA model
+  ### corpus of all tweets
+  tweets.corpus <- quanteda::corpus(data,
+                          meta = list(data$created_at, data$hashtags),
+                          text_field = "text")
+
+  tweets.tokens <- quanteda::tokens(tweets.corpus ,
+                   what = "word1",
+                   remove_punct = remove_punct,
+                   remove_symbols = remove_symbols,
+                   remove_numbers = remove_numbers,
+                   remove_url = remove_url,
+                   remove_separators = remove_separators,
+                   split_hyphens = FALSE,
+                   include_docvars = TRUE,
+                   padding = FALSE
+  ) %>% quanteda::tokens_remove(quanteda::stopwords("english"))
+
+  # dfm of all tweets
+  tweets.dfm <- quanteda::dfm(tweets.tokens, tolower=TRUE)
+
+  # convert to topic models object
+  t2tm <- quanteda::convert(tweets.dfm, to="topicmodels")
+
+  # predict topics on twitter data using fitted model
+  predict.topics <- topicmodels::posterior(lda_model, t2tm)
+  res <- predict.topics$topics
+
+  if (response == "max") {
+    # Predict, which tweet belongs to which topic
+    res <- apply(predict.topics$topics, 1, which.max)
+  }
+
+  return(res)
+
+}
+

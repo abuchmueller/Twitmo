@@ -10,6 +10,9 @@ find_lda(pooled_dfm, search_space)
 \item{pooled_dfm}{object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets}
 
 \item{search_space}{Vector with number of topics to compare different models.}
+
+\item{method}{The method to be used for fitting.
+Currently method = "VEM" or method = "Gibbs" are supported.}
 }
 \value{
 Plot with different metrics compared.

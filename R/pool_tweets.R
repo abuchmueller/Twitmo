@@ -4,7 +4,7 @@
 #' The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
 #' @details This function pools parsed stream into hashtags.
 #' @param data Data frame of parsed tweets either by using `parse_stream()` or
-#' `jsonlite::stream_in()` and `rtweet::tweets_with_users(s)`.
+#' \code{jsonlite::stream_in()} and \code{`rtweet::tweets_with_users(s)`}.
 #' @return List with corpus object and dfm object of pooled tweets.
 #'
 #' @export
