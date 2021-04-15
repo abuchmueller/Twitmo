@@ -20,7 +20,8 @@ pool_tweets <- function(data,
                         remove_punct = TRUE,
                         remove_symbols = TRUE,
                         remove_url = TRUE,
-                        remove_separators = TRUE) {
+                        remove_separators = TRUE,
+                        cosine_threshold = 0.8) {
 
   quanteda_options(pattern_hashtag = NULL, pattern_username = NULL)
 
@@ -153,7 +154,7 @@ pool_tweets <- function(data,
 
   # sample tweets using cosine threshold
   O <- as.data.frame(h)
-  tt <- O[O$cosine >= 0.8, ]
+  tt <- O[O$cosine >= cosine_threshold, ]
 
   # append tweets passing threshold to corresponding hashtag pools
   # skip if no tweets pass the similarity threshold
