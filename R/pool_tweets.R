@@ -192,7 +192,7 @@ pool_tweets <- function(data,
 
   ret_list <- list("data" = a,
                    "corpus" = doc.corpus,
-                   "document_term_atrix" = pooled.dfm)
+                   "document_term_matrix" = pooled.dfm)
   cat('Done')
   return(ret_list)
 }
