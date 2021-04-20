@@ -11,12 +11,32 @@ pool_tweets(
   remove_symbols = TRUE,
   remove_url = TRUE,
   remove_separators = TRUE,
-  cosine_threshold = 0.8
+  include_emojis = TRUE,
+  cosine_threshold = 0.8,
+  stopwords = NULL,
+  min_pool_size = 1
 )
 }
 \arguments{
-\item{data}{Data frame of parsed tweets either by using `parse_stream()` or
-\code{jsonlite::stream_in()} and \code{`rtweet::tweets_with_users(s)`}.}
+\item{data}{Data frame of parsed tweets.}
+
+\item{remove_numbers}{logical; if TRUE remove tokens that consist only of numbers, but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
+
+\item{remove_punct}{logical; if TRUE remove all characters in the Unicode "Punctuation" [P] class, with exceptions for those used as prefixes for valid social media tags if preserve_tags = TRUE.  See \link[quanteda]{tokens}}
+
+\item{remove_symbols}{logical; if TRUE remove tokens that consist only of numbers, but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
+
+\item{remove_url}{logical; if TRUE find and eliminate URLs beginning with http(s). See \link[quanteda]{tokens}.}
+
+\item{remove_separators}{logical; if TRUE remove separators and separator characters (Unicode "Separator" [Z] and "Control" [C] categories). See \link[quanteda]{tokens}.}
+
+\item{stopwords}{a character vector, list of character vectors, \link[quanteda]{dictionary}
+or collocations object. See \link[quanteda]{pattern} for details. Defaults to
+\link[stopwords:stopwords]{stopwords::stopwords("english")}.}
+
+\item{min_pool_size}{Integer; specifying the minimum size of document pools.
+Document pools with less tweets will be excluded from the corpus.
+\code{jsonlite::stream_in()} and \code{rtweet::tweets_with_users(s)}.}
 }
 \value{
 List with corpus object and dfm object of pooled tweets.

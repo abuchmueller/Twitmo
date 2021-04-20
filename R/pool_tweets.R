@@ -3,17 +3,27 @@
 #' longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 #' The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
 #' @details This function pools parsed stream into hashtags.
-#' @param data Data frame of parsed tweets either by using `parse_stream()` or
-#' \code{jsonlite::stream_in()} and \code{`rtweet::tweets_with_users(s)`}.
+#' @param data Data frame of parsed tweets.
+#' @param remove_numbers logical; if TRUE remove tokens that consist only of numbers, but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.
+#' @param remove_punct 	logical; if TRUE remove all characters in the Unicode "Punctuation" [P] class, with exceptions for those used as prefixes for valid social media tags if preserve_tags = TRUE.  See \link[quanteda]{tokens}
+#' @param remove_symbols logical; if TRUE remove tokens that consist only of numbers, but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.
+#' @param remove_url logical; if TRUE find and eliminate URLs beginning with http(s). See \link[quanteda]{tokens}.
+#' @param remove_separators	logical; if TRUE remove separators and separator characters (Unicode "Separator" [Z] and "Control" [C] categories). See \link[quanteda]{tokens}.
+#' @param stopwords a character vector, list of character vectors, \link[quanteda]{dictionary}
+#' or collocations object. See \link[quanteda]{pattern} for details. Defaults to
+#' \link[stopwords:stopwords]{stopwords::stopwords("english")}.
+#' @param min_pool_size Integer; specifying the minimum size of document pools.
+#' Document pools with less tweets will be excluded from the corpus.
+#' \code{jsonlite::stream_in()} and \code{rtweet::tweets_with_users(s)}.
 #' @return List with corpus object and dfm object of pooled tweets.
 #'
 #' @export
 
-# TODO: Remove Emojis from Corpus
-# TODO: Add STM Support
-# TODO: Add Emojis to STM Metadata
+# TODO: Add option to remove emojis from corpus
+# TODO: Add STM Support - return emojis and more metadata for stm
 # TODO: Create a class for pooled tweets.
-# TODO: specify min pool size
+# TODO: customizeable min pool size
+# TODO: n-gram support for tokenizer
 
 
 pool_tweets <- function(data,
@@ -22,7 +32,10 @@ pool_tweets <- function(data,
                         remove_symbols = TRUE,
                         remove_url = TRUE,
                         remove_separators = TRUE,
-                        cosine_threshold = 0.8) {
+                        include_emojis = TRUE,
+                        cosine_threshold = 0.8,
+                        stopwords = NULL,
+                        min_pool_size = 1) {
 
   quanteda::quanteda_options(pattern_hashtag = NULL, pattern_username = NULL)
 
@@ -32,6 +45,7 @@ pool_tweets <- function(data,
             is.logical(remove_url),
             is.logical(remove_separators))
 
+  if (is.null(stopwords)) stopwords <- stopwords::stopwords("en")
 
   cat("\n")
   cat(nrow(data), "Tweets found", sep = " ")

@@ -9,7 +9,7 @@ lda_distribution(lda_model, param = "gamma", tidy = FALSE)
 \arguments{
 \item{lda_model}{Object of class \link[topicmodels:TopicModel-class]{LDA}).}
 
-\item{param}{String. Specify either "beta" to return the term distribution.
+\item{param}{String. Specify either "beta" to return the term distribution
 over topics (term per document) or "gamma" for the document distribution over.
  topics (i.e. hashtag pool per topic probability).}
 

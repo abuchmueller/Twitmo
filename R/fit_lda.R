@@ -1,5 +1,5 @@
 #' Fit LDA Topic Model
-#' @description
+#' @description Estimate a LDA topic model using VEM or Gibbs Sampling.
 #' @usage fit_lda(pooled_dfm, n_topics)
 #' @param pooled_dfm Object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets
 #' @param n_topics Integer with number of topics
@@ -73,7 +73,7 @@ lda_hashtags <- function(lda_model) {
 #' @description View the distribution of your fitted LDA model.
 #' @usage lda_distribution(lda_model, param = "gamma", tidy = FALSE)
 #' @param lda_model Object of class \link[topicmodels:TopicModel-class]{LDA}).
-#' @param param String. Specify either "beta" to return the term distribution.
+#' @param param String. Specify either "beta" to return the term distribution
 #' over topics (term per document) or "gamma" for the document distribution over.
 #'  topics (i.e. hashtag pool per topic probability).
 #' @param tidy Boolean. Specify TRUE for return distribution in tidy format (tbl).

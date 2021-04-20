@@ -15,5 +15,5 @@ fit_lda(pooled_dfm, n_topics)
 Object of class \link[topicmodels:TopicModel-class]{LDA})
 }
 \description{
-Fit LDA Topic Model
+Estimate a LDA topic model using VEM or Gibbs Sampling.
 }
