@@ -66,7 +66,7 @@ pool_tweets <- function(data,
   cat(length(hashtags.unique), "Unique Hashtags found", sep = " ")
 
   cat("\n")
-  cat('Begin pooling ...')
+  cat("Begin pooling ...")
 
 
   # add single-point latitude and longitude variables to tweets data
@@ -117,12 +117,12 @@ pool_tweets <- function(data,
   # using quanteda
   doc.corpus <- quanteda::corpus(document_hashtag_pools,
                        meta = document_hashtag_pools$hashtags,
-                       text_field = 'tweets_pooled')
+                       text_field = "tweets_pooled")
 
   quanteda::docnames(doc.corpus) <- document_hashtag_pools$hashtags
 
   tokens.pooled <- quanteda::tokens(doc.corpus,
-                                    what = "word1",
+                                    what = "word",
                                     remove_punct = remove_punct,
                                     remove_symbols = remove_symbols,
                                     remove_numbers = remove_numbers,
@@ -131,7 +131,7 @@ pool_tweets <- function(data,
                                     split_hyphens = FALSE,
                                     include_docvars = TRUE,
                                     padding = FALSE
-  ) %>% quanteda::tokens_remove(quanteda::stopwords("english"))
+  ) %>% quanteda::tokens_remove(stopwords)
 
   pooled.dfm <-
     quanteda::dfm(tokens.pooled,  tolower = TRUE) %>%
@@ -143,10 +143,10 @@ pool_tweets <- function(data,
   # tweets without hashtags
   c.nohashtag <- c[which(is.na(c$hashtags)), ]
 
-  unpooled.corpus <- quanteda::corpus(c.nohashtag, text_field = 'text')
+  unpooled.corpus <- quanteda::corpus(c.nohashtag, text_field = "text")
 
   tokens.unpooled <- quanteda::tokens(unpooled.corpus ,
-                                    what = "word1",
+                                    what = "word",
                                     remove_punct = remove_punct,
                                     remove_symbols = remove_symbols,
                                     remove_numbers = remove_numbers,
@@ -155,7 +155,7 @@ pool_tweets <- function(data,
                                     split_hyphens = FALSE,
                                     include_docvars = TRUE,
                                     padding = FALSE
-  ) %>% quanteda::tokens_remove(quanteda::stopwords("english"))
+  ) %>% quanteda::tokens_remove(stopwords)
 
   unpooled.dfm <-
     quanteda::dfm(tokens.unpooled,  tolower = TRUE) %>%
@@ -178,7 +178,7 @@ pool_tweets <- function(data,
     for (i in tt) {
       for (j in tt) {
         document_hashtag_pools[document_hashtag_pools["hashtags"] == as.character(i), "tweets_pooled"] <-
-          paste(document_hashtag_pools[document_hashtag_pools["hashtags"] == as.character(i), "tweets_pooled"], c.nohashtag[as.character(j), 'text'])
+          paste(document_hashtag_pools[document_hashtag_pools["hashtags"] == as.character(i), "tweets_pooled"], c.nohashtag[as.character(j), "text"])
       }
     }
   }
@@ -192,7 +192,7 @@ pool_tweets <- function(data,
   quanteda::docnames(doc.corpus) <- document_hashtag_pools$hashtags
 
   tokens.final <- quanteda::tokens(doc.corpus,
-                                    what = "word1",
+                                    what = "word",
                                     remove_punct = remove_punct,
                                     remove_symbols = remove_symbols,
                                     remove_numbers = remove_numbers,
@@ -201,7 +201,7 @@ pool_tweets <- function(data,
                                     split_hyphens = FALSE,
                                     include_docvars = TRUE,
                                     padding = FALSE
-  ) %>% quanteda::tokens_remove(quanteda::stopwords("english"))
+  ) %>% quanteda::tokens_remove(stopwords)
 
   # Final pooled dfm
   pooled.dfm <- quanteda::dfm(tokens.final,  tolower = TRUE)
@@ -210,7 +210,7 @@ pool_tweets <- function(data,
                    "tokens" = tokens.final,
                    "corpus" = doc.corpus,
                    "document_term_matrix" = pooled.dfm)
-  cat('Done')
+  cat("Done")
   return(ret_list)
 }
 
