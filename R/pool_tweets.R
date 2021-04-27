@@ -32,7 +32,7 @@ pool_tweets <- function(data,
                         remove_symbols = TRUE,
                         remove_url = TRUE,
                         remove_separators = TRUE,
-                        include_emojis = TRUE,
+                        include_emojis = FALSE,
                         cosine_threshold = 0.8,
                         stopwords = NULL,
                         min_pool_size = 1) {
@@ -68,9 +68,13 @@ pool_tweets <- function(data,
   cat("\n")
   cat("Begin pooling ...")
 
-
   # add single-point latitude and longitude variables to tweets data
   a <- rtweet::lat_lng(data)
+
+  # remove emojis
+  if (!include_emojis) {
+    a$text <- remove_emojis(a$text)
+  }
 
   # removing duplicates, removing quoted tweets and retweets
   a <- a[a$is_quote == "FALSE" & a$is_retweet == FALSE, ]
@@ -215,4 +219,13 @@ pool_tweets <- function(data,
 }
 
 
-
+#' Remove emojis from text orpus
+#' @description A function to remove non-ascii characters
+#' @param text 	a character vector
+#' @noRd
+#' @keywords internal
+#' @export
+#'
+remove_emojis <- function(text) {
+  gsub("[^\x01-\x7F]", "", text)
+}
