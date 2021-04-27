@@ -11,7 +11,7 @@ pool_tweets(
   remove_symbols = TRUE,
   remove_url = TRUE,
   remove_separators = TRUE,
-  include_emojis = TRUE,
+  include_emojis = FALSE,
   cosine_threshold = 0.8,
   stopwords = NULL,
   min_pool_size = 1

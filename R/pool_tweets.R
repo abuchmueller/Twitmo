@@ -71,7 +71,10 @@ pool_tweets <- function(data,
   # add single-point latitude and longitude variables to tweets data
   a <- rtweet::lat_lng(data)
 
-  # remove emojis
+  # extract emoji vector
+  a$emojis <- emo::ji_extract_all(a$text)
+
+  # remove emojis from corpus
   if (!include_emojis) {
     a$text <- remove_emojis(a$text)
   }
@@ -80,7 +83,7 @@ pool_tweets <- function(data,
   a <- a[a$is_quote == "FALSE" & a$is_retweet == FALSE, ]
 
   # drop unnecessary cols
-  a <- a[c("created_at", "text", "hashtags", "bbox_coords", "lat", "lng", "location")]
+  a <- a[c("created_at", "text", "hashtags", "bbox_coords", "lat", "lng", "location", "emojis")]
 
   #unfold/explode twitter data by hashtags
   b <- a %>%
