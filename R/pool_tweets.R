@@ -219,13 +219,13 @@ pool_tweets <- function(data,
 }
 
 
-#' Remove emojis from text orpus
-#' @description A function to remove non-ascii characters
+#' Remove Emojis from text corpus
+#' @description A function to remove non-UFT-8 characters
 #' @param text 	a character vector
 #' @noRd
 #' @keywords internal
 #' @export
 #'
 remove_emojis <- function(text) {
-  gsub("[^\x01-\x7F]", "", text)
+  gsub("[^[:alnum:][:blank:]?&/\\-]", "", text)
 }
