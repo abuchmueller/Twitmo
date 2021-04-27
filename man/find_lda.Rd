@@ -18,5 +18,8 @@ Currently method = "VEM" or method = "Gibbs" are supported.}
 Plot with different metrics compared.
 }
 \description{
-Find best LDA model
+Find the optimal hyperparameter k for your LDA model
+}
+\seealso{
+\link[ldatuning]{FindTopicsNumber}
 }

@@ -3,7 +3,7 @@
 #' @usage fit_lda(pooled_dfm, n_topics)
 #' @param pooled_dfm Object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets
 #' @param n_topics Integer with number of topics
-#' @return Object of class \link[topicmodels:TopicModel-class]{LDA})
+#' @return Object of class \link[topicmodels:TopicModel-class]{LDA}
 #'
 #' @export
 
@@ -18,12 +18,13 @@ fit_lda <- function(pooled_dfm, n_topics, ...) {
 }
 
 #' Find best LDA model
-#' @description
+#' @description Find the optimal hyperparameter k for your LDA model
 #' @usage find_lda(pooled_dfm, search_space)
 #' @param pooled_dfm object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets
 #' @param search_space Vector with number of topics to compare different models.
 #' @param method The method to be used for fitting.
 #' Currently method = "VEM" or method = "Gibbs" are supported.
+#' @seealso \link[ldatuning]{FindTopicsNumber}
 #' @return Plot with different metrics compared.
 #'
 #' @export

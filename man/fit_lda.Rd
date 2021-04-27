@@ -12,7 +12,7 @@ fit_lda(pooled_dfm, n_topics)
 \item{n_topics}{Integer with number of topics}
 }
 \value{
-Object of class \link[topicmodels:TopicModel-class]{LDA})
+Object of class \link[topicmodels:TopicModel-class]{LDA}
 }
 \description{
 Estimate a LDA topic model using VEM or Gibbs Sampling.

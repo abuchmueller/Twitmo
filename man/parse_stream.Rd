@@ -10,6 +10,6 @@ parse_stream(file_name, ...)
 \item{file_name}{Character string. Name of JSON file with data collected by \code{rtweet::stream_tweets()} or \code{get_tweets()}.}
 }
 \description{
-This function has been deprecated in rtweets 1.0.0 but is
+This function has been deprecated in rtweet 1.0.0 but is
 included here so ensure backwards compatibility data streamed with older versions of \code{rtweet}.
 }
