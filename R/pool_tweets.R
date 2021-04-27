@@ -227,5 +227,5 @@ pool_tweets <- function(data,
 #' @export
 #'
 remove_emojis <- function(text) {
-  gsub("[^\x01-\x7F]", "", text)
+  gsub("[^[:alnum:][:blank:]?&/\\-]", "", text)
 }
