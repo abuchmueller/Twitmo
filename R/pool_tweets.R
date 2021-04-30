@@ -34,7 +34,7 @@ pool_tweets <- function(data,
                         remove_separators = TRUE,
                         include_emojis = FALSE,
                         cosine_threshold = 0.8,
-                        stopwords = NULL,
+                        stopwords = "en",
                         min_pool_size = 1) {
 
   quanteda::quanteda_options(pattern_hashtag = NULL, pattern_username = NULL)
@@ -45,7 +45,9 @@ pool_tweets <- function(data,
             is.logical(remove_url),
             is.logical(remove_separators))
 
-  if (is.null(stopwords)) stopwords <- stopwords::stopwords("en")
+  if (missing(stopwords)) stopwords <- stopwords::stopwords("en")
+  if (is.character(stopwords)) stopwords <- stopwords::stopwords(stopwords)
+
 
   cat("\n")
   cat(nrow(data), "Tweets found", sep = " ")
@@ -118,8 +120,8 @@ pool_tweets <- function(data,
   # join document hashtag dataframe with pooled tweets dataframe
   document_hashtag_pools <- dplyr::inner_join(df, d, by = "hashtags")
 
-  ##### TF-IDF Vectorization
-  ## 1. TF-IDF Matrices of Pools
+  ##### TF-IDF Vectorization ----
+  ## 1. TF-IDF Matrices of Pools ----
 
   # using quanteda
   doc.corpus <- quanteda::corpus(document_hashtag_pools,
@@ -145,7 +147,7 @@ pool_tweets <- function(data,
     quanteda::dfm_trim() %>%
     quanteda::dfm_tfidf(.)
 
-  ## 2. TF-IDF Matrices of unpooled tweets
+  ## 2. TF-IDF Matrices of unpooled tweets ----
 
   # tweets without hashtags
   c.nohashtag <- c[which(is.na(c$hashtags)), ]
@@ -210,7 +212,7 @@ pool_tweets <- function(data,
                                     padding = FALSE
   ) %>% quanteda::tokens_remove(stopwords)
 
-  # Final pooled dfm
+  # Final pooled document frequency matrix
   pooled.dfm <- quanteda::dfm(tokens.final,  tolower = TRUE)
 
   ret_list <- list("data" = a,
@@ -223,7 +225,7 @@ pool_tweets <- function(data,
 
 
 #' Remove Emojis from text corpus
-#' @description A function to remove non-UFT-8 characters
+#' @description Internal function to remove non-UFT-8 characters
 #' @param text 	a character vector
 #' @noRd
 #' @keywords internal
