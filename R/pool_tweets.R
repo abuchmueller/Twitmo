@@ -143,16 +143,16 @@ pool_tweets <- function(data,
   ) %>% quanteda::tokens_remove(stopwords)
 
   pooled.dfm <-
-    quanteda::dfm(tokens.pooled,  tolower = TRUE) %>%
+    quanteda::dfm(tokens.pooled, tolower = TRUE) %>%
     quanteda::dfm_trim() %>%
     quanteda::dfm_tfidf(.)
 
   ## 2. TF-IDF Matrices of unpooled tweets ----
 
   # tweets without hashtags
-  c.nohashtag <- c[which(is.na(c$hashtags)), ]
+  b.nohashtag <- b[which(is.na(b$hashtags)), ]
 
-  unpooled.corpus <- quanteda::corpus(c.nohashtag, text_field = "text")
+  unpooled.corpus <- quanteda::corpus(b.nohashtag, text_field = "text")
 
   tokens.unpooled <- quanteda::tokens(unpooled.corpus ,
                                     what = "word",
@@ -187,7 +187,7 @@ pool_tweets <- function(data,
     for (i in tt) {
       for (j in tt) {
         document_hashtag_pools[document_hashtag_pools["hashtags"] == as.character(i), "tweets_pooled"] <-
-          paste(document_hashtag_pools[document_hashtag_pools["hashtags"] == as.character(i), "tweets_pooled"], c.nohashtag[as.character(j), "text"])
+          paste(document_hashtag_pools[document_hashtag_pools["hashtags"] == as.character(i), "tweets_pooled"], b.nohashtag[as.character(j), "text"])
       }
     }
   }
