@@ -54,7 +54,7 @@ Twitter’s endpoints.
 ## Parse your tweets
 
 ``` r
-dat <- parse_stream("inst/extdata/tweets 20191027-141233.json")
+dat <- load_tweets("inst/extdata/tweets 20191027-141233.json")
 #> opening file input connection.
 #>  Found 167 records... Found 193 records... Imported 193 records. Simplifying...
 #> closing file input connection.
@@ -65,9 +65,10 @@ dat <- parse_stream("inst/extdata/tweets 20191027-141233.json")
 ``` r
 pool <- pool_tweets(dat)
 #> 
-#> 193 Tweets found
-#> Pooling 35 Tweets with Hashtags
-#> 36 Unique Hashtags found
+#> 193 Tweets total
+#> 158 Tweets have no Hashtag
+#> Pooling 35 Tweets with Hashtags #
+#> 56 Unique Hashtags total
 #> Begin pooling ...Done
 pool.corpus <- pool$corpus
 ```
@@ -94,17 +95,17 @@ model <- fit_lda(pool.dfm, n_topics = 3)
 
 ``` r
 lda_terms(model)
-#>      Topic.1        Topic.2   Topic.3
-#> 1      today #puppiesatplay      link
-#> 2     people          paola       bio
-#> 3       last           says       job
-#> 4        amp        #chinup       see
-#> 5   downtown  #sundayfunday     click
-#> 6  knoxville #saintsgameday    church
-#> 7       meet    #instapuppy       can
-#> 8      crazy          #woof recommend
-#> 9    covered  #tailswagging    anyone
-#> 10    waffle          puppy     great
+#>                    Topic.1        Topic.2 Topic.3
+#> 1                    puppy          https     tco
+#> 2            puppiesatplay            tco   https
+#> 3                    https         waffle     job
+#> 4                      tco 9tenrestaurant    link
+#> 5                    paola           good     bio
+#> 6                     says          music   click
+#> 7                   chinup           like     see
+#> 8             sundayfunday       downtown  church
+#> 9  saintsgamedayinstapuppy      knoxville   great
+#> 10                    woof           meet   today
 ```
 
 or which hashtags are heavily associated with each topic
@@ -113,48 +114,48 @@ or which hashtags are heavily associated with each topic
 lda_hashtags(model)
 #>                      Topic
 #> mood                     3
-#> motivate                 1
+#> motivate                 3
 #> healthcare               3
-#> mrrbnsnathome            1
-#> newyork                  1
-#> breakfast                1
+#> mrrbnsnathome            2
+#> newyork                  2
+#> breakfast                2
 #> thisismyplace            3
 #> p4l                      3
-#> chinup                   2
-#> sundayfunday             2
-#> saintsgameday            2
-#> instapuppy               2
-#> woof                     2
-#> tailswagging             2
-#> tickfire                 1
+#> chinup                   1
+#> sundayfunday             1
+#> saintsgameday            1
+#> instapuppy               1
+#> woof                     1
+#> tailswagging             1
+#> tickfire                 2
 #> msiclassic               3
-#> nyc                      1
-#> about                    1
-#> joethecrane              1
+#> nyc                      2
+#> about                    2
+#> joethecrane              2
 #> government               3
 #> ladystrut19              2
 #> ladystrutaccessories     2
 #> smartnews                3
-#> sundaythoughts           1
-#> sf100                    3
-#> openhouse                1
-#> springtx                 1
+#> sundaythoughts           3
+#> sf100                    2
+#> openhouse                2
+#> springtx                 2
 #> labor                    3
 #> norfolk                  3
 #> oprylandhotel            1
-#> pharmaceutical           2
+#> pharmaceutical           3
 #> easthanover              1
 #> sales                    1
 #> scryingartist            2
 #> beautifulskyz            2
-#> knoxvilletn              1
-#> downtownknoxville        1
-#> heartofservice           2
-#> youthmagnet              2
-#> youthmentor              2
-#> bonjour                  2
-#> trump2020                3
-#> spiritchat               2
+#> knoxvilletn              2
+#> downtownknoxville        2
+#> heartofservice           1
+#> youthmagnet              1
+#> youthmentor              1
+#> bonjour                  3
+#> trump2020                2
+#> spiritchat               3
 #> columbia                 3
 #> newcastle                1
 #> oncology                 3
@@ -169,54 +170,54 @@ Check the distribution of your LDA Model with
 ``` r
 lda_distribution(model)
 #>                         V1    V2    V3
-#> mood                 0.001 0.001 0.998
-#> motivate             0.996 0.002 0.002
-#> healthcare           0.001 0.001 0.997
-#> mrrbnsnathome        0.997 0.001 0.001
-#> newyork              0.997 0.001 0.001
-#> breakfast            0.997 0.001 0.001
-#> thisismyplace        0.002 0.002 0.996
-#> p4l                  0.002 0.002 0.996
-#> chinup               0.002 0.997 0.002
-#> sundayfunday         0.002 0.997 0.002
-#> saintsgameday        0.002 0.997 0.002
-#> instapuppy           0.002 0.997 0.002
-#> woof                 0.002 0.997 0.002
-#> tailswagging         0.002 0.997 0.002
-#> tickfire             0.997 0.001 0.001
-#> msiclassic           0.001 0.001 0.998
-#> nyc                  0.998 0.001 0.001
-#> about                0.998 0.001 0.001
-#> joethecrane          0.998 0.001 0.001
-#> government           0.002 0.002 0.997
+#> mood                 0.001 0.001 0.999
+#> motivate             0.001 0.001 0.998
+#> healthcare           0.001 0.001 0.998
+#> mrrbnsnathome        0.001 0.998 0.001
+#> newyork              0.001 0.998 0.001
+#> breakfast            0.001 0.998 0.001
+#> thisismyplace        0.001 0.001 0.997
+#> p4l                  0.001 0.001 0.997
+#> chinup               0.998 0.001 0.001
+#> sundayfunday         0.998 0.001 0.001
+#> saintsgameday        0.998 0.001 0.001
+#> instapuppy           0.998 0.001 0.001
+#> woof                 0.998 0.001 0.001
+#> tailswagging         0.998 0.001 0.001
+#> tickfire             0.001 0.998 0.001
+#> msiclassic           0.001 0.001 0.999
+#> nyc                  0.001 0.999 0.001
+#> about                0.001 0.999 0.001
+#> joethecrane          0.001 0.999 0.001
+#> government           0.001 0.001 0.998
 #> ladystrut19          0.001 0.998 0.001
 #> ladystrutaccessories 0.001 0.998 0.001
-#> smartnews            0.001 0.001 0.997
-#> sundaythoughts       0.998 0.001 0.001
-#> sf100                0.001 0.001 0.997
-#> openhouse            0.998 0.001 0.001
-#> springtx             0.998 0.001 0.001
-#> labor                0.002 0.002 0.997
-#> norfolk              0.002 0.002 0.997
-#> oprylandhotel        0.997 0.001 0.001
-#> pharmaceutical       0.001 0.763 0.236
-#> easthanover          0.853 0.001 0.146
-#> sales                0.853 0.001 0.146
-#> scryingartist        0.001 0.997 0.001
-#> beautifulskyz        0.001 0.997 0.001
-#> knoxvilletn          0.997 0.002 0.002
-#> downtownknoxville    0.997 0.002 0.002
-#> heartofservice       0.001 0.998 0.001
-#> youthmagnet          0.001 0.998 0.001
-#> youthmentor          0.001 0.998 0.001
-#> bonjour              0.002 0.996 0.002
-#> trump2020            0.002 0.002 0.996
-#> spiritchat           0.001 0.998 0.001
-#> columbia             0.001 0.001 0.997
-#> newcastle            0.997 0.001 0.001
-#> oncology             0.002 0.002 0.997
-#> nbatwitter           0.998 0.001 0.001
-#> detroit              0.002 0.002 0.996
+#> smartnews            0.001 0.001 0.998
+#> sundaythoughts       0.001 0.001 0.999
+#> sf100                0.001 0.998 0.001
+#> openhouse            0.001 0.999 0.001
+#> springtx             0.001 0.999 0.001
+#> labor                0.001 0.001 0.998
+#> norfolk              0.001 0.001 0.998
+#> oprylandhotel        0.998 0.001 0.001
+#> pharmaceutical       0.001 0.001 0.998
+#> easthanover          0.998 0.001 0.001
+#> sales                0.998 0.001 0.001
+#> scryingartist        0.001 0.998 0.001
+#> beautifulskyz        0.001 0.998 0.001
+#> knoxvilletn          0.001 0.998 0.001
+#> downtownknoxville    0.001 0.998 0.001
+#> heartofservice       0.998 0.001 0.001
+#> youthmagnet          0.998 0.001 0.001
+#> youthmentor          0.998 0.001 0.001
+#> bonjour              0.001 0.001 0.998
+#> trump2020            0.001 0.997 0.001
+#> spiritchat           0.001 0.001 0.998
+#> columbia             0.001 0.001 0.998
+#> newcastle            0.998 0.001 0.001
+#> oncology             0.001 0.001 0.998
+#> nbatwitter           0.999 0.001 0.001
+#> detroit              0.001 0.001 0.998
 ```
 
 ## Visualize with `LDAvis`

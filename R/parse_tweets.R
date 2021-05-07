@@ -1,11 +1,11 @@
 #' Converts Twitter stream data (JSON file) into parsed data frame
 #' @description This function has been deprecated in rtweet 1.0.0 but is
 #' included here so ensure backwards compatibility data streamed with older versions of \code{rtweet}.
-#' @usage parse_stream(file_name, ...)
-#' @param file_name Character string. Name of JSON file with data collected by \code{rtweet::stream_tweets()} or \code{get_tweets()}.
+#' @param file_name Character string. Name of JSON file with data collected by
+#' \code{rtweet::stream_tweets()} or \code{get_tweets()}.
 #' @export
 
-parse_stream <- function(file_name, ...) {
+load_tweets <- function(file_name, ...) {
   # from rtweet 0.7.0
   if (!identical(getOption("encoding"), "UTF-8")) {
     op <- getOption("encoding")

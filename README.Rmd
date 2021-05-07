@@ -56,7 +56,7 @@ Make sure you have a regular Twitter Account before start to sample your Tweets.
 ## Parse your tweets
 
 ```{r}
-dat <- parse_stream("inst/extdata/tweets 20191027-141233.json")
+dat <- load_tweets("inst/extdata/tweets 20191027-141233.json")
 ```
 
 ## Pool tweets into document pools
