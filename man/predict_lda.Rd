@@ -16,17 +16,35 @@ predict_lda(
 )
 }
 \arguments{
-\item{data}{Data frame of parsed tweets either by using `parse_stream()` or
-\code{jsonlite::stream_in()} and \code{`rtweet::tweets_with_users(s)`}.}
+\item{data}{Data frame of parsed tweets. Obtained either by using \code{load_tweets()} or
+\code{jsonlite::stream_in()} in conjunction with \code{rtweet::tweets_with_users(s)}.
+See \link[TweetLocViz]{load_tweets} for details.}
 
 \item{lda_model}{Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA}).}
 
 \item{response}{Type of response. Either "prob" for probabilities or
 "max" one topic (default).}
+
+\item{remove_numbers}{logical; if TRUE remove tokens that consist only of numbers,
+but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
+
+\item{remove_punct}{logical; if TRUE remove all characters in the Unicode
+"Punctuation" [P] class, with exceptions for those used as prefixes for valid social media tags if
+\code{preserve_tags = TRUE}. See \link[quanteda]{tokens}}
+
+\item{remove_symbols}{logical; if TRUE remove tokens that consist only of numbers,
+but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
+
+\item{remove_url}{logical; if TRUE find and eliminate URLs beginning with http(s).
+See \link[quanteda]{tokens}.}
+
+\item{remove_separators}{logical; if TRUE remove separators and separator characters
+(Unicode "Separator" [Z] and "Control" [C] categories). See \link[quanteda]{tokens}.}
 }
 \value{
 Data frame of topic predictions or predicted probabilities per topic (see response).
 }
 \description{
 Predict topics of tweets using fitted LDA model.
+\code{jsonlite::stream_in()} and \code{`rtweet::tweets_with_users(s)`}.
 }

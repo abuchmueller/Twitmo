@@ -124,13 +124,13 @@ lda_distribution <- function(lda_model, param = "gamma", tidy = FALSE) {
 
 #' Predict topics of tweets using fitted LDA model
 #' @description Predict topics of tweets using fitted LDA model.
-#' @param data Data frame of parsed tweets either by using `parse_stream()` or
 #' \code{jsonlite::stream_in()} and \code{`rtweet::tweets_with_users(s)`}.
 #' @param lda_model Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA}).
 #' @param response Type of response. Either "prob" for probabilities or
 #' "max" one topic (default).
 #' @return Data frame of topic predictions or predicted probabilities per topic (see response).
 #'
+#' @inheritParams pool_tweets
 #' @export
 
 predict_lda <- function(data, lda_model,
