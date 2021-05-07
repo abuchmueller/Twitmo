@@ -2,20 +2,26 @@
 #' @description Pools tweets by hashtags using cosine similarity to create
 #' longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 #' The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
-#' @details This function pools parsed stream into hashtags.
-#' @param data Data frame of parsed tweets. Obtained either by using \code[parse_stream()] or
+#' @details This function pools a data frame of parsed tweets into document pools.
+#' @param data Data frame of parsed tweets. Obtained either by using \code{load_tweets()} or
 #' \code{jsonlite::stream_in()} in conjunction with \code{rtweet::tweets_with_users(s)}.
-#' See \link[TweetLocViz]{parse_stream} for details.
-#' @param remove_numbers logical; if TRUE remove tokens that consist only of numbers, but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.
-#' @param remove_punct 	logical; if TRUE remove all characters in the Unicode "Punctuation" [P] class, with exceptions for those used as prefixes for valid social media tags if preserve_tags = TRUE.  See \link[quanteda]{tokens}
-#' @param remove_symbols logical; if TRUE remove tokens that consist only of numbers, but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.
-#' @param remove_url logical; if TRUE find and eliminate URLs beginning with http(s). See \link[quanteda]{tokens}.
-#' @param remove_separators logical; if TRUE remove separators and separator characters (Unicode "Separator" [Z] and "Control" [C] categories). See \link[quanteda]{tokens}.
+#' See \link[TweetLocViz]{load_tweets} for details.
+#' @param remove_numbers logical; if TRUE remove tokens that consist only of numbers,
+#' but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.
+#' @param remove_punct 	logical; if TRUE remove all characters in the Unicode
+#' "Punctuation" [P] class, with exceptions for those used as prefixes for valid social media tags if
+#' \code{preserve_tags = TRUE}. See \link[quanteda]{tokens}
+#' @param remove_symbols logical; if TRUE remove tokens that consist only of numbers,
+#' but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.
+#' @param remove_url logical; if TRUE find and eliminate URLs beginning with http(s).
+#' See \link[quanteda]{tokens}.
+#' @param remove_separators	logical; if TRUE remove separators and separator characters
+#' (Unicode "Separator" [Z] and "Control" [C] categories). See \link[quanteda]{tokens}.
 #' @param stopwords a character vector, list of character vectors, \link[quanteda]{dictionary}
-#' or collocations object. See \link[quanteda]{pattern} for details. Defaults to
-#' \link[stopwords:stopwords]{stopwords::stopwords("english")}.
+#' or collocations object. See \link[quanteda]{pattern} for details.
+#' Defaults to \link[stopwords:stopwords]{stopwords::stopwords("english")}.
 #' @param n_grams Integer; can generate n-grams in any lengths.
-#' @param include_emojis Boolean; If true emojis will not be filted from text.
+#' @param include_emojis Boolean; If true emojis will not be filtered from text.
 #' @param cosine_threshold Double; Value from 0 to 1. The cosine similarity used
 #' for document pooling. Tweets without a hashtag will be assigned to document (hashtag) pools
 #' based upon this metric. Low thresholds will reduce topic coherence by including
@@ -27,6 +33,9 @@
 #' but will need larger sample sizes (i.e. more tweets) to work.
 #'
 #' @return List with corpus object and \link[quanteda]{dfm} object of pooled tweets.
+#' @references Mehrotra, Rishabh & Sanner, Scott & Buntine, Wray & Xie, Lexing. (2013).
+#' Improving LDA Topic Models for Microblogs via Tweet Pooling and Automatic Labeling.
+#' 889-892. 10.1145/2484028.2484166.
 #'
 #' @export
 
@@ -63,19 +72,18 @@ pool_tweets <- function(data,
 
     invisible(readline(prompt = "Low cosine thresholds can increase calculation time and memory usage significantly and even lead to crashes. Press [enter] to continue or [control+c] to abort"))
 
-    warning("
-Please be aware that your cosine threshold is low.
+    warning(
+"Please be aware that your cosine threshold is low.
 Low cosine thresholds lead to incoherent topics due to
 document pool dillution by too tweets without hashtags.
 For coherent topics we recommend thresholds of 0.8 or higher.")
   }
 
-  if (missing(stopwords)) stopwords <- stopwords::stopwords("en")
   if (is.character(stopwords)) stopwords <- stopwords::stopwords(stopwords)
-
+  if (missing(stopwords)) stopwords <- stopwords::stopwords("en")
 
   cat("\n")
-  cat(nrow(data), "Tweets found", sep = " ")
+  cat(nrow(data), "Tweets total", sep = " ")
 
   # all tweets with hashtags
   tweets_w_hashtags <- data[which(nchar(data$hashtags) >= 0), ]
@@ -84,7 +92,7 @@ For coherent topics we recommend thresholds of 0.8 or higher.")
   tweets_no_hashtags <- data[which(is.na(data$hashtags)), ]
 
   cat("\n")
-  cat(nrow(tweets_no_hashtags), "Tweets without Hashtags", sep = " ")
+  cat(nrow(tweets_no_hashtags), "Tweets have no Hashtag", sep = " ")
 
   cat("\n")
   cat("Pooling", nrow(tweets_w_hashtags), "Tweets with Hashtags #", sep = " ")
@@ -93,7 +101,7 @@ For coherent topics we recommend thresholds of 0.8 or higher.")
   hashtags.unique  <- unique(hashtags.unique)
   hashtags.unique <- hashtags.unique[!is.na(hashtags.unique)]
   cat("\n")
-  cat(length(hashtags.unique), "Unique Hashtags found", sep = " ")
+  cat(length(hashtags.unique), "Unique Hashtags total", sep = " ")
 
   cat("\n")
   cat("Begin pooling ...")
@@ -113,7 +121,7 @@ For coherent topics we recommend thresholds of 0.8 or higher.")
   a <- a[a$is_quote == "FALSE" & a$is_retweet == FALSE, ]
 
   # drop unnecessary cols
-  a <- a[c("created_at", "text", "hashtags", "bbox_coords", "lat", "lng", "location", "emojis")]
+  a <- a[c("created_at", "text", "hashtags", "bbox_coords", "lat", "lng", "location", "emojis", "lang")]
 
   #unfold/explode twitter data by hashtags
   b <- a %>%
@@ -122,7 +130,7 @@ For coherent topics we recommend thresholds of 0.8 or higher.")
   ## group tweets by hashtags
   c <- b %>%
     dplyr::group_by(hashtags) %>%
-    dplyr::summarise(text)
+    dplyr::summarise(text = paste0(text, collapse = " "))
 
   # collect unique hashtags
   df <- data.frame(
@@ -148,8 +156,8 @@ For coherent topics we recommend thresholds of 0.8 or higher.")
   # join document hashtag dataframe with pooled tweets dataframe
   document_hashtag_pools <- dplyr::inner_join(df, d, by = "hashtags")
 
-  ##### TF-IDF Vectorization ----
-  ## 1. TF-IDF Matrices of Pools ----
+  ## TF-IDF Vectorization
+  # 1. TF-IDF matrices for document pools ----
 
   # using quanteda
   doc.corpus <- quanteda::corpus(document_hashtag_pools,
@@ -175,7 +183,7 @@ For coherent topics we recommend thresholds of 0.8 or higher.")
     quanteda::dfm_trim() %>%
     quanteda::dfm_tfidf(.)
 
-  ## 2. TF-IDF Matrices of unpooled tweets ----
+  # 2. TF-IDF matrices for unpooled tweets ----
 
   # tweets without hashtags
   b.nohashtag <- b[which(is.na(b$hashtags)), ]
@@ -221,7 +229,7 @@ For coherent topics we recommend thresholds of 0.8 or higher.")
   }
 
 
-  ## Recalculate new after enrichment
+  ## Recalculate document frequency matrices re-pooling
   doc.corpus <- quanteda::corpus(document_hashtag_pools,
                        meta = document_hashtag_pools$hashtags,
                        text_field = 'tweets_pooled')
@@ -247,7 +255,7 @@ For coherent topics we recommend thresholds of 0.8 or higher.")
                    "tokens" = tokens.final,
                    "corpus" = doc.corpus,
                    "document_term_matrix" = pooled.dfm)
-  cat("Done")
+  cat("Done\n")
   return(ret_list)
 }
 

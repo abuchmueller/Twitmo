@@ -13,33 +13,53 @@ pool_tweets(
   remove_separators = TRUE,
   include_emojis = FALSE,
   cosine_threshold = 0.8,
-  stopwords = NULL,
+  stopwords = "en",
+  n_grams = 1,
   min_pool_size = 1
 )
 }
 \arguments{
-\item{data}{Data frame of parsed tweets.}
+\item{data}{Data frame of parsed tweets. Obtained either by using \code{load_tweets()} or
+\code{jsonlite::stream_in()} in conjunction with \code{rtweet::tweets_with_users(s)}.
+See \link[TweetLocViz]{load_tweets} for details.}
 
-\item{remove_numbers}{logical; if TRUE remove tokens that consist only of numbers, but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
+\item{remove_numbers}{logical; if TRUE remove tokens that consist only of numbers,
+but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
 
-\item{remove_punct}{logical; if TRUE remove all characters in the Unicode "Punctuation" [P] class, with exceptions for those used as prefixes for valid social media tags if preserve_tags = TRUE.  See \link[quanteda]{tokens}}
+\item{remove_punct}{logical; if TRUE remove all characters in the Unicode
+"Punctuation" [P] class, with exceptions for those used as prefixes for valid social media tags if
+\code{preserve_tags = TRUE}. See \link[quanteda]{tokens}}
 
-\item{remove_symbols}{logical; if TRUE remove tokens that consist only of numbers, but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
+\item{remove_symbols}{logical; if TRUE remove tokens that consist only of numbers,
+but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
 
-\item{remove_url}{logical; if TRUE find and eliminate URLs beginning with http(s). See \link[quanteda]{tokens}.}
+\item{remove_url}{logical; if TRUE find and eliminate URLs beginning with http(s).
+See \link[quanteda]{tokens}.}
 
-\item{remove_separators}{logical; if TRUE remove separators and separator characters (Unicode "Separator" [Z] and "Control" [C] categories). See \link[quanteda]{tokens}.}
+\item{remove_separators}{logical; if TRUE remove separators and separator characters
+(Unicode "Separator" [Z] and "Control" [C] categories). See \link[quanteda]{tokens}.}
+
+\item{include_emojis}{Boolean; If true emojis will not be filtered from text.}
+
+\item{cosine_threshold}{Double; Value from 0 to 1. The cosine similarity used
+for document pooling. Tweets without a hashtag will be assigned to document (hashtag) pools
+based upon this metric. Low thresholds will reduce topic coherence by including
+a large number of tweets without a hashtag into the document pools. Higher thresholds will lead
+to more coherent topics but will reduce document sizes.}
 
 \item{stopwords}{a character vector, list of character vectors, \link[quanteda]{dictionary}
-or collocations object. See \link[quanteda]{pattern} for details. Defaults to
-\link[stopwords:stopwords]{stopwords::stopwords("english")}.}
+or collocations object. See \link[quanteda]{pattern} for details.
+Defaults to \link[stopwords:stopwords]{stopwords::stopwords("english")}.}
+
+\item{n_grams}{Integer; can generate n-grams in any lengths.}
 
 \item{min_pool_size}{Integer; specifying the minimum size of document pools.
-Document pools with less tweets will be excluded from the corpus.
-\code{jsonlite::stream_in()} and \code{rtweet::tweets_with_users(s)}.}
+Document pools with less tweets than specified will be excluded from the corpus.
+Defaults to 1 where every hashtag is a document pool. Large pools lead to more coherent topics
+but will need larger sample sizes (i.e. more tweets) to work.}
 }
 \value{
-List with corpus object and dfm object of pooled tweets.
+List with corpus object and \link[quanteda]{dfm} object of pooled tweets.
 }
 \description{
 Pools tweets by hashtags using cosine similarity to create
@@ -47,5 +67,10 @@ longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
 }
 \details{
-This function pools parsed stream into hashtags.
+This function pools a data frame of parsed tweets into document pools.
+}
+\references{
+Mehrotra, Rishabh & Sanner, Scott & Buntine, Wray & Xie, Lexing. (2013).
+Improving LDA Topic Models for Microblogs via Tweet Pooling and Automatic Labeling.
+889-892. 10.1145/2484028.2484166.
 }
