@@ -20,14 +20,15 @@
 #' @param stopwords a character vector, list of character vectors, \link[quanteda]{dictionary}
 #' or collocations object. See \link[quanteda]{pattern} for details.
 #' Defaults to \link[stopwords:stopwords]{stopwords::stopwords("english")}.
-#' @param n_grams Integer; can generate n-grams in any lengths.
+#' @param n_grams Integer vector specifying the number of elements to be concatenated in each n-gram.
+#' Each element of this vector will define a n in the n-gram(s) that are produced. See \link[quanteda]{tokens_ngrams}
 #' @param include_emojis Boolean; If true emojis will not be filtered from text.
 #' @param cosine_threshold Double; Value from 0 to 1. The cosine similarity used
 #' for document pooling. Tweets without a hashtag will be assigned to document (hashtag) pools
 #' based upon this metric. Low thresholds will reduce topic coherence by including
 #' a large number of tweets without a hashtag into the document pools. Higher thresholds will lead
 #' to more coherent topics but will reduce document sizes.
-#' @param min_pool_size Integer; specifying the minimum size of document pools.
+#' @param min_pool_size Integer specifying the minimum size of document pools.
 #' Document pools with less tweets than specified will be excluded from the corpus.
 #' Defaults to 1 where every hashtag is a document pool. Large pools lead to more coherent topics
 #' but will need larger sample sizes (i.e. more tweets) to work.
@@ -53,12 +54,15 @@ pool_tweets <- function(data,
                         include_emojis = FALSE,
                         cosine_threshold = 0.8,
                         stopwords = "en",
-                        n_grams = 1,
-                        min_pool_size = 1) {
+                        n_grams = 1L,
+                        min_pool_size = 1L) {
 
   quanteda::quanteda_options(pattern_hashtag = NULL, pattern_username = NULL)
 
   if (missing(data)) stop("Missing data frame with parsed tweets")
+
+  n_grams <- as.integer(n_grams)
+  min_pool_size <- as.integer(min_pool_size)
 
   stopifnot(is.logical(remove_numbers),
             is.logical(remove_punct),
@@ -66,17 +70,18 @@ pool_tweets <- function(data,
             is.logical(remove_url),
             is.logical(remove_separators),
             is.double(cosine_threshold),
+            is.integer(n_grams),
             cosine_threshold >= 0.01 && cosine_threshold <= 1)
 
   if (cosine_threshold <= 0.2) {
 
-    invisible(readline(prompt = "Low cosine thresholds can increase calculation time and memory usage significantly and even lead to crashes. Press [enter] to continue or [control+c] to abort"))
+    invisible(readline(prompt = "Low cosine thresholds can increase calculation time and memory usage significantly and even lead to crashes.
+Press [enter] to continue or [control+c] to abort"))
 
-    warning(
-"Please be aware that your cosine threshold is low.
-Low cosine thresholds lead to incoherent topics due to
-document pool dillution by too tweets without hashtags.
-For coherent topics we recommend thresholds of 0.8 or higher.")
+    warning("Please be aware that your cosine threshold is low.
+  Low cosine thresholds lead to incoherent topics due to
+  document pool dillution by too tweets without hashtags.
+  For coherent topics we recommend thresholds of 0.8 or higher.")
   }
 
   if (is.character(stopwords)) stopwords <- stopwords::stopwords(stopwords)
@@ -176,7 +181,8 @@ For coherent topics we recommend thresholds of 0.8 or higher.")
                                     split_hyphens = FALSE,
                                     include_docvars = TRUE,
                                     padding = FALSE
-  ) %>% quanteda::tokens_remove(stopwords)
+  ) %>% quanteda::tokens_remove(stopwords) %>% quanteda::tokens_ngrams(n = n_grams)
+
 
   pooled.dfm <-
     quanteda::dfm(tokens.pooled, tolower = TRUE) %>%
@@ -200,7 +206,7 @@ For coherent topics we recommend thresholds of 0.8 or higher.")
                                     split_hyphens = FALSE,
                                     include_docvars = TRUE,
                                     padding = FALSE
-  ) %>% quanteda::tokens_remove(stopwords)
+  ) %>% quanteda::tokens_remove(stopwords) %>% quanteda::tokens_ngrams(n = n_grams)
 
   unpooled.dfm <-
     quanteda::dfm(tokens.unpooled,  tolower = TRUE) %>%
@@ -246,7 +252,7 @@ For coherent topics we recommend thresholds of 0.8 or higher.")
                                     split_hyphens = FALSE,
                                     include_docvars = TRUE,
                                     padding = FALSE
-  ) %>% quanteda::tokens_remove(stopwords)
+  ) %>% quanteda::tokens_remove(stopwords) %>% quanteda::tokens_ngrams(n = n_grams)
 
   # Final pooled document frequency matrix
   pooled.dfm <- quanteda::dfm(tokens.final,  tolower = TRUE)
