@@ -11,11 +11,11 @@ pool_tweets(
   remove_symbols = TRUE,
   remove_url = TRUE,
   remove_separators = TRUE,
-  include_emojis = FALSE,
+  remove_emojis = TRUE,
   cosine_threshold = 0.8,
   stopwords = "en",
-  n_grams = 1,
-  min_pool_size = 1
+  n_grams = 1L,
+  min_pool_size = 1L
 )
 }
 \arguments{
@@ -39,7 +39,7 @@ See \link[quanteda]{tokens}.}
 \item{remove_separators}{logical; if TRUE remove separators and separator characters
 (Unicode "Separator" [Z] and "Control" [C] categories). See \link[quanteda]{tokens}.}
 
-\item{include_emojis}{Boolean; If true emojis will not be filtered from text.}
+\item{remove_emojis}{Boolean; If true emojis will be removed from tweets.}
 
 \item{cosine_threshold}{Double; Value from 0 to 1. The cosine similarity used
 for document pooling. Tweets without a hashtag will be assigned to document (hashtag) pools
@@ -49,11 +49,12 @@ to more coherent topics but will reduce document sizes.}
 
 \item{stopwords}{a character vector, list of character vectors, \link[quanteda]{dictionary}
 or collocations object. See \link[quanteda]{pattern} for details.
-Defaults to \link[stopwords:stopwords]{stopwords::stopwords("english")}.}
+Defaults to \link[stopwords:stopwords]{"english"}.}
 
-\item{n_grams}{Integer; can generate n-grams in any lengths.}
+\item{n_grams}{Integer vector specifying the number of elements to be concatenated in each n-gram.
+Each element of this vector will define a n in the n-gram(s) that are produced. See \link[quanteda]{tokens_ngrams}}
 
-\item{min_pool_size}{Integer; specifying the minimum size of document pools.
+\item{min_pool_size}{Integer specifying the minimum size of document pools.
 Document pools with less tweets than specified will be excluded from the corpus.
 Defaults to 1 where every hashtag is a document pool. Large pools lead to more coherent topics
 but will need larger sample sizes (i.e. more tweets) to work.}
@@ -62,12 +63,12 @@ but will need larger sample sizes (i.e. more tweets) to work.}
 List with corpus object and \link[quanteda]{dfm} object of pooled tweets.
 }
 \description{
+This function pools a data frame of parsed tweets into document pools.
+}
+\details{
 Pools tweets by hashtags using cosine similarity to create
 longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
-}
-\details{
-This function pools a data frame of parsed tweets into document pools.
 }
 \references{
 Mehrotra, Rishabh & Sanner, Scott & Buntine, Wray & Xie, Lexing. (2013).

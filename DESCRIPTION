@@ -33,6 +33,5 @@ Imports:
     tidytext,
     LDAvis,
     stringi,
-    servr,
-    emo
+    servr
 RoxygenNote: 7.1.1
