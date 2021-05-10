@@ -1,8 +1,8 @@
 #' Prepare for Tweets for topic modeling by pooling
-#' @description Pools tweets by hashtags using cosine similarity to create
+#' @details Pools tweets by hashtags using cosine similarity to create
 #' longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 #' The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
-#' @details This function pools a data frame of parsed tweets into document pools.
+#' @description This function pools a data frame of parsed tweets into document pools.
 #' @param data Data frame of parsed tweets. Obtained either by using \code{load_tweets()} or
 #' \code{jsonlite::stream_in()} in conjunction with \code{rtweet::tweets_with_users(s)}.
 #' See \link[TweetLocViz]{load_tweets} for details.
@@ -19,10 +19,10 @@
 #' (Unicode "Separator" [Z] and "Control" [C] categories). See \link[quanteda]{tokens}.
 #' @param stopwords a character vector, list of character vectors, \link[quanteda]{dictionary}
 #' or collocations object. See \link[quanteda]{pattern} for details.
-#' Defaults to \link[stopwords:stopwords]{stopwords::stopwords("english")}.
+#' Defaults to \link[stopwords:stopwords]{"english"}.
 #' @param n_grams Integer vector specifying the number of elements to be concatenated in each n-gram.
 #' Each element of this vector will define a n in the n-gram(s) that are produced. See \link[quanteda]{tokens_ngrams}
-#' @param include_emojis Boolean; If true emojis will not be filtered from text.
+#' @param remove_emojis Boolean; If true emojis will be removed from tweets.
 #' @param cosine_threshold Double; Value from 0 to 1. The cosine similarity used
 #' for document pooling. Tweets without a hashtag will be assigned to document (hashtag) pools
 #' based upon this metric. Low thresholds will reduce topic coherence by including
@@ -40,10 +40,9 @@
 #'
 #' @export
 
-# TODO: Add STM Support - return emojis and more metadata for stm
-# TODO: Create a class for pooled tweets.
-# TODO: customizeable min pool size
-# TODO: n-gram support for tokenizer
+# TODO: Add STM Support - return emojis and additional metadata for stm
+# TODO: Create a class for pooled tweets
+# TODO: customize minimun pool documentlength
 
 pool_tweets <- function(data,
                         remove_numbers = TRUE,
@@ -51,7 +50,7 @@ pool_tweets <- function(data,
                         remove_symbols = TRUE,
                         remove_url = TRUE,
                         remove_separators = TRUE,
-                        include_emojis = FALSE,
+                        remove_emojis = TRUE,
                         cosine_threshold = 0.8,
                         stopwords = "en",
                         n_grams = 1L,
@@ -115,11 +114,12 @@ Press [enter] to continue or [control+c] to abort"))
   a <- rtweet::lat_lng(data)
 
   # extract emoji vector
-  a$emojis <- emo::ji_extract_all(a$text)
+  #a$emojis <- emo::ji_extract_all(a$text)
+  a$emojis <- stringr::str_extract_all(a$text, emojis_regex, simplify = FALSE)
 
-  # remove emojis from corpus
-  if (!include_emojis) {
-    a$text <- remove_emojis(a$text)
+  # remove emojis from tweets
+  if (remove_emojis) {
+    a$text <- rem_emojis(a$text)
   }
 
   # removing duplicates, removing quoted tweets and retweets
@@ -262,7 +262,9 @@ Press [enter] to continue or [control+c] to abort"))
                    "corpus" = doc.corpus,
                    "document_term_matrix" = pooled.dfm)
   cat("Done\n")
+
   return(ret_list)
+
 }
 
 
@@ -273,6 +275,7 @@ Press [enter] to continue or [control+c] to abort"))
 #' @keywords internal
 #' @export
 #'
-remove_emojis <- function(text) {
+#'
+rem_emojis <- function(text) {
   gsub("[^[:alnum:][:blank:]?&/\\-]", "", text)
 }
