@@ -119,7 +119,7 @@ Press [enter] to continue or [control+c] to abort"))
 
   # remove emojis from tweets
   if (remove_emojis) {
-    a$text <- rem_emojis(a$text)
+    a$text <- stringr::str_remove_all(a$text, emojis_regex)
   }
 
   # removing duplicates, removing quoted tweets and retweets
@@ -268,14 +268,4 @@ Press [enter] to continue or [control+c] to abort"))
 }
 
 
-#' Remove Emojis from text corpus
-#' @description Internal function to remove non-UFT-8 characters
-#' @param text 	a character vector
-#' @noRd
-#' @keywords internal
-#' @export
-#'
-#'
-rem_emojis <- function(text) {
-  gsub("[^[:alnum:][:blank:]?&/\\-]", "", text)
-}
+
