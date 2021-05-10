@@ -23,25 +23,24 @@ pool_tweets(
 \code{jsonlite::stream_in()} in conjunction with \code{rtweet::tweets_with_users(s)}.
 See \link[TweetLocViz]{load_tweets} for details.}
 
-\item{remove_numbers}{logical; if TRUE remove tokens that consist only of numbers,
+\item{remove_numbers}{Logical. If TRUE remove tokens that consist only of numbers,
 but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
 
-\item{remove_punct}{logical; if TRUE remove all characters in the Unicode
+\item{remove_punct}{Logical. If TRUE remove all characters in the Unicode
 "Punctuation" [P] class, with exceptions for those used as prefixes for valid social media tags if
 \code{preserve_tags = TRUE}. See \link[quanteda]{tokens}}
 
-\item{remove_symbols}{logical; if TRUE remove tokens that consist only of numbers,
-but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
+\item{remove_symbols}{Logical. If TRUE remove all characters in the Unicode "Symbol" [S] class (e.g. emojis)}
 
-\item{remove_url}{logical; if TRUE find and eliminate URLs beginning with http(s).
+\item{remove_url}{Logical. If TRUE find and eliminate URLs beginning with http(s).
 See \link[quanteda]{tokens}.}
 
-\item{remove_separators}{logical; if TRUE remove separators and separator characters
+\item{remove_separators}{Logical. If TRUE remove separators and separator characters
 (Unicode "Separator" [Z] and "Control" [C] categories). See \link[quanteda]{tokens}.}
 
-\item{remove_emojis}{Boolean; If true emojis will be removed from tweets.}
+\item{remove_emojis}{Logical. If TRUE all emojis will be removed from tweets but keeps other symbols.}
 
-\item{cosine_threshold}{Double; Value from 0 to 1. The cosine similarity used
+\item{cosine_threshold}{Double. Value between 0 and 1 specifying the cosine similarity used
 for document pooling. Tweets without a hashtag will be assigned to document (hashtag) pools
 based upon this metric. Low thresholds will reduce topic coherence by including
 a large number of tweets without a hashtag into the document pools. Higher thresholds will lead
@@ -49,12 +48,12 @@ to more coherent topics but will reduce document sizes.}
 
 \item{stopwords}{a character vector, list of character vectors, \link[quanteda]{dictionary}
 or collocations object. See \link[quanteda]{pattern} for details.
-Defaults to \link[stopwords:stopwords]{"english"}.}
+Defaults to \link[stopwords:stopwords]{stopwords("english")}.}
 
 \item{n_grams}{Integer vector specifying the number of elements to be concatenated in each n-gram.
 Each element of this vector will define a n in the n-gram(s) that are produced. See \link[quanteda]{tokens_ngrams}}
 
-\item{min_pool_size}{Integer specifying the minimum size of document pools.
+\item{min_pool_size}{(NOT IMPLEMENTED) Integer value specifying the minimum size of document pools.
 Document pools with less tweets than specified will be excluded from the corpus.
 Defaults to 1 where every hashtag is a document pool. Large pools lead to more coherent topics
 but will need larger sample sizes (i.e. more tweets) to work.}
@@ -74,4 +73,7 @@ The method applies an implementation of the pooling algorithm from Mehrotra et a
 Mehrotra, Rishabh & Sanner, Scott & Buntine, Wray & Xie, Lexing. (2013).
 Improving LDA Topic Models for Microblogs via Tweet Pooling and Automatic Labeling.
 889-892. 10.1145/2484028.2484166.
+}
+\seealso{
+\link[quanteda]{tokens}, \link[quanteda]{dfm}
 }
