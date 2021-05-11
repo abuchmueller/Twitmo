@@ -2,7 +2,7 @@
 % Please edit documentation in R/pool_tweets.R
 \name{pool_tweets}
 \alias{pool_tweets}
-\title{Prepare for Tweets for topic modeling by pooling}
+\title{Prepare Tweets for topic modeling by pooling}
 \usage{
 pool_tweets(
   data,

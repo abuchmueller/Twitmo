@@ -11,6 +11,9 @@ load_tweets(file_name, ...)
 \code{rtweet::stream_tweets()} or \code{get_tweets()}.}
 }
 \description{
-This function has been deprecated in rtweet 1.0.0 but is
-included here so ensure backwards compatibility data streamed with older versions of \code{rtweet}.
+This function is based on \link[rtweet]{parse_stream()} which has been
+deprecated in rtweet > 0.7 but is included here to ensure backwards compatibility data streamed with older versions of \code{rtweet}.
+}
+\seealso{
+\link[rtweet]{parse_stream()}.
 }

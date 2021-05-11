@@ -1,4 +1,4 @@
-#' Prepare for Tweets for topic modeling by pooling
+#' Prepare Tweets for topic modeling by pooling
 #' @details Pools tweets by hashtags using cosine similarity to create
 #' longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 #' The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
@@ -235,7 +235,7 @@ Press [enter] to continue or [control+c] to abort"))
   }
 
 
-  ## Recalculate document frequency matrices re-pooling
+  ## Recalculate document frequency matrices after pooling
   doc.corpus <- quanteda::corpus(document_hashtag_pools,
                        meta = document_hashtag_pools$hashtags,
                        text_field = 'tweets_pooled')

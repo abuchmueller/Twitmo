@@ -10,6 +10,8 @@
 #' @export
 #'
 
+# TODO: DO NOT LOAD REQUIRED PACKAGES INTO NAMESPACE
+
 to_ldavis <- function(fitted, corpus, doc_term){
   # Required packages
   library(topicmodels)
@@ -34,7 +36,7 @@ to_ldavis <- function(fitted, corpus, doc_term){
   doc_length <- vector()
   for (i in 1:length(corpus)) {
     temp <- paste(corpus[[i]]$content, collapse = ' ')
-    doc_length <- c(doc_length, stri_count(temp, regex = '\\S+'))
+    doc_length <- c(doc_length, stringi::stri_count(temp, regex = '\\S+'))
   }
   temp_frequency <- as.data.frame(as.matrix(doc_term))
   freq_matrix <- data.frame(ST = colnames(temp_frequency),
