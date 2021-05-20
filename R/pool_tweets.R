@@ -96,16 +96,16 @@ Press [enter] to continue or [control+c] to abort"))
   tweets_no_hashtags <- data[which(is.na(data$hashtags)), ]
 
   cat("\n")
-  cat(nrow(tweets_no_hashtags), "Tweets have no Hashtag", sep = " ")
+  cat(nrow(tweets_no_hashtags), "Tweets without hashtag", sep = " ")
 
   cat("\n")
-  cat("Pooling", nrow(tweets_w_hashtags), "Tweets with Hashtags #", sep = " ")
+  cat("Pooling", nrow(tweets_w_hashtags), "Tweets with hashtags #", sep = " ")
 
   hashtags.unique <- unlist(data$hashtags)
   hashtags.unique  <- unique(hashtags.unique)
   hashtags.unique <- hashtags.unique[!is.na(hashtags.unique)]
   cat("\n")
-  cat(length(hashtags.unique), "Unique Hashtags total", sep = " ")
+  cat(length(hashtags.unique), "Unique hashtags total", sep = " ")
 
   cat("\n")
   cat("Begin pooling ...")
@@ -114,7 +114,6 @@ Press [enter] to continue or [control+c] to abort"))
   a <- rtweet::lat_lng(data)
 
   # extract emoji vector
-  #a$emojis <- emo::ji_extract_all(a$text)
   a$emojis <- stringr::str_extract_all(a$text, emojis_regex, simplify = FALSE)
 
   # remove emojis from tweets

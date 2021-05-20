@@ -1,14 +1,14 @@
 Package: TweetLocViz
 Type: Package
-Title: Twitter Topic Modeling and Visualization
+Title: Twitter Topic Modeling and Visualization for R
 Version: 0.1.0
-Author: Andreas Buchmueller, ...
+Author: Andreas Buchmueller
 Maintainer: Andreas Buchmueller <a.buchmueller@stud.uni-goettingen.de>
 Description: TweetLocVis enables users to sample geo-located twitter data
     with a regular twitter account. Additionally it comes with abilities for automated
-    pre-processing of tweets for a variety of topic models such as LDA and NMF as well as 
-    visualizaion capabilities enabling the user a board-range of methods for analysis
-    and monitoring the public discourse.
+    pre-processing of tweets such as document pooling and a variety of topic models 
+    such as LDA and NMF as well as visualizaion capabilities enabling the user a 
+    board-range of methods for the analysis and monitoring of public discourse.
 License: GPL-3
 URL: https://github.com/abuchmueller/TweetLocViz
 Encoding: UTF-8
