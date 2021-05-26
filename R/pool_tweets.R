@@ -32,7 +32,7 @@
 #' Defaults to 1 where every hashtag is a document pool. Large pools lead to more coherent topics
 #' but will need larger sample sizes (i.e. more tweets) to work.
 #'
-#' @return List with corpus object and \link[quanteda]{dfm} object of pooled tweets.
+#' @return List with \link[quanteda]{corpus} object and \link[quanteda]{dfm} object of pooled tweets.
 #' @references Mehrotra, Rishabh & Sanner, Scott & Buntine, Wray & Xie, Lexing. (2013).
 #' Improving LDA Topic Models for Microblogs via Tweet Pooling and Automatic Labeling.
 #' 889-892. 10.1145/2484028.2484166.
@@ -256,7 +256,11 @@ Press [enter] to continue or [control+c] to abort"))
   # Final pooled document frequency matrix
   pooled.dfm <- quanteda::dfm(tokens.final,  tolower = TRUE)
 
+  hashtag.freq <- a$hashtags[!is.na(a$hashtags)] %>% unlist %>% tolower() %>% plyr::count() %>%
+    dplyr::arrange(-freq) %>% dplyr::as_tibble() %>% dplyr::rename(hashtag = x, count = freq)
+
   ret_list <- list("data" = a,
+                   "hashtags" = hashtag.freq,
                    "tokens" = tokens.final,
                    "corpus" = doc.corpus,
                    "document_term_matrix" = pooled.dfm)
