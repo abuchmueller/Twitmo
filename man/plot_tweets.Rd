@@ -2,12 +2,12 @@
 % Please edit documentation in R/plots.R
 \name{plot_tweets}
 \alias{plot_tweets}
-\title{Plot tweets on a map}
+\title{Plot tweets on a static map}
 \usage{
 plot_tweets(data, region = ".", alpha = 0.01, ...)
 }
 \arguments{
-\item{data}{A data frame of tweets created by \link[TweetLocViz]{pool_tweets}.}
+\item{data}{A data frame of tweets parsed by \link[TweeLocViz]{load_tweets} or returned by \link[TweetLocViz]{pool_tweets}.}
 
 \item{region}{Character vector specifying region. Returns a world \link[maps]{map} by default.
 For higher resolutions specify a region.}
@@ -21,7 +21,7 @@ See \link[maps]{iso3166} for country codes.}
 Maps where each dot represents a tweet.
 }
 \description{
-Visualize twitter data on a map.
+Plot tweets on a static map with base plot.
 }
 \details{
 This function can be used to generate high resolution spatial plots of tweets.
@@ -35,9 +35,11 @@ For larger view resize the plot window then call \code{plot_tweets} again.
 
 library(TweetLocViz)
 
-mytweets <- load_tweets("~/TweetsfromUK.json")
-pool <- pool_tweets(mytweets)
-plot_tweets(pool$data, region = "UK", alpha = 0.02, lwd = 0.1)
+# Plot tweets on mainland USA
+mytweets <- load_tweets("inst/extdata/tweets 20191027-141233.json")
+plot_tweets(mytweets, region = "USA(?!:Alaska|:Hawaii)", alpha=1)
+#' # Add title
+title("My Tweets on a Map")
 }
 
 }

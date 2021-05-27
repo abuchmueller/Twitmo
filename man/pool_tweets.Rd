@@ -59,7 +59,7 @@ Defaults to 1 where every hashtag is a document pool. Large pools lead to more c
 but will need larger sample sizes (i.e. more tweets) to work.}
 }
 \value{
-List with corpus object and \link[quanteda]{dfm} object of pooled tweets.
+List with \link[quanteda]{corpus} object and \link[quanteda]{dfm} object of pooled tweets.
 }
 \description{
 This function pools a data frame of parsed tweets into document pools.

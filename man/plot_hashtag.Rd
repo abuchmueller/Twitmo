@@ -14,7 +14,7 @@ plot_hashtag(
 )
 }
 \arguments{
-\item{data}{A data frame of tweets created by \link[TweetLocViz]{pool_tweets}.}
+\item{data}{A data frame of tweets parsed by \link[TweeLocViz]{load_tweets} or returned by \link[TweetLocViz]{pool_tweets}.}
 
 \item{region}{Character vector specifying region. Returns a world \link[maps]{map} by default.
 For higher resolutions specify a region.}
@@ -32,7 +32,7 @@ See \link[maps]{iso3166} for country codes.}
 Maps where each dot represents a tweet.
 }
 \description{
-Plot the locations of certain hashtags.
+Plot the locations of certain hashtag on a static map with base plot.
 }
 \details{
 This function can be used to generate high resolution spatial plots of tweets.
@@ -46,9 +46,11 @@ For larger view resize the plot window then call \code{plot_tweets} again.
 
 library(TweetLocViz)
 
-mytweets <- load_tweets("~/TweetsfromUK.json")
-pool <- pool_tweets(mytweets)
-plot_hashtag(pool$data, region = "UK", hashtag = "covid19", alpha = 1, lwd = 0.1)
+# Plot hashtags on mainland USA
+mytweets <- load_tweets("inst/extdata/tweets 20191027-141233.json")
+plot_hashtag(mytweets, region = "USA(?!:Alaska|:Hawaii)", hashtag = "breakfast|chinup", ignore_case=TRUE, alpha=1)
+# Add title
+title("My Hashtags on a Map")
 }
 
 }
