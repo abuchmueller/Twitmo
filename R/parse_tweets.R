@@ -34,7 +34,10 @@ load_tweets <- function(file_name, ...) {
     }
   }
   if (length(s) == 0L) s <- NULL
-  rtweet::tweets_with_users(s)
+  r <- rtweet::tweets_with_users(s)
+
+  # add single-point latitude and longitude variables to tweets data
+  rtweet::lat_lng(r)
 }
 
 # from rtweet 0.6.7: Ensures only complete lines are read.
