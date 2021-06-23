@@ -31,6 +31,7 @@ to_ldavis <- function(fitted, corpus, doc_term){
 
   # Find required quantities
   phi <- posterior(fitted)$terms %>% as.matrix
+  phi[phi == 0] <- 1e-16 # Workaround since phi cannot be 0 for PCA
   theta <- posterior(fitted)$topics %>% as.matrix
   vocab <- colnames(phi)
   doc_length <- vector()
