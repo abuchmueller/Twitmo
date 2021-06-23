@@ -15,7 +15,7 @@ cluster_tweets(data, ...)
 Interactive leaflet map
 }
 \description{
-Plot into clusters on a interactive map
+Plot into clusters on an interactive map
 }
 \details{
 This function can be used to create interactive maps on OpenStreetView.

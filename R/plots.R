@@ -101,7 +101,7 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
 
 
 #' Cluster tweets on an interactive map
-#' @description Plot into clusters on a interactive map
+#' @description Plot into clusters on an interactive map
 #' @details This function can be used to create interactive maps on OpenStreetView.
 #' @param ... Extra arguments passed to \link[leaflet]{markerClusterOptions}
 #' @inheritParams plot_tweets
@@ -136,6 +136,7 @@ cluster_tweets <- function(data, ...) {
   # Print the map
   m
 }
+
 
 
 
