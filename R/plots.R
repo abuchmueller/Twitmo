@@ -61,7 +61,11 @@ plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
 #'
 #' # Plot hashtags on mainland USA
 #' mytweets <- load_tweets("inst/extdata/tweets 20191027-141233.json")
-#' plot_hashtag(mytweets, region = "USA(?!:Alaska|:Hawaii)", hashtag = "breakfast|chinup", ignore_case=TRUE, alpha=1)
+#' plot_hashtag(mytweets,
+#'              region = "USA(?!:Alaska|:Hawaii)",
+#'              hashtag = "breakfast|chinup",
+#'              ignore_case=TRUE,
+#'              alpha=1)
 #' # Add title
 #' title("My Hashtags on a Map")
 #' }

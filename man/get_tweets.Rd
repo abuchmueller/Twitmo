@@ -5,7 +5,7 @@
 \title{Sample tweets by streaming or searching}
 \usage{
 get_tweets(
-  endpoint = "stream",
+  method = "stream",
   bbox = c(-180, -90, 180, 90),
   sample_size = 100,
   location = NULL,
@@ -13,9 +13,6 @@ get_tweets(
 )
 }
 \arguments{
-\item{endpoint}{One of two endpoints ('stream' or 'search'), which will call
-upon `search_tweets()` or `stream_tweets()`.}
-
 \item{bbox}{Use four latitude/longitude bounding box points to stream by geo
 location. This must be provided via a vector of length 4, e.g., c(-125, 26, -65, 49).}
 
@@ -29,6 +26,9 @@ Use \code{rtweet:::citycoords} to see a list.}
 
 \item{query}{Search query (optional). Use if you want to filter incoming tweets
 by keyword. See \code{rtweet::stream_tweets() q} for more information.}
+
+\item{endpoint}{One of two endpoints ('stream' or 'search'), which will call
+upon `search_tweets()` or `stream_tweets()`.}
 }
 \value{
 Either a json file in the specified directory, or (if `parse = TRUE`) additionally a data frame.

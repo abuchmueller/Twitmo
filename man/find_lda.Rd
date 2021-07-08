@@ -4,7 +4,7 @@
 \alias{find_lda}
 \title{Find best LDA model}
 \usage{
-find_lda(pooled_dfm, search_space)
+fit_lda(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs", ...)
 }
 \arguments{
 \item{pooled_dfm}{object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets}
@@ -13,6 +13,8 @@ find_lda(pooled_dfm, search_space)
 
 \item{method}{The method to be used for fitting.
 Currently method = "VEM" or method = "Gibbs" are supported.}
+
+\item{...}{Additional arguments passed to \link[ldatuning]{FindTopicsNumber}.}
 }
 \value{
 Plot with different metrics compared.

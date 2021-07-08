@@ -7,12 +7,13 @@
 load_tweets(file_name, ...)
 }
 \arguments{
-\item{file_name}{Character string. Name of JSON file with data collected by
+\item{file_name}{Character string. Name of JSON file with data collected e.g. by
 \code{rtweet::stream_tweets()} or \code{get_tweets()}.}
 }
 \description{
-This function is based on \link[rtweet]{parse_stream()} which has been
+This function replaces \link[rtweet]{parse_stream()} which has been
 deprecated in rtweet > 0.7 but is included here to ensure backwards compatibility data streamed with older versions of \code{rtweet}.
+Alternatively \code{jsonlite::streamin_in()} in conjunction with \code{rtweet::tweets_with_users()} and \code{rtweet::lat_lng()} can be used.
 }
 \seealso{
 \link[rtweet]{parse_stream()}.

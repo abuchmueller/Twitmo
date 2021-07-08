@@ -1,6 +1,7 @@
 #' Create interactive visualization with LDAvis
-#' @description Helper function. Converts topic model to LDAvis compatabile json string.
-#' May requires \code{servr} to run properly.
+#' @description Converts \link[topicmodels:TopicModel-class]{LDA} topic model to LDAvis compatible json string and starts server.
+#' May requires \code{servr} Package to run properly.
+#' For conversion of \link[stm:stm]{STM} topic models use \link[stm]{toLDAvis}.
 #' @usage to_ldavis(fitted, corpus, doc_term).
 #' @param fitted Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA})
 #' @param corpus Document corpus. Object of class \link[quanteda:corpus]{corpus})
@@ -8,11 +9,12 @@
 #' @return Invisible Object (see \link[LDAvis]{serVis})).
 #'
 #' @export
-#'
+#' @seealso \link[stm]{toLDAvis}
 
 # TODO: DO NOT LOAD REQUIRED PACKAGES INTO NAMESPACE
 
 to_ldavis <- function(fitted, corpus, doc_term){
+
   # Required packages
   library(topicmodels)
   library(dplyr)

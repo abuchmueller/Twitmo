@@ -23,20 +23,20 @@
 # TODO: add lang, location/country filtering.
 
 # This is a wrapper function for rtweet::stream_tweets() and rtweet::search_tweets()
-get_tweets <- function(endpoint = 'stream',
+get_tweets <- function(method = 'stream',
                        bbox = c(-180, -90, 180, 90),
                        sample_size = 100,
                        location = NULL,
                        ...) {
 
-  if (endpoint == 'stream') {
+  if (method == 'stream') {
     rtweet::stream_tweets(
       q = bbox,
       ...
     )
   }
 
-  if (endpoint == 'search') {
+  if (method == 'search') {
     rtweet::search_tweets(n = sample_size,
                           geocode = rtweet::lookup_coords(location),
                           include_rts = FALSE,

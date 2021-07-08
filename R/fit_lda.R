@@ -19,18 +19,19 @@ fit_lda <- function(pooled_dfm, n_topics, ...) {
 
 #' Find best LDA model
 #' @description Find the optimal hyperparameter k for your LDA model
-#' @usage find_lda(pooled_dfm, search_space)
+#' @usage fit_lda(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs", ...)
 #' @param pooled_dfm object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets
 #' @param search_space Vector with number of topics to compare different models.
 #' @param method The method to be used for fitting.
 #' Currently method = "VEM" or method = "Gibbs" are supported.
+#' @param ... Additional arguments passed to \link[ldatuning]{FindTopicsNumber}.
 #' @seealso \link[ldatuning]{FindTopicsNumber}
 #' @return Plot with different metrics compared.
 #'
 #' @export
 
 
-find_lda <- function(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs") {
+find_lda <- function(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs", ...) {
 
   dfm2topicmodels <- quanteda::convert(pooled_dfm, to = "topicmodels")
 
