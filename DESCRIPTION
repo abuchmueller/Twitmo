@@ -35,3 +35,7 @@ Imports:
     stringi,
     servr
 RoxygenNote: 7.1.1
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
