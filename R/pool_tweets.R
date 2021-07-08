@@ -40,9 +40,10 @@
 #'
 #' @export
 
-# TODO: Add STM Support - return emojis and additional metadata for stm
-# TODO: Create a class for pooled tweets
+# TODO: Add STM Support - add meta data to dfm objects
+# TODO: ? Create a class for pooled tweets ?
 # TODO: customize minimun pool document length
+# TODO: REMOVE HASHTAGS / USERNAMES FROM TOPIC MODELS
 
 pool_tweets <- function(data,
                         remove_numbers = TRUE,
@@ -83,8 +84,9 @@ Press [enter] to continue or [control+c] to abort"))
   For coherent topics we recommend thresholds of 0.8 or higher.")
   }
 
-  if (is.character(stopwords)) stopwords <- stopwords::stopwords(stopwords)
-  if (missing(stopwords)) stopwords <- stopwords::stopwords("en")
+  # Local stopwords + additional Twitter stopwords
+  if (is.character(stopwords)) stopwords <- c(stopwords::stopwords(stopwords), "amp", "na", "rt", "via")
+  if (missing(stopwords)) stopwords <- c(stopwords::stopwords("en"), "amp", "na", "rt", "via")
 
   cat("\n")
   cat(nrow(data), "Tweets total", sep = " ")
@@ -125,7 +127,9 @@ Press [enter] to continue or [control+c] to abort"))
   a <- a[a$is_quote == "FALSE" & a$is_retweet == FALSE, ]
 
   # drop unnecessary cols
-  a <- a[c("created_at", "text", "hashtags", "bbox_coords", "lat", "lng", "location", "emojis", "lang")]
+  a <- a[c("created_at", "text", "hashtags", "bbox_coords", "lat", "lng", "location", "country_code", "emojis", "lang", "is_quote",
+           "favorite_count", "retweet_count", "quote_count", "reply_count", "quoted_friends_count",
+           "favourites_count", "friends_count", "followers_count")]
 
   #unfold/explode twitter data by hashtags
   b <- a %>%
@@ -259,7 +263,7 @@ Press [enter] to continue or [control+c] to abort"))
   hashtag.freq <- a$hashtags[!is.na(a$hashtags)] %>% unlist %>% tolower() %>% plyr::count() %>%
     dplyr::arrange(-freq) %>% dplyr::as_tibble() %>% dplyr::rename(hashtag = x, count = freq)
 
-  ret_list <- list("data" = a,
+  ret_list <- list("meta" = a,
                    "hashtags" = hashtag.freq,
                    "tokens" = tokens.final,
                    "corpus" = doc.corpus,
