@@ -27,7 +27,7 @@ fit_stm <- function(pooled_dfm, n_topics = 2L, ...) {
 
 
 #' Find best STM model
-#' @description Gridseaach for optimal K for your STM model. Wrapper function for \link[stm]{searchK}
+#' @description Gridsearch for optimal K for your STM model. Wrapper function for \link[stm]{searchK}
 #' @usage find_stm(pooled_dfm, search_space)
 #' @param pooled_dfm object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets
 #' @param search_space Vector with number of topics to compare different models.
@@ -42,8 +42,8 @@ find_stm <- function() {
 
   dfm2stm <- quanteda::convert(pooled.dfm, to = "stm")
 
-  mein.stm.idealK <- searchK(dfm2stm$documents, dfm2stm$vocab, K = seq(4, 20, by = 2), max.em.its = 75)
-  plot(mein.stm.idealK)
+  idealK <- searchK(dfm2stm$documents, dfm2stm$vocab, K = seq(4, 20, by = 2), max.em.its = 75)
+  plot(idealK)
 
 }
 

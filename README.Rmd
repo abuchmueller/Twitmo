@@ -26,7 +26,7 @@ install.packages("TweetLocViz")
 
 You can install `TweetLocViz` from github with:
 
-Before you install from github make sure you have Rtools for [Windows](https://cran.r-project.org/bin/windows/Rtools/ "Rtools for Windows (CRAN)") or [macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/ "Rtools for macOS") already installed.
+Before you install from Github make sure you have Rtools for [Windows](https://cran.r-project.org/bin/windows/Rtools/ "Rtools for Windows (CRAN)") or [macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/ "Rtools for macOS") already installed.
 
 ```{r gh-installation, eval = FALSE}
 ## install remotes package if it's not already
