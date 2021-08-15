@@ -91,13 +91,13 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
 
     ## plot lat and lng points onto state map
     with(data[which(tolower(data$hashtags) == hashtag), ],
-         points(lng, lat, pch = 20, cex = .75, col = rgb(0, .3, .7, .75, alpha = alpha)))
+         points(lng, lat, pch = 20, cex = .75, col = rgb(1, 0, 0, 0, alpha = alpha)))
 
   } else {
 
     ## plot lat and lng points onto state map
     with(data[which(data$hashtags == hashtag), ],
-         points(lng, lat, pch = 20, cex = .75, col = rgb(0, .3, .7, .75, alpha = alpha)))
+         points(lng, lat, pch = 20, cex = .75, col = rgb(1, 0, 0, 0, alpha = alpha)))
 
   }
 
