@@ -77,7 +77,7 @@ plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
 plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_case = TRUE, ...) {
 
   # remove opacity if sample size is small
-  if (nrow(data[which(data$hashtags == hashtag), ]) < 1000) alpha <- 1
+  if (nrow(data[which(sapply(data$hashtags, FUN=function(X) hashtag %in% X)), ]) < 100) alpha <- 1
 
   ## plot state boundaries
   par(mar = c(0, 0, 3, 0))
