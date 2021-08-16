@@ -83,20 +83,29 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
   par(mar = c(0, 0, 3, 0))
   maps::map("world", region,  ...)
 
-
-  # convert query to lowercase
+ # case sensitivity logic
   if (ignore_case==TRUE) {
 
+    # convert query to lowercase
     hashtag <- tolower(hashtag)
 
+    # convert hashtags to lowercase
+    data$hashtags <- lapply(data$hashtags, tolower)
+
+    # indices of tweets with matching hashtag
+    match_ind <- which(sapply(data$hashtags, FUN=function(X) hashtag %in% X))
+
     ## plot lat and lng points onto state map
-    with(data[which(tolower(data$hashtags) == hashtag), ],
+    with(dat[match_ind, ],
          points(lng, lat, pch = 20, cex = .75, col = rgb(1, 0, 0, 0, alpha = alpha)))
 
   } else {
 
+    # indices of tweets with matching hashtag
+    match_ind <- which(sapply(data$hashtags, FUN=function(X) hashtag %in% X))
+
     ## plot lat and lng points onto state map
-    with(data[which(data$hashtags == hashtag), ],
+    with(dat[match_ind, ],
          points(lng, lat, pch = 20, cex = .75, col = rgb(1, 0, 0, 0, alpha = alpha)))
 
   }
