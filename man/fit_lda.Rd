@@ -4,15 +4,17 @@
 \alias{fit_lda}
 \title{Fit LDA Topic Model}
 \usage{
-fit_lda(pooled_dfm, n_topics)
+fit_lda(pooled_dfm, n_topics, ...)
 }
 \arguments{
-\item{pooled_dfm}{Object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets}
+\item{pooled_dfm}{Object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets.}
 
-\item{n_topics}{Integer with number of topics}
+\item{n_topics}{Integer with number of topics.}
+
+\item{...}{Additional arguments passed to \link[topicmodels]{LDA}.}
 }
 \value{
-Object of class \link[topicmodels:TopicModel-class]{LDA}
+Object of class \link[topicmodels:TopicModel-class]{LDA}.
 }
 \description{
 Estimate a LDA topic model using VEM or Gibbs Sampling.

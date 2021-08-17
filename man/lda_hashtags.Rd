@@ -8,8 +8,6 @@ lda_hashtags(lda_model)
 }
 \arguments{
 \item{lda_model}{Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA}).}
-
-\item{n_terms}{Integer number of terms to return.}
 }
 \value{
 Data frame with most likely topic for each hashtag.

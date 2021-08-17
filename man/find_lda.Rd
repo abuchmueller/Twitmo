@@ -4,7 +4,7 @@
 \alias{find_lda}
 \title{Find best LDA model}
 \usage{
-fit_lda(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs", ...)
+find_lda(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs", ...)
 }
 \arguments{
 \item{pooled_dfm}{object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets}

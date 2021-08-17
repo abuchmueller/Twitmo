@@ -1,9 +1,10 @@
 #' Fit LDA Topic Model
 #' @description Estimate a LDA topic model using VEM or Gibbs Sampling.
-#' @usage fit_lda(pooled_dfm, n_topics)
-#' @param pooled_dfm Object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets
-#' @param n_topics Integer with number of topics
-#' @return Object of class \link[topicmodels:TopicModel-class]{LDA}
+#' @usage fit_lda(pooled_dfm, n_topics, ...)
+#' @param pooled_dfm Object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets.
+#' @param n_topics Integer with number of topics.
+#' @param ... Additional arguments passed to \link[topicmodels]{LDA}.
+#' @return Object of class \link[topicmodels:TopicModel-class]{LDA}.
 #'
 #' @export
 
@@ -19,7 +20,7 @@ fit_lda <- function(pooled_dfm, n_topics, ...) {
 
 #' Find best LDA model
 #' @description Find the optimal hyperparameter k for your LDA model
-#' @usage fit_lda(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs", ...)
+#' @usage find_lda(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs", ...)
 #' @param pooled_dfm object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets
 #' @param search_space Vector with number of topics to compare different models.
 #' @param method The method to be used for fitting.
@@ -56,6 +57,7 @@ find_lda <- function(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs",
 #' @param n_terms Integer number of terms to return.
 #' @return Data frame with top n terms for each topic.
 #' @export
+
 lda_terms <- function(lda_model, n_terms = 10) {
   data.frame(topicmodels::terms(lda_model, n_terms))
 }
@@ -63,15 +65,16 @@ lda_terms <- function(lda_model, n_terms = 10) {
 #' View Documents (hashtags) heavily associated with topics
 #' @description Convenience Function to extract the most likely topics for each hashtag.
 #' @param lda_model Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA}).
-#' @param n_terms Integer number of terms to return.
 #' @return Data frame with most likely topic for each hashtag.
 #' @export
+
 lda_hashtags <- function(lda_model) {
   data.frame(Topic = topicmodels::topics(lda_model))
 }
 
 
 #' View distribution of fitted LDA Models
+#' @importFrom rlang .data
 #' @description View the distribution of your fitted LDA model.
 #' @usage lda_distribution(lda_model, param = "gamma", tidy = FALSE)
 #' @param lda_model Object of class \link[topicmodels:TopicModel-class]{LDA}).
@@ -97,7 +100,7 @@ lda_distribution <- function(lda_model, param = "gamma", tidy = FALSE) {
         # Beta = term distribution of topics (term per document)
         # Gamma = document distribution of topics (i.e. hashtag pool per topic probability)
         res <- tidytext::tidy(lda_model, matrix = c("beta")) %>%
-          tidyr::spread(topic, beta)
+          tidyr::spread(.data$topic, beta)
       }
     } else warning('`tidy` must be a boolean value')
   }
@@ -114,7 +117,7 @@ lda_distribution <- function(lda_model, param = "gamma", tidy = FALSE) {
         # Beta = term distribution of topics (term per document)
         # Gamma = document distribution of topics (i.e. hashtag pool per topic probability)
         res <- tidytext::tidy(lda_model, matrix = c("gamma")) %>%
-          tidyr::spread(topic, gamma)
+          tidyr::spread(.data$topic, gamma)
       }
     } else warning('`tidy` must be a boolean value')
   }

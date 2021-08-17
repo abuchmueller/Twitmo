@@ -7,7 +7,7 @@
 plot_tweets(data, region = ".", alpha = 0.01, ...)
 }
 \arguments{
-\item{data}{A data frame of tweets parsed by \link[TweeLocViz]{load_tweets} or returned by \link[TweetLocViz]{pool_tweets}.}
+\item{data}{A data frame of tweets parsed by \link[TweetLocViz]{load_tweets} or returned by \link[TweetLocViz]{pool_tweets}.}
 
 \item{region}{Character vector specifying region. Returns a world \link[maps]{map} by default.
 For higher resolutions specify a region.}

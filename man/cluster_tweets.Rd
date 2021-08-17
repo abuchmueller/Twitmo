@@ -7,7 +7,7 @@
 cluster_tweets(data, ...)
 }
 \arguments{
-\item{data}{A data frame of tweets parsed by \link[TweeLocViz]{load_tweets} or returned by \link[TweetLocViz]{pool_tweets}.}
+\item{data}{A data frame of tweets parsed by \link[TweetLocViz]{load_tweets} or returned by \link[TweetLocViz]{pool_tweets}.}
 
 \item{...}{Extra arguments passed to \link[leaflet]{markerClusterOptions}}
 }

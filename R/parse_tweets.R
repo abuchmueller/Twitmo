@@ -1,20 +1,27 @@
 #' Converts Twitter stream data (JSON file) into parsed data frame
-#' @description This function replaces \link[rtweet]{parse_stream()} which has been
+#' @description This function replaces \link[rtweet]{parse_stream} which has been
 #' deprecated in rtweet > 0.7 but is included here to ensure backwards compatibility data streamed with older versions of \code{rtweet}.
 #' Alternatively \code{jsonlite::streamin_in()} in conjunction with \code{rtweet::tweets_with_users()} and \code{rtweet::lat_lng()} can be used.
+#' @usage load_tweets(file_name)
 #' @param file_name Character string. Name of JSON file with data collected e.g. by
 #' \code{rtweet::stream_tweets()} or \code{get_tweets()}.
 #' @export
-#' @seealso \link[rtweet]{parse_stream()}.
+#' @seealso \link[rtweet]{parse_stream}.
 
-load_tweets <- function(file_name, ...) {
-  # from rtweet 0.7.0
+load_tweets <- function(file_name) {
+
+  # this code is mostly from rtweet 0.7.0
+  # since this package relies on the json files pulled with twitters api
+  # to be in a certain format this is here to ensure parsing works
+  # in case there are changes to the way rtweet parses json files
+  # in the future.
+
   if (!identical(getOption("encoding"), "UTF-8")) {
     op <- getOption("encoding")
     options(encoding = "UTF-8")
     on.exit(options(encoding = op), add = TRUE)
   }
-  s <- tryCatch(jsonlite::stream_in(file(file_name), ...), error = function(e)
+  s <- tryCatch(jsonlite::stream_in(file(file_name)), error = function(e)
     return(NULL))
   if (is.null(s)) {
     d <- readr::read_lines(file_name)
@@ -39,6 +46,7 @@ load_tweets <- function(file_name, ...) {
 
   # add single-point latitude and longitude variables to tweets data
   rtweet::lat_lng(r)
+
 }
 
 # from rtweet 0.6.7: Ensures only complete lines are read.

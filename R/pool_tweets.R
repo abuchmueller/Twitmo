@@ -1,4 +1,6 @@
 #' Prepare Tweets for topic modeling by pooling
+#' @importFrom rlang .data
+#' @importFrom stats na.omit
 #' @details Pools tweets by hashtags using cosine similarity to create
 #' longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 #' The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
@@ -40,9 +42,8 @@
 #'
 #' @export
 
-# TODO: Add STM Support - add meta data to dfm objects
-# TODO: ? Create a class for pooled tweets ?
-# TODO: customize minimun pool document length
+# TODO: ddd meta data to dfm objects
+# TODO: set minimum pool document length
 # TODO: REMOVE HASHTAGS / USERNAMES FROM TOPIC MODELS
 
 pool_tweets <- function(data,
@@ -133,18 +134,18 @@ Press [enter] to continue or [control+c] to abort"))
 
   #unfold/explode twitter data by hashtags
   b <- a %>%
-    tidyr::unnest(c(hashtags))
+    tidyr::unnest(.data$hashtags)
 
   ## group tweets by hashtags
   c <- b %>%
-    dplyr::group_by(hashtags) %>%
-    dplyr::summarise(text = paste0(text, collapse = " "))
+    dplyr::group_by(.data$hashtags) %>%
+    dplyr::summarise(.data, text = paste0(.data$text, collapse = " "))
 
   # collect unique hashtags
   df <- data.frame(
     doc_id = unique(tolower(na.omit(unlist(a$hashtags)))) %>%
       seq_along %>%
-      paste0("doc",.),
+      paste0("doc", .data),
     hashtags = unique(tolower(na.omit(unlist(a$hashtags))))
   )
 
@@ -157,9 +158,9 @@ Press [enter] to continue or [control+c] to abort"))
 
   d <- c %>%
     na.omit() %>%
-    dplyr::group_by(hashtags) %>%
-    dplyr::mutate(tweets_pooled = paste0(text, collapse = " ")) %>%
-    dplyr::distinct(hashtags, tweets_pooled)
+    dplyr::group_by(.data$hashtags) %>%
+    dplyr::mutate(.data, tweets_pooled = paste0(.data$text, collapse = " ")) %>%
+    dplyr::distinct(.data$hashtags, .data$tweets_pooled)
 
   # join document hashtag dataframe with pooled tweets dataframe
   document_hashtag_pools <- dplyr::inner_join(df, d, by = "hashtags")
@@ -189,8 +190,8 @@ Press [enter] to continue or [control+c] to abort"))
 
   pooled.dfm <-
     quanteda::dfm(tokens.pooled, tolower = TRUE) %>%
-    quanteda::dfm_trim() %>%
-    quanteda::dfm_tfidf(.)
+    quanteda::dfm_trim(.data) %>%
+    quanteda::dfm_tfidf(.data)
 
   # 2. TF-IDF matrices for unpooled tweets ----
 
@@ -213,8 +214,8 @@ Press [enter] to continue or [control+c] to abort"))
 
   unpooled.dfm <-
     quanteda::dfm(tokens.unpooled,  tolower = TRUE) %>%
-    quanteda::dfm_trim() %>%
-    quanteda::dfm_tfidf(.)
+    quanteda::dfm_trim(.data) %>%
+    quanteda::dfm_tfidf(.data)
 
   # calculate cosine similarities between pooled tweets and tweets without hashtags
   h <- suppressWarnings(quanteda.textstats::textstat_simil(pooled.dfm,
@@ -261,7 +262,7 @@ Press [enter] to continue or [control+c] to abort"))
   pooled.dfm <- quanteda::dfm(tokens.final,  tolower = TRUE)
 
   hashtag.freq <- a$hashtags[!is.na(a$hashtags)] %>% unlist %>% tolower() %>% plyr::count() %>%
-    dplyr::arrange(-freq) %>% dplyr::as_tibble() %>% dplyr::rename(hashtag = x, count = freq)
+    dplyr::arrange(-.data$freq) %>% dplyr::as_tibble() %>% dplyr::rename(hashtag = .data$x, count = .data$freq)
 
   ret_list <- list("meta" = a,
                    "hashtags" = hashtag.freq,

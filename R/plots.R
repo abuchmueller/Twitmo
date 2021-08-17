@@ -4,7 +4,7 @@
 #' Works with data frames of tweets returned by \link[TweetLocViz]{pool_tweets} as well as data frames
 #' read in by \link[TweetLocViz]{load_tweets} and then augmented by lat/lng coordinates with \link[rtweet]{lat_lng}.
 #' For larger view resize the plot window then call \code{plot_tweets} again.
-#' @param data A data frame of tweets parsed by \link[TweeLocViz]{load_tweets} or returned by \link[TweetLocViz]{pool_tweets}.
+#' @param data A data frame of tweets parsed by \link[TweetLocViz]{load_tweets} or returned by \link[TweetLocViz]{pool_tweets}.
 #' @param region Character vector specifying region. Returns a world \link[maps]{map} by default.
 #' For higher resolutions specify a region.
 #' @param alpha A double between 0 and 1 specifying the opacity of plotted points.
@@ -31,10 +31,10 @@
 plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
 
   # remove opacity if sample size is small
-  if (nrow(data) < 1000) alpha <- 1
+  if (nrow(data) < 100) alpha <- 1
 
   ## plot state boundaries
-  par(mar = c(0, 0, 3, 0))
+  graphics::par(mar = c(0, 0, 3, 0))
   maps::map("world", region,  ...)
 
   ## plot lat and lng points onto state map
@@ -80,7 +80,7 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
   if (nrow(data[which(sapply(data$hashtags, FUN=function(X) hashtag %in% X)), ]) < 100) alpha <- 1
 
   ## plot state boundaries
-  par(mar = c(0, 0, 3, 0))
+  graphics::par(mar = c(0, 0, 3, 0))
   maps::map("world", region,  ...)
 
  # case sensitivity logic
@@ -96,7 +96,7 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
     match_ind <- which(sapply(data$hashtags, FUN=function(X) hashtag %in% X))
 
     ## plot lat and lng points onto state map
-    with(dat[match_ind, ],
+    with(data[match_ind, ],
          points(lng, lat, pch = 20, cex = .75, col = rgb(1, 0, 0, 0, alpha = alpha)))
 
   } else {
@@ -105,7 +105,7 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
     match_ind <- which(sapply(data$hashtags, FUN=function(X) hashtag %in% X))
 
     ## plot lat and lng points onto state map
-    with(dat[match_ind, ],
+    with(data[match_ind, ],
          points(lng, lat, pch = 20, cex = .75, col = rgb(1, 0, 0, 0, alpha = alpha)))
 
   }
@@ -139,12 +139,10 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
 
 cluster_tweets <- function(data, ...) {
 
-  library(leaflet)
-
   # create leaflet map with marker clusters
-  m <- leaflet() %>%
-    addTiles() %>%  # Add default OpenStreetMap map tiles
-    addMarkers(lng=data$lng, lat=data$lat, clusterOptions = markerClusterOptions(...), popup = data$text)
+  m <- leaflet::leaflet() %>%
+    leaflet::addTiles() %>%  # Add default OpenStreetMap map tiles
+    leaflet::addMarkers(lng=data$lng, lat=data$lat, clusterOptions = leaflet::markerClusterOptions(...), popup = data$text)
 
   # Print the map
   m

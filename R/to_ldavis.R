@@ -2,7 +2,7 @@
 #' @description Converts \link[topicmodels:TopicModel-class]{LDA} topic model to LDAvis compatible json string and starts server.
 #' May requires \code{servr} Package to run properly.
 #' For conversion of \link[stm:stm]{STM} topic models use \link[stm]{toLDAvis}.
-#' @usage to_ldavis(fitted, corpus, doc_term).
+#' @usage to_ldavis(fitted, corpus, doc_term)
 #' @param fitted Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA})
 #' @param corpus Document corpus. Object of class \link[quanteda:corpus]{corpus})
 #' @param doc_term document term matrix (dtm).
@@ -11,16 +11,9 @@
 #' @export
 #' @seealso \link[stm]{toLDAvis}
 
-# TODO: DO NOT LOAD REQUIRED PACKAGES INTO NAMESPACE
 
 to_ldavis <- function(fitted, corpus, doc_term){
 
-  # Required packages
-  library(topicmodels)
-  library(dplyr)
-  library(stringi)
-  library(tm)
-  library(LDAvis)
 
   # Conversion of quanteda objects onto their tm counterparts
 
@@ -32,9 +25,9 @@ to_ldavis <- function(fitted, corpus, doc_term){
   doc_term <- quanteda::convert(doc_term, to="tm")
 
   # Find required quantities
-  phi <- posterior(fitted)$terms %>% as.matrix
+  phi <- modeltools::posterior(fitted)$terms %>% as.matrix
   phi[phi == 0] <- 1e-16 # Workaround since phi cannot be 0 for PCA
-  theta <- posterior(fitted)$topics %>% as.matrix
+  theta <- modeltools::posterior(fitted)$topics %>% as.matrix
   vocab <- colnames(phi)
   doc_length <- vector()
   for (i in 1:length(corpus)) {

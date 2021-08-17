@@ -22,7 +22,7 @@ using search endpoint.}
 \item{location}{Locations are pre-defined bounding boxes.
 Use \code{rtweet:::citycoords} to see a list.}
 
-\item{...}{Other arguments passed to \code{stream_tweets()} or \code{search_tweets()}.}
+\item{...}{Additional arguments passed to \link[rtweet]{stream_tweets} or \link[rtweet]{search_tweets}.}
 
 \item{query}{Search query (optional). Use if you want to filter incoming tweets
 by keyword. See \code{rtweet::stream_tweets() q} for more information.}
@@ -34,7 +34,7 @@ upon `search_tweets()` or `stream_tweets()`.}
 Either a json file in the specified directory, or (if `parse = TRUE`) additionally a data frame.
 }
 \description{
-A wrapper function for convenient sampling of geo-tagged tweets
-using either stream or search endpoints of Twitter API. Tweets can be searched
-up to 9 days into the past.
+A wrapper function that calls on rtweet::stream_tweets() and rtweet::search_tweets() (depending on the specified method).
+This function provides additional arguments for convenient sampling of geo-tagged tweets.
+Tweets can be searched up to 9 days into the past.
 }

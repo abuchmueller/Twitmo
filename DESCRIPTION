@@ -4,11 +4,10 @@ Title: Twitter Topic Modeling and Visualization for R
 Version: 0.1.0
 Author: Andreas Buchmueller
 Maintainer: Andreas Buchmueller <a.buchmueller@stud.uni-goettingen.de>
-Description: TweetLocVis enables users to sample geo-located twitter data
-    with a regular twitter account. Additionally it comes with abilities for automated
-    pre-processing of tweets such as document pooling and a variety of topic models 
-    such as LDA and NMF as well as visualizaion capabilities enabling the user a 
-    board-range of methods for the analysis and monitoring of public discourse.
+Description: TLVIS is tailored for Twitter topic modeling tasks and visualization in R. 
+    It can be used to collect, pre-process and analyze the contents of Tweets using 
+    LDA and STM models. It also comes with visualizing capabilites like hashtag maps 
+    and support for LDAvis.
 License: GPL-3
 URL: https://github.com/abuchmueller/TweetLocViz
 Encoding: UTF-8
@@ -16,26 +15,32 @@ LazyData: true
 Depends: 
     R (>= 3.5.0)
 Imports:
+    jsonlite,
+    stats,
+    plyr,
+    stopwords,
+    stringr,
     dplyr,
     readr,
     magrittr,
     rtweet,
     quanteda,
     quanteda.textstats,
-    ldatuning,
     topicmodels,
     stm,
-    tm,
-    ldatuning,
-    ggplot2,
-    wordcloud,
     tidyr,
-    tidytext,
-    LDAvis,
-    stringi,
-    servr
+    rlang
 RoxygenNote: 7.1.1
 Suggests: 
     rmarkdown,
-    knitr
+    knitr,
+    leaflet,
+    tidytext,
+    modeltools,
+    LDAvis,
+    tm,
+    ldatuning,
+    stringi,
+    servr,
+    maps
 VignetteBuilder: knitr

@@ -4,7 +4,7 @@
 \alias{find_stm}
 \title{Find best STM model}
 \usage{
-find_stm(pooled_dfm, search_space)
+find_stm(pooled_dfm, search_space = seq(4, 20, by = 2), ...)
 }
 \arguments{
 \item{pooled_dfm}{object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets}
@@ -17,7 +17,7 @@ find_stm(pooled_dfm, search_space)
 Plot with different metrics compared.
 }
 \description{
-Gridseaach for optimal K for your STM model. Wrapper function for \link[stm]{searchK}
+Gridsearch for optimal K for your STM model. Wrapper function for \link[stm]{searchK}
 }
 \seealso{
 \link[stm]{searchK}

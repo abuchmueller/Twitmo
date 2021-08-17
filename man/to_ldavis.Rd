@@ -4,7 +4,7 @@
 \alias{to_ldavis}
 \title{Create interactive visualization with LDAvis}
 \usage{
-to_ldavis(fitted, corpus, doc_term).
+to_ldavis(fitted, corpus, doc_term)
 }
 \arguments{
 \item{fitted}{Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA})}
