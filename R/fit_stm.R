@@ -25,9 +25,33 @@ fit_stm <- function(pooled_dfm, n_topics = 2L, ...) {
 
 }
 
+#' Fit CTM Topic Model
+#' @description Estimate a CTM topic model.
+#' @usage fit_ctm(pooled_dfm, n_topics = 2L, ...)
+#' @param pooled_dfm Object of class dfm (see \link[quanteda]{dfm}) containing (pooled) Tweets.
+#' @param n_topics Integer with number of topics
+#' @param ... Additional arguments passed to \link[stm:stm]{stm}.
+#' @return Object of class \link[stm:stm]{STM}
+#'
+#' @export
 
-#' Find best STM model
-#' @description Gridsearch for optimal K for your STM model. Wrapper function for \link[stm]{searchK}
+
+fit_ctm <- function(pooled_dfm, n_topics = 2L, ...) {
+
+  dfm2ctm <- quanteda::convert(pooled_dfm, to = "stm")
+
+  model.ctm <- stm::stm(dfm2ctm$documents,
+                        dfm2ctm$vocab,
+                        K = n_topics,
+                        ...)
+
+  return(model.ctm)
+
+}
+
+
+#' Find best STM/CTM model
+#' @description Gridsearch for optimal K for your STM/CTM model. Wrapper function for \link[stm]{searchK}
 #' @usage find_stm(pooled_dfm, search_space = seq(4, 20, by = 2), ...)
 #' @param pooled_dfm object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets
 #' @param search_space Vector with number of topics to compare different models.
