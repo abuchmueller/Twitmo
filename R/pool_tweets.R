@@ -139,7 +139,7 @@ Press [enter] to continue or [control+c] to abort"))
   ## group tweets by hashtags
   c <- b %>%
     dplyr::group_by(.data$hashtags) %>%
-    dplyr::summarise(.data, text = paste0(.data$text, collapse = " "))
+    dplyr::summarise(text = paste0(.data$text, collapse = " "))
 
   # collect unique hashtags
   df <- data.frame(
@@ -159,7 +159,7 @@ Press [enter] to continue or [control+c] to abort"))
   d <- c %>%
     na.omit() %>%
     dplyr::group_by(.data$hashtags) %>%
-    dplyr::mutate(.data, tweets_pooled = paste0(.data$text, collapse = " ")) %>%
+    dplyr::mutate(tweets_pooled = paste0(.data$text, collapse = " ")) %>%
     dplyr::distinct(.data$hashtags, .data$tweets_pooled)
 
   # join document hashtag dataframe with pooled tweets dataframe
@@ -190,8 +190,8 @@ Press [enter] to continue or [control+c] to abort"))
 
   pooled.dfm <-
     quanteda::dfm(tokens.pooled, tolower = TRUE) %>%
-    quanteda::dfm_trim(.data) %>%
-    quanteda::dfm_tfidf(.data)
+    quanteda::dfm_trim(.) %>%
+    quanteda::dfm_tfidf(.)
 
   # 2. TF-IDF matrices for unpooled tweets ----
 
@@ -214,8 +214,8 @@ Press [enter] to continue or [control+c] to abort"))
 
   unpooled.dfm <-
     quanteda::dfm(tokens.unpooled,  tolower = TRUE) %>%
-    quanteda::dfm_trim(.data) %>%
-    quanteda::dfm_tfidf(.data)
+    quanteda::dfm_trim(.) %>%
+    quanteda::dfm_tfidf(.)
 
   # calculate cosine similarities between pooled tweets and tweets without hashtags
   h <- suppressWarnings(quanteda.textstats::textstat_simil(pooled.dfm,
