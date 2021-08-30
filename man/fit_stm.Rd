@@ -4,17 +4,17 @@
 \alias{fit_stm}
 \title{Fit STM Topic Model}
 \usage{
-fit_stm(pooled_dfm, n_topics = 2L, ...)
+fit_stm(pooled_dfm, n_topics = 2L, meta = NULL, ...)
 }
 \arguments{
 \item{pooled_dfm}{Object of class dfm (see \link[quanteda]{dfm}) containing (pooled) Tweets.}
 
 \item{n_topics}{Integer with number of topics}
 
-\item{...}{Additional arguments passed to \link[stm:stm]{stm}.}
-
 \item{meta}{Optional data frame of external covariates i.e. meta data.
 By default uses favorite count, retweet count, emojis and hashtags from Tweets.}
+
+\item{...}{Additional arguments passed to \link[stm:stm]{stm}.}
 }
 \value{
 Object of class \link[stm:stm]{STM}

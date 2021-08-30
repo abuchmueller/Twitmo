@@ -1,6 +1,6 @@
 #' Fit STM Topic Model
 #' @description Estimate a STM topic model
-#' @usage fit_stm(pooled_dfm, n_topics = 2L, ...)
+#' @usage fit_stm(pooled_dfm, n_topics = 2L, meta = NULL, ...)
 #' @param pooled_dfm Object of class dfm (see \link[quanteda]{dfm}) containing (pooled) Tweets.
 #' @param n_topics Integer with number of topics
 #' @param meta Optional data frame of external covariates i.e. meta data.
@@ -11,7 +11,7 @@
 #' @export
 
 
-fit_stm <- function(pooled_dfm, n_topics = 2L, ...) {
+fit_stm <- function(pooled_dfm, n_topics = 2L, meta = NULL, ...) {
 
   dfm2stm <- quanteda::convert(pooled_dfm, to = "stm")
 
