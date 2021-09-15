@@ -13,11 +13,12 @@
 
 load_tweets <- function(file_name) {
 
-  # this code is mostly from rtweet 0.7.0
+  # this code is mostly from rtweet <0.7.0
   # since this package relies on the json files pulled with twitters api
   # to be in a certain format this is here to ensure parsing works
   # in case there are changes to the way rtweet parses json files
   # in the future.
+  # ref: https://github.com/ropensci/rtweet/blob/112f757be3d9a4ed2834547d74d22a95c9c48e7b/R/stream.R
 
   if (!identical(getOption("encoding"), "UTF-8")) {
     op <- getOption("encoding")

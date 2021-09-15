@@ -17,7 +17,7 @@ find_stm(pooled_dfm, search_space = seq(4, 20, by = 2), ...)
 Plot with different metrics compared.
 }
 \description{
-Gridsearch for optimal K for your STM/CTM model. Wrapper function for \link[stm]{searchK}
+Gridsearch for optimal K for your STM/CTM model.
 }
 \seealso{
 \link[stm]{searchK}
