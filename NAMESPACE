@@ -2,6 +2,7 @@
 
 export("%>%")
 export(cluster_tweets)
+export(filter_tweets)
 export(find_lda)
 export(find_stm)
 export(fit_ctm)
