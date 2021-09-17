@@ -19,7 +19,8 @@ fit_stm <- function(pooled_dfm, n_topics = 2L, meta = NULL, ...) {
                     dfm2stm$vocab,
                     K = n_topics,
                     data = dfm2stm$meta,
-                   ...)
+                    max.em.its = 75,
+                    ...)
 
   return(model.stm)
 
@@ -43,6 +44,7 @@ fit_ctm <- function(pooled_dfm, n_topics = 2L, ...) {
   model.ctm <- stm::stm(dfm2ctm$documents,
                         dfm2ctm$vocab,
                         K = n_topics,
+                        max.em.its = 75,
                         ...)
 
   return(model.ctm)
@@ -51,7 +53,7 @@ fit_ctm <- function(pooled_dfm, n_topics = 2L, ...) {
 
 
 #' Find best STM/CTM model
-#' @description Gridsearch for optimal K for your STM/CTM model. Wrapper function for \link[stm]{searchK}
+#' @description Gridsearch for optimal K for your STM/CTM model.
 #' @usage find_stm(pooled_dfm, search_space = seq(4, 20, by = 2), ...)
 #' @param pooled_dfm object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets
 #' @param search_space Vector with number of topics to compare different models.
@@ -71,5 +73,6 @@ find_stm <- function(pooled_dfm, search_space = seq(4, 20, by = 2), ...) {
   plot(idealK)
 
 }
+
 
 
