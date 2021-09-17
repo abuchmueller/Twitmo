@@ -26,7 +26,7 @@ This function can be used to create interactive maps on OpenStreetView.
 
 library(TweetLocViz)
 
-mytweets <- load_tweets("inst/extdata/tweets 20191027-141233.json")
+mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")
 pool <- pool_tweets(mytweets)
 cluster_tweets(mytweets)
 

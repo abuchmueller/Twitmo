@@ -11,7 +11,7 @@ filter_tweets(data, keywords, include = TRUE)
 \code{jsonlite::stream_in()} in conjunction with \code{rtweet::tweets_with_users(s)}.
 See \link[TweetLocViz]{load_tweets} for details.}
 
-\item{keywords}{Character vector of keywords for black- or whitelisting. Keywords are separated by comma.}
+\item{keywords}{Character string of keywords for black- or whitelisting provided via a comma separated character string.}
 
 \item{include}{Logical. Indicate where to perform exclusive or inclusive filtering.
 Inclusive filtering is akin to whitelisting keywords. Exclusive filtering is blacklisting certain keywords.}

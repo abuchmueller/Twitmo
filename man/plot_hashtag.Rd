@@ -47,10 +47,10 @@ For larger view resize the plot window then call \code{plot_tweets} again.
 library(TweetLocViz)
 
 # Plot hashtags on mainland USA
-mytweets <- load_tweets("inst/extdata/tweets 20191027-141233.json")
+mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")
 plot_hashtag(mytweets,
              region = "USA(?!:Alaska|:Hawaii)",
-             hashtag = "breakfast|chinup",
+             hashtag = "breakfast",
              ignore_case=TRUE,
              alpha=1)
 # Add title

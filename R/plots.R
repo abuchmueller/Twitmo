@@ -60,10 +60,10 @@ plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
 #' library(TweetLocViz)
 #'
 #' # Plot hashtags on mainland USA
-#' mytweets <- load_tweets("inst/extdata/tweets 20191027-141233.json")
+#' mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")
 #' plot_hashtag(mytweets,
 #'              region = "USA(?!:Alaska|:Hawaii)",
-#'              hashtag = "breakfast|chinup",
+#'              hashtag = "breakfast",
 #'              ignore_case=TRUE,
 #'              alpha=1)
 #' # Add title
@@ -84,7 +84,7 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
   maps::map("world", region,  ...)
 
  # case sensitivity logic
-  if (ignore_case==TRUE) {
+  if (ignore_case) {
 
     # convert query to lowercase
     hashtag <- tolower(hashtag)
@@ -125,7 +125,7 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
 #'
 #' library(TweetLocViz)
 #'
-#' mytweets <- load_tweets("inst/extdata/tweets 20191027-141233.json")
+#' mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")
 #' pool <- pool_tweets(mytweets)
 #' cluster_tweets(mytweets)
 #'

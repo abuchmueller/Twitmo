@@ -1,15 +1,27 @@
 #' Converts Twitter stream data (JSON file) into parsed data frame
-#' @description This function replaces \link[rtweet]{parse_stream} which has been
-#' deprecated in rtweet > 0.7 but is included here to ensure backwards compatibility
+#' @description Parse JSON files of collected Tweets
+#' @details This function replaces \link[rtweet]{parse_stream} which has been
+#' deprecated in rtweet 0.7 but is included here to ensure backwards compatibility
 #' for data streamed with older versions of \code{rtweet}.
-#' Alternatively \code{jsonlite::streamin_in()} in conjunction with \code{rtweet::tweets_with_users()} and \code{rtweet::lat_lng()} can be used.
+#' Alternatively \link[jsonlite]{stream_in} in conjunction with \link[rtweet]{tweets_with_users}
+#' and \link[rtweet]{lat_lng} can be used if data has been collected with rtweet 0.7 or newer.
 #' @usage load_tweets(file_name)
 #' @param file_name Character string. Name of JSON file with data collected by
 #' \link[rtweet]{stream_tweets} or \code{get_tweets()}.
 #'
-#'
-#' @seealso \link[rtweet]{parse_stream}.
+#' @seealso \link[rtweet]{parse_stream}, \link[jsonlite]{stream_in}, \link[rtweet]{tweets_with_users}
 #' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#'
+#' library(TweetLocViz)
+#'
+#' # load tweets from json file
+#' mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")
+#'
+#' }
 
 load_tweets <- function(file_name) {
 
