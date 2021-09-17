@@ -125,7 +125,7 @@ Press [enter] to continue or [control+c] to abort"))
 
   # remove URLs
   if (remove_url) {
-    a$text <- stringr::str_replace_all(a$text, "http://t.co/[a-z,A-Z,0-9]*{8}","")
+    a$text <- stringr::str_replace_all(a$text, "https://t.co/[a-z,A-Z,0-9]*","")
   }
 
   # remove hashtags
@@ -142,7 +142,7 @@ Press [enter] to continue or [control+c] to abort"))
   a <- a[a$is_quote == "FALSE" & a$is_retweet == FALSE, ]
 
   # pre-selection of metadata for stm modeling
-  a <- a[c("created_at", "text", "favorite_count", "retweet_count", "quote_count",
+  a <- a[c("created_at", "text", "hashtags", "favorite_count", "retweet_count", "quote_count",
            "reply_count", "quoted_friends_count", "favourites_count", "friends_count",
            "followers_count", "screen_name")]
 
