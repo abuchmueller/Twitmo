@@ -18,7 +18,7 @@ predict_lda(
 \arguments{
 \item{data}{Data frame of parsed tweets. Obtained either by using \code{load_tweets()} or
 \code{jsonlite::stream_in()} in conjunction with \code{rtweet::tweets_with_users(s)}.
-See \link[TweetLocViz]{load_tweets} for details.}
+See \link[Twitmo]{load_tweets} for details.}
 
 \item{lda_model}{Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA}).}
 

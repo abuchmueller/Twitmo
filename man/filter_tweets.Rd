@@ -9,7 +9,7 @@ filter_tweets(data, keywords, include = TRUE)
 \arguments{
 \item{data}{Data frame of parsed tweets. Obtained either by using \code{load_tweets()} or
 \code{jsonlite::stream_in()} in conjunction with \code{rtweet::tweets_with_users(s)}.
-See \link[TweetLocViz]{load_tweets} for details.}
+See \link[Twitmo]{load_tweets} for details.}
 
 \item{keywords}{Character string of keywords for black- or whitelisting provided via a comma separated character string.}
 
@@ -31,7 +31,7 @@ Keyword filtering is always case insensitive (lowercase).
 
 \dontrun{
 
-library(TweetLocViz)
+library(Twitmo)
 
 # Exclude Tweets that mention "football" and/or "mood"
 mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")

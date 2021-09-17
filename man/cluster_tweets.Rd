@@ -7,7 +7,7 @@
 cluster_tweets(data, ...)
 }
 \arguments{
-\item{data}{A data frame of tweets parsed by \link[TweetLocViz]{load_tweets} or returned by \link[TweetLocViz]{pool_tweets}.}
+\item{data}{A data frame of tweets parsed by \link[Twitmo]{load_tweets} or returned by \link[Twitmo]{pool_tweets}.}
 
 \item{...}{Extra arguments passed to \link[leaflet]{markerClusterOptions}}
 }
@@ -24,7 +24,7 @@ This function can be used to create interactive maps on OpenStreetView.
 
 \dontrun{
 
-library(TweetLocViz)
+library(Twitmo)
 
 mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")
 pool <- pool_tweets(mytweets)

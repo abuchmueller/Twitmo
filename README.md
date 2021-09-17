@@ -1,24 +1,24 @@
 
-# TweetLocViz <img src="man/figures/hexSticker.png" width="160px" align="right" />
+# Twitmo <img src="man/figures/hexSticker.png" width="160px" align="right" />
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `TweetLocViz` is to facilitate topic modeling in R with
-Twitter data. `TweetLocViz` provides a broad range of methods to sample,
+The goal of `Twitmo` is to facilitate topic modeling in R with
+Twitter data. `Twitmo` provides a broad range of methods to sample,
 pre-process and visualize Tweets to make modeling the public discourse
 easy and accessible. This `README` covers the most important features.
-For more details use `vignette("TweetLocViz")`.
+For more details use `vignette("Twitmo")`.
 
 ## Installation
 
-You can install `TweetLocViz` from CRAN with:
+You can install `Twitmo` from CRAN with:
 
 ``` r
-install.packages("TweetLocViz")
+install.packages("Twitmo")
 ```
 
-You can install `TweetLocViz` from github with:
+You can install `Twitmo` from github with:
 
 Before you install from Github make sure you have Rtools for
 [Windows](https://cran.r-project.org/bin/windows/Rtools/ "Rtools for Windows (CRAN)")
@@ -36,8 +36,8 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 # https://github.com/settings/tokens
 # PASTE THE STRING INTO THE AUTH_TOKEN ARGUMENT 
 
-## install dev version of TweetLocViz from github
-remotes::install_github("abuchmueller/TweetLocViz",
+## install dev version of Twitmo from github
+remotes::install_github("abuchmueller/Twitmo",
                         auth_token = "YOUR_TOKEN HERE")
 ```
 
@@ -45,7 +45,7 @@ remotes::install_github("abuchmueller/TweetLocViz",
 
 Make sure you have a regular Twitter Account before start to sample your
 Tweets. For more sophisticated sampling you’ll need a developer account.
-Use `vignette("sampling", package = "TweetLocViz")` to learn more about
+Use `vignette("sampling", package = "Twitmo")` to learn more about
 Twitter’s endpoints.
 
 ### Work in Progress: Use included examples for now as `get_tweets()` is not well documented.

@@ -7,7 +7,7 @@
 plot_tweets(data, region = ".", alpha = 0.01, ...)
 }
 \arguments{
-\item{data}{A data frame of tweets parsed by \link[TweetLocViz]{load_tweets} or returned by \link[TweetLocViz]{pool_tweets}.}
+\item{data}{A data frame of tweets parsed by \link[Twitmo]{load_tweets} or returned by \link[Twitmo]{pool_tweets}.}
 
 \item{region}{Character vector specifying region. Returns a world \link[maps]{map} by default.
 For higher resolutions specify a region.}
@@ -25,15 +25,15 @@ Plot tweets on a static map with base plot.
 }
 \details{
 This function can be used to generate high resolution spatial plots of tweets.
-Works with data frames of tweets returned by \link[TweetLocViz]{pool_tweets} as well as data frames
-read in by \link[TweetLocViz]{load_tweets} and then augmented by lat/lng coordinates with \link[rtweet]{lat_lng}.
+Works with data frames of tweets returned by \link[Twitmo]{pool_tweets} as well as data frames
+read in by \link[Twitmo]{load_tweets} and then augmented by lat/lng coordinates with \link[rtweet]{lat_lng}.
 For larger view resize the plot window then call \code{plot_tweets} again.
 }
 \examples{
 
 \dontrun{
 
-library(TweetLocViz)
+library(Twitmo)
 
 # Plot tweets on mainland USA
 mytweets <- load_tweets("inst/extdata/tweets 20191027-141233.json")

@@ -1,4 +1,4 @@
-Package: TweetLocViz
+Package: Twitmo
 Type: Package
 Title: Twitter Topic Modeling and Visualization for R
 Version: 0.1.0
@@ -9,7 +9,7 @@ Description: Twitmo is tailored for Twitter topic modeling and visualization tas
     LDA and STM models. It also comes with visualizing capabilites like Tweet and hashtag maps 
     and built-in support for LDAvis.
 License: GPL-3
-URL: https://github.com/abuchmueller/TweetLocViz
+URL: https://github.com/abuchmueller/Twitmo
 Encoding: UTF-8
 LazyData: true
 Depends: 

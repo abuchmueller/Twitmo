@@ -24,7 +24,7 @@ and \link[rtweet]{lat_lng} can be used if data has been collected with rtweet 0.
 
 \dontrun{
 
-library(TweetLocViz)
+library(Twitmo)
 
 # load tweets from json file
 mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")

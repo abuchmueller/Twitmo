@@ -16,7 +16,7 @@
 #'
 #' \dontrun{
 #'
-#' library(TweetLocViz)
+#' library(Twitmo)
 #'
 #' # load tweets from json file
 #' mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")

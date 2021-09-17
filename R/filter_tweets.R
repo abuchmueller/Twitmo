@@ -15,7 +15,7 @@
 #'
 #' \dontrun{
 #'
-#' library(TweetLocViz)
+#' library(Twitmo)
 #'
 #' # Exclude Tweets that mention "football" and/or "mood"
 #' mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")

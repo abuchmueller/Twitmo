@@ -7,7 +7,7 @@
 #' @description This function pools a data frame of parsed tweets into document pools.
 #' @param data Data frame of parsed tweets. Obtained either by using \code{load_tweets()} or
 #' \code{jsonlite::stream_in()} in conjunction with \code{rtweet::tweets_with_users(s)}.
-#' See \link[TweetLocViz]{load_tweets} for details.
+#' See \link[Twitmo]{load_tweets} for details.
 #' @param remove_numbers Logical. If TRUE remove tokens that consist only of numbers,
 #' but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.
 #' @param remove_punct Logical. If TRUE remove all characters in the Unicode
