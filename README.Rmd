@@ -16,6 +16,7 @@ library(Twitmo)
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/abuchmueller/Twitmo/workflows/R-CMD-check/badge.svg)](https://github.com/abuchmueller/Twitmo/actions)
 <!-- badges: end -->
 
 The goal of `Twitmo` is to facilitate topic modeling in R with Twitter data. `Twitmo` provides a broad range of methods to sample, pre-process and visualize Tweets to make modeling the public discourse easy and accessible. This `README` covers the most important features. For more details use `vignette("Twitmo")`.
