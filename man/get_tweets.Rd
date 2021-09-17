@@ -5,15 +5,21 @@
 \title{Sample tweets by streaming or searching}
 \usage{
 get_tweets(
+  method = "stream",
   location = c(-180, -90, 180, 90),
   timeout = Inf,
-  keywords = NULL,
+  keywords = "",
+  n_max,
   file_name = NULL,
-  method = "stream",
   ...
 )
 }
 \arguments{
+\item{method}{Character string. Supported methods are streaming and searching.
+The default method is streaming \code{method = 'stream'}. This is the recommended method as it allows
+to collect larger volumes of data over time.
+Use \code{method = 'search'} if you want to collect Tweets from the past 9 days.}
+
 \item{location}{Character string of location to sample from. Can be a three letter country code i.e. "USA" or a city name like "berlin".
 Use \code{TweetLocViz:::bbox_country} for all supported country locations or \code{rtweet:::citycoords} for a list of supported cities.
 Alternatively, use a vector of doubles with four latitude/longitude bounding box points provided via a vector of length 4, in the following format c(sw.long, sw.lat, ne.long, ne.lat) e.g., c(-125, 26, -65, 49).}
@@ -21,17 +27,14 @@ Alternatively, use a vector of doubles with four latitude/longitude bounding box
 \item{timeout}{Integer. Limit streaming time in seconds. By default will stream indefinitely until user interrupts by pressing [ctrl + c].}
 
 \item{keywords}{Character string of keywords provided via a comma separated character string.
-Use this if you want to stream by keywords and NOT location as this overwrites the location parameter.
-If you want to collect Tweets for a certain location AND filter by keywords use the location parameter and after sampling use the \link[TweetLocViz]{filter_tweets} function.
-If you are searching instead if streaming this keywords WILL work together with a location.}
+Use this if you want to stream by keywords and NOT location as this overwrites the location parameter. Leave this empty otherwise.
+If you want to stream Tweets for a certain location AND filter by keywords use the location parameter and after sampling use the \link[TweetLocViz]{filter_tweets} function.
+If you are using the search method instead of streaming keywords WILL work together with a location but will yield only a very limited number of Tweets.}
+
+\item{n_max}{Integer value. Only applies to the \code{search} method. Limit how many Tweets are collected.}
 
 \item{file_name}{Character string of desired file path and file name where Tweets will be saved.
 If not specified, will write to stream_tweets.json in the current working directory.}
-
-\item{method}{Character string. Supported methods are streaming and searching.
-The default method is streaming \code{method = 'stream'}. This is the recommended method as it allows
-to collect larger volumes of data over time.
-Use \code{method = 'search'} if you want to collect Tweets from the past 9 days.}
 
 \item{...}{Additional arguments passed to \link[rtweet]{stream_tweets} or \link[rtweet]{search_tweets}.}
 }
@@ -48,8 +51,8 @@ This function provides supports additional arguments like location for convenien
 sampling of geo-tagged Tweets. Tweets can be searched up to 9 days into the past.
 }
 \references{
-https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets
-https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets}
+\url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample}
 }
 \seealso{
 \link[rtweet]{stream_tweets}, \link[rtweet]{search_tweets}
