@@ -6,13 +6,17 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "figures/"
+  fig.path = "README-"
 )
 options(width = 100)
 library(TweetLocViz)
 ```
 
-# TweetLocViz
+# TweetLocViz <img src="man/figures/hexSticker.png" width="160px" align="right" />
+
+<!-- badges: start -->
+
+<!-- badges: end -->
 
 The goal of `TweetLocViz` is to facilitate topic modeling in R with Twitter data. `TweetLocViz` provides a broad range of methods to sample, pre-process and visualize Tweets to make modeling the public discourse easy and accessible. This `README` covers the most important features. For more details use `vignette("TweetLocViz")`.
 
@@ -56,7 +60,7 @@ Make sure you have a regular Twitter Account before start to sample your Tweets.
 ## Parse your tweets
 
 ```{r}
-dat <- load_tweets("inst/extdata/tweets 20191027-141233.json")
+dat <- load_tweets("inst/extdata/tweets_20191027-141233.json")
 ```
 
 ## Pool tweets into document pools
