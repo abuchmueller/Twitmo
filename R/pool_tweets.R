@@ -42,8 +42,7 @@
 #'
 #' @export
 
-# TODO: ddd meta data to dfm objects
-# TODO: set minimum pool document length
+# TODO: add meta data to dfm objects
 # TODO: REMOVE HASHTAGS / USERNAMES FROM TOPIC MODELS
 
 pool_tweets <- function(data,
@@ -124,13 +123,28 @@ Press [enter] to continue or [control+c] to abort"))
     a$text <- stringr::str_remove_all(a$text, emojis_regex)
   }
 
+  # remove URLs
+  if (remove_url) {
+    a$text <- stringr::str_replace_all(a$text, "http://t.co/[a-z,A-Z,0-9]*{8}","")
+  }
+
+  # remove hashtags
+  if (remove_symbols) {
+    a$text <- stringr::str_replace_all(a$text,"#[a-z,A-Z,_]*","")
+  }
+
+  # remove references to usernames
+  if (remove_symbols) {
+    a$text <- stringr::str_replace_all(a$text,"@[a-z,A-Z,_]*","")
+  }
+
   # removing duplicates, removing quoted tweets and retweets
   a <- a[a$is_quote == "FALSE" & a$is_retweet == FALSE, ]
 
-  # drop unnecessary cols
-  a <- a[c("created_at", "text", "hashtags", "bbox_coords", "lat", "lng", "location", "country_code", "emojis", "lang", "is_quote",
-           "favorite_count", "retweet_count", "quote_count", "reply_count", "quoted_friends_count",
-           "favourites_count", "friends_count", "followers_count")]
+  # pre-selection of metadata for stm modeling
+  a <- a[c("created_at", "text", "favorite_count", "retweet_count", "quote_count",
+           "reply_count", "quoted_friends_count", "favourites_count", "friends_count",
+           "followers_count", "screen_name")]
 
   #unfold/explode twitter data by hashtags
   b <- a %>%
@@ -165,8 +179,8 @@ Press [enter] to continue or [control+c] to abort"))
   # join document hashtag dataframe with pooled tweets dataframe
   document_hashtag_pools <- dplyr::inner_join(df, d, by = "hashtags")
 
-  ## TF-IDF Vectorization
-  # 1. TF-IDF matrices for document pools ----
+  ## TF-IDF Vectorization ----
+  # Calculate TF-IDF matrices for document pools ----
 
   # using quanteda
   doc.corpus <- quanteda::corpus(document_hashtag_pools,
@@ -193,7 +207,7 @@ Press [enter] to continue or [control+c] to abort"))
     quanteda::dfm_trim(.) %>%
     quanteda::dfm_tfidf(.)
 
-  # 2. TF-IDF matrices for unpooled tweets ----
+  # Calculate TF-IDF matrices for unpooled tweets ----
 
   # tweets without hashtags
   b.nohashtag <- b[which(is.na(b$hashtags)), ]
