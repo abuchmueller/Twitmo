@@ -3,13 +3,13 @@
 #' @usage fit_stm(pooled_dfm, n_topics = 2L, meta = NULL, ...)
 #' @param pooled_dfm Object of class dfm (see \link[quanteda]{dfm}) containing (pooled) Tweets.
 #' @param n_topics Integer with number of topics
-#' @param meta Optional data frame of external covariates i.e. meta data.
+#' @param meta Formulaa object specifying external covariates (meta data) to use.e.g. \code{~favourites_count + retweet_count}
 #' By default uses favorite count, retweet count, emojis and hashtags from Tweets.
 #' @param ... Additional arguments passed to \link[stm:stm]{stm}.
 #' @return Object of class \link[stm:stm]{STM}
 #'
 #' @export
-
+#' @seealso \link[stm]{stm}
 
 fit_stm <- function(pooled_dfm, n_topics = 2L, meta = NULL, ...) {
 
@@ -63,7 +63,7 @@ fit_ctm <- function(pooled_dfm, n_topics = 2L, ...) {
 #' @return Plot with different metrics compared.
 #'
 #' @export
-
+#' @seealso \link[stm]{stm}
 
 find_stm <- function(pooled_dfm, search_space = seq(4, 20, by = 2), ...) {
 
@@ -77,3 +77,30 @@ find_stm <- function(pooled_dfm, search_space = seq(4, 20, by = 2), ...) {
 
 
 
+prepare_stm <- function(data,
+                        lowercase = TRUE,
+                        removestopwords = TRUE,
+                        remove_punct = TRUE,
+                        stem = TRUE,
+                        language = "en") {
+
+  # Helper function for preparing data to pass to stm::stm
+
+  processed <- stm::textProcessor(data$text,
+                                  metadata = data,
+                                  lowercase = lowercase,
+                                  removestopwords = removestopwords,
+                                  removepunctuation = remove_punct,
+                                  stem = stem,
+                                  language = language,
+                                  customstopwords = c("amp", "na", "rt", "via"))
+
+
+  out <- stm::prepDocuments(documents = processed$documents,
+                            vocab = processed$vocab,
+                            meta = processed$meta)
+
+
+  return(out)
+
+}
