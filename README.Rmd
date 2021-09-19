@@ -12,11 +12,12 @@ options(width = 100)
 library(Twitmo)
 ```
 
-# Twitmo <img src="man/figures/hexSticker.png" width="160px" align="right" />
+# Twitmo <img src="man/figures/hexSticker.png" width="160px" align="right"/>
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/abuchmueller/Twitmo/workflows/R-CMD-check/badge.svg)](https://github.com/abuchmueller/Twitmo/actions)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+[![R-CMD-check](https://github.com/abuchmueller/Twitmo/workflows/R-CMD-check/badge.svg)](https://github.com/abuchmueller/Twitmo/actions) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 <!-- badges: end -->
 
 The goal of `Twitmo` is to facilitate topic modeling in R with Twitter data. `Twitmo` provides a broad range of methods to sample, pre-process and visualize Tweets to make modeling the public discourse easy and accessible. This `README` covers the most important features. For more details use `vignette("Twitmo")`.
@@ -43,7 +44,7 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 remotes::install_github("abuchmueller/Twitmo")
 ```
 
-## Example: Collect your tweets
+## Example: Collect geo-tagged Tweets
 
 Make sure you have a regular Twitter Account before start to sample your Tweets.
 
@@ -56,7 +57,7 @@ get_tweets(method = 'stream',
 
 # Use your own bounding box to stream US mainland Tweets
 get_tweets(method = 'stream', 
-           location =   c(-125, 26, -65, 49), 
+           location = c(-125, 26, -65, 49), 
            timeout = 30,
            file_name = "tweets_from_us_mainland.json")
 ```
@@ -72,22 +73,19 @@ dat <- load_tweets("inst/extdata/tweets_20191027-141233.json")
 ```{r}
 pool <- pool_tweets(dat)
 pool.corpus <- pool$corpus
-```
-
-```{r}
 pool.dfm <- pool$document_term_matrix
 ```
 
 ## Find optimal number of topics
 
-```{r ldatuner}
+```{r ldatuner, warning=FALSE}
 find_lda(pool.dfm)
 ```
 
 ## Fit LDA model
 
 ```{r}
-model <- fit_lda(pool.dfm, n_topics = 3)
+model <- fit_lda(pool.dfm, n_topics = 7)
 ```
 
 ## View most relevant terms for each topic
@@ -117,3 +115,5 @@ Make sure you have `servr` package installed.
 ```{r, eval=FALSE}
 to_ldavis(model, pool.corpus, pool.dfm)
 ```
+
+![](man/figures/to_ldavis.png)
