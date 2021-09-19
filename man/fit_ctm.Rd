@@ -19,3 +19,6 @@ Object of class \link[stm:stm]{STM}
 \description{
 Estimate a CTM topic model.
 }
+\seealso{
+\link[stm]{stm}
+}

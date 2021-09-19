@@ -35,6 +35,7 @@ fit_stm <- function(pooled_dfm, n_topics = 2L, meta = NULL, ...) {
 #' @return Object of class \link[stm:stm]{STM}
 #'
 #' @export
+#' @seealso \link[stm]{stm}
 
 
 fit_ctm <- function(pooled_dfm, n_topics = 2L, ...) {
