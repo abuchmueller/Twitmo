@@ -44,11 +44,14 @@ remotes::install_github("abuchmueller/Twitmo")
 
 ## Example: Collect your tweets
 
-Make sure you have a regular Twitter Account before start to sample your Tweets. For more sophisticated sampling you'll need a developer account. Use `vignette("sampling", package = "Twitmo")` to learn more about Twitter's endpoints.
+Make sure you have a regular Twitter Account before start to sample your Tweets.
 
 ```{r eval=FALSE}
 # Live stream Tweets from the UK for 30 seconds and save to "uk_tweets.json" in current working directory
-get_tweets(method = 'stream', location = "GBR", timeout = 30, file_name = "uk_tweets.json")
+get_tweets(method = 'stream', 
+           location = "GBR", 
+           timeout = 30, 
+           file_name = "uk_tweets.json")
 
 # Use your own bounding box to stream US mainland Tweets
 get_tweets(method = 'stream', 
@@ -108,7 +111,7 @@ lda_distribution(model)
 
 ## Visualize with `LDAvis`
 
-Hint: Make sure you have `servr` package installed.
+Make sure you have `servr` package installed.
 
 ```{r, eval=FALSE}
 to_ldavis(model, pool.corpus, pool.dfm)
