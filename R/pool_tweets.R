@@ -43,7 +43,6 @@
 #' @export
 
 # TODO: add meta data to dfm objects
-# TODO: REMOVE HASHTAGS / USERNAMES FROM TOPIC MODELS
 
 pool_tweets <- function(data,
                         remove_numbers = TRUE,

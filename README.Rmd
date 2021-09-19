@@ -15,7 +15,6 @@ library(Twitmo)
 # Twitmo <img src="man/figures/hexSticker.png" width="160px" align="right" />
 
 <!-- badges: start -->
-
 [![R-CMD-check](https://github.com/abuchmueller/Twitmo/workflows/R-CMD-check/badge.svg)](https://github.com/abuchmueller/Twitmo/actions)
 <!-- badges: end -->
 
@@ -39,26 +38,26 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
   install.packages("remotes")
 }
 
-# YOU CAN CREATE YOUR GITHUB ACCESS TOKEN HERE
-# https://github.com/settings/tokens
-# PASTE THE STRING INTO THE AUTH_TOKEN ARGUMENT 
-
 ## install dev version of Twitmo from github
-remotes::install_github("abuchmueller/Twitmo",
-                        auth_token = "YOUR_TOKEN HERE")
+remotes::install_github("abuchmueller/Twitmo")
 ```
 
 ## Example: Collect your tweets
 
 Make sure you have a regular Twitter Account before start to sample your Tweets. For more sophisticated sampling you'll need a developer account. Use `vignette("sampling", package = "Twitmo")` to learn more about Twitter's endpoints.
 
-### Work in Progress: Use included examples for now as `get_tweets()` is not well documented.
+```{r eval=FALSE}
+# Live stream Tweets from the UK for 30 seconds and save to "uk_tweets.json" in current working directory
+get_tweets(method = 'stream', location = "GBR", timeout = 30, file_name = "uk_tweets.json")
 
-```{r}
-# get_tweets()
+# Use your own bounding box to stream US mainland Tweets
+get_tweets(method = 'stream', 
+           location =   c(-125, 26, -65, 49), 
+           timeout = 30,
+           file_name = "tweets_from_us_mainland.json")
 ```
 
-## Parse your tweets
+## Parse your tweets from a json file
 
 ```{r}
 dat <- load_tweets("inst/extdata/tweets_20191027-141233.json")
