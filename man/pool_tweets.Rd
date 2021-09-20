@@ -14,14 +14,12 @@ pool_tweets(
   remove_emojis = TRUE,
   cosine_threshold = 0.8,
   stopwords = "en",
-  n_grams = 1L,
-  min_pool_size = 1L
+  n_grams = 1L
 )
 }
 \arguments{
-\item{data}{Data frame of parsed tweets. Obtained either by using \code{load_tweets()} or
-\code{jsonlite::stream_in()} in conjunction with \code{rtweet::tweets_with_users(s)}.
-See \link[Twitmo]{load_tweets} for details.}
+\item{data}{Data frame of parsed tweets. Obtained either by using \code{\link{load_tweets}}  or
+\code{\link[jsonlite]{stream_in}} in conjunction with \code{\link[rtweet]{tweets_with_users}}.}
 
 \item{remove_numbers}{Logical. If TRUE remove tokens that consist only of numbers,
 but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
@@ -52,11 +50,6 @@ Defaults to \link[stopwords:stopwords]{stopwords("english")}.}
 
 \item{n_grams}{Integer vector specifying the number of elements to be concatenated in each n-gram.
 Each element of this vector will define a n in the n-gram(s) that are produced. See \link[quanteda]{tokens_ngrams}}
-
-\item{min_pool_size}{(NOT IMPLEMENTED) Integer value specifying the minimum size of document pools.
-Document pools with less tweets than specified will be excluded from the corpus.
-Defaults to 1 where every hashtag is a document pool. Large pools lead to more coherent topics
-but will need larger sample sizes (i.e. more tweets) to work.}
 }
 \value{
 List with \link[quanteda]{corpus} object and \link[quanteda]{dfm} object of pooled tweets.

@@ -7,9 +7,8 @@
 filter_tweets(data, keywords, include = TRUE)
 }
 \arguments{
-\item{data}{Data frame of parsed tweets. Obtained either by using \code{load_tweets()} or
-\code{jsonlite::stream_in()} in conjunction with \code{rtweet::tweets_with_users(s)}.
-See \link[Twitmo]{load_tweets} for details.}
+\item{data}{Data frame of parsed tweets. Obtained either by using \code{\link{load_tweets}}  or
+\code{\link[jsonlite]{stream_in}} in conjunction with \code{\link[rtweet]{tweets_with_users}}.}
 
 \item{keywords}{Character string of keywords for black- or whitelisting provided via a comma separated character string.}
 

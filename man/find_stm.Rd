@@ -2,7 +2,7 @@
 % Please edit documentation in R/fit_stm.R
 \name{find_stm}
 \alias{find_stm}
-\title{Find best STM/CTM model}
+\title{Find best STM/CTM}
 \usage{
 find_stm(pooled_dfm, search_space = seq(4, 20, by = 2), ...)
 }
@@ -17,8 +17,10 @@ find_stm(pooled_dfm, search_space = seq(4, 20, by = 2), ...)
 Plot with different metrics compared.
 }
 \description{
-Gridsearch for optimal K for your STM/CTM model.
+Gridsearch for optimal K for your STM/CTM
 }
 \seealso{
 \link[stm]{searchK}
+
+\link[stm]{stm}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/fit_stm.R
 \name{fit_ctm}
 \alias{fit_ctm}
-\title{Fit CTM Topic Model}
+\title{Fit CTM (Correlated topic model)}
 \usage{
 fit_ctm(pooled_dfm, n_topics = 2L, ...)
 }
@@ -11,10 +11,10 @@ fit_ctm(pooled_dfm, n_topics = 2L, ...)
 
 \item{n_topics}{Integer with number of topics}
 
-\item{...}{Additional arguments passed to \link[stm:stm]{stm}.}
+\item{...}{Additional arguments passed to \link[stm]{stm}.}
 }
 \value{
-Object of class \link[stm:stm]{STM}
+Object of class \link[stm]{stm}
 }
 \description{
 Estimate a CTM topic model.

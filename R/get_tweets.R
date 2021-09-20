@@ -9,8 +9,7 @@
 #' to collect larger volumes of data over time.
 #' Use \code{method = 'search'} if you want to collect Tweets from the past 9 days.
 #' @param keywords Character string of keywords provided via a comma separated character string.
-#' Use this if you want to stream by keywords and NOT location as this overwrites the location parameter. Leave this empty otherwise.
-#' If you want to stream Tweets for a certain location AND filter by keywords use the location parameter and after sampling use the \link[Twitmo]{filter_tweets} function.
+#' Only for searching Tweets.If you want to stream Tweets for a certain location AND filter by keywords use the location parameter and after sampling use the \link[Twitmo]{filter_tweets} function.
 #' If you are using the search method instead of streaming keywords WILL work together with a location but will yield only a very limited number of Tweets.
 #' @param location Character string of location to sample from. Can be a three letter country code i.e. "USA" or a city name like "berlin".
 #' Use \code{Twitmo:::bbox_country} for all supported country locations or \code{rtweet:::citycoords} for a list of supported cities.

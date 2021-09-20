@@ -27,8 +27,7 @@ Alternatively, use a vector of doubles with four latitude/longitude bounding box
 \item{timeout}{Integer. Limit streaming time in seconds. By default will stream indefinitely until user interrupts by pressing [ctrl + c].}
 
 \item{keywords}{Character string of keywords provided via a comma separated character string.
-Use this if you want to stream by keywords and NOT location as this overwrites the location parameter. Leave this empty otherwise.
-If you want to stream Tweets for a certain location AND filter by keywords use the location parameter and after sampling use the \link[Twitmo]{filter_tweets} function.
+Only for searching Tweets.If you want to stream Tweets for a certain location AND filter by keywords use the location parameter and after sampling use the \link[Twitmo]{filter_tweets} function.
 If you are using the search method instead of streaming keywords WILL work together with a location but will yield only a very limited number of Tweets.}
 
 \item{n_max}{Integer value. Only applies to the \code{search} method. Limit how many Tweets are collected.}

@@ -5,9 +5,8 @@
 #' longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 #' The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
 #' @description This function pools a data frame of parsed tweets into document pools.
-#' @param data Data frame of parsed tweets. Obtained either by using \code{load_tweets()} or
-#' \code{jsonlite::stream_in()} in conjunction with \code{rtweet::tweets_with_users(s)}.
-#' See \link[Twitmo]{load_tweets} for details.
+#' @param data Data frame of parsed tweets. Obtained either by using \code{\link{load_tweets}}  or
+#' \code{\link[jsonlite]{stream_in}} in conjunction with \code{\link[rtweet]{tweets_with_users}}.
 #' @param remove_numbers Logical. If TRUE remove tokens that consist only of numbers,
 #' but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.
 #' @param remove_punct Logical. If TRUE remove all characters in the Unicode
@@ -29,10 +28,6 @@
 #' based upon this metric. Low thresholds will reduce topic coherence by including
 #' a large number of tweets without a hashtag into the document pools. Higher thresholds will lead
 #' to more coherent topics but will reduce document sizes.
-#' @param min_pool_size (NOT IMPLEMENTED) Integer value specifying the minimum size of document pools.
-#' Document pools with less tweets than specified will be excluded from the corpus.
-#' Defaults to 1 where every hashtag is a document pool. Large pools lead to more coherent topics
-#' but will need larger sample sizes (i.e. more tweets) to work.
 #'
 #' @return List with \link[quanteda]{corpus} object and \link[quanteda]{dfm} object of pooled tweets.
 #' @references Mehrotra, Rishabh & Sanner, Scott & Buntine, Wray & Xie, Lexing. (2013).
@@ -53,8 +48,7 @@ pool_tweets <- function(data,
                         remove_emojis = TRUE,
                         cosine_threshold = 0.8,
                         stopwords = "en",
-                        n_grams = 1L,
-                        min_pool_size = 1L) {
+                        n_grams = 1L) {
 
   quanteda::quanteda_options(pattern_hashtag = NULL, pattern_username = NULL)
 
@@ -68,6 +62,7 @@ pool_tweets <- function(data,
             is.logical(remove_symbols),
             is.logical(remove_url),
             is.logical(remove_separators),
+            is.logical(remove_emojis),
             is.double(cosine_threshold),
             is.integer(n_grams),
             cosine_threshold >= 0.01 && cosine_threshold <= 1)
@@ -130,14 +125,12 @@ Press [enter] to continue or [control+c] to abort"))
   # remove hashtags
   if (remove_symbols) {
     a$text <- stringr::str_replace_all(a$text,"#[a-z,A-Z,_]*","")
-  }
 
-  # remove references to usernames
-  if (remove_symbols) {
+    # remove references to usernames
     a$text <- stringr::str_replace_all(a$text,"@[a-z,A-Z,_]*","")
   }
 
-  # removing duplicates, removing quoted tweets and retweets
+  # remove duplicates quoted tweets and retweets
   a <- a[a$is_quote == "FALSE" & a$is_retweet == FALSE, ]
 
   # pre-selection of metadata for stm modeling
