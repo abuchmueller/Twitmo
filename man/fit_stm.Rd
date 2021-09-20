@@ -2,23 +2,58 @@
 % Please edit documentation in R/fit_stm.R
 \name{fit_stm}
 \alias{fit_stm}
-\title{Fit STM Topic Model}
+\title{Fit STM (Structural topic model)}
 \usage{
-fit_stm(pooled_dfm, n_topics = 2L, meta = NULL, ...)
+fit_stm(
+  data,
+  n_topics = 2L,
+  xcov,
+  remove_punct = TRUE,
+  stem = TRUE,
+  remove_url = TRUE,
+  remove_emojis = TRUE,
+  stopwords = "en",
+  ...
+)
 }
 \arguments{
-\item{pooled_dfm}{Object of class dfm (see \link[quanteda]{dfm}) containing (pooled) Tweets.}
+\item{data}{Data frame of parsed tweets. Obtained either by using \code{\link{load_tweets}}  or
+\code{\link[jsonlite]{stream_in}} in conjunction with \code{\link[rtweet]{tweets_with_users}}.}
 
-\item{n_topics}{Integer with number of topics}
+\item{n_topics}{Integer with number of topics.}
 
-\item{meta}{Optional data frame of external covariates i.e. meta data.
-By default uses favorite count, retweet count, emojis and hashtags from Tweets.}
+\item{xcov}{Either a \[stats]{formula} with an empty left-hand side specifying external covariates
+(meta data) to use.e.g. \code{~favourites_count + retweet_count}
+or a character vector (\code{c("favourites_count", "retweet_count")})
+or comma seperated character string (\code{"favourites_count,retweet_count"})
+with column names implying which metadata to use as external covariates.}
 
-\item{...}{Additional arguments passed to \link[stm:stm]{stm}.}
+\item{remove_punct}{Logical. Indicates wheter punctuation (includes Twitter hashtags and usernames)
+should be removed. Defaults to TRUE.}
+
+\item{stem}{Logical. If \code{TRUE} turn on word stemming for terms.}
+
+\item{remove_url}{Logical. If TRUE find and eliminate URLs beginning with http(s).
+See \link[quanteda]{tokens}.}
+
+\item{remove_emojis}{Logical. If TRUE all emojis will be removed from tweets but keeps other symbols.}
+
+\item{stopwords}{a character vector, list of character vectors, \link[quanteda]{dictionary}
+or collocations object. See \link[quanteda]{pattern} for details.
+Defaults to \link[stopwords:stopwords]{stopwords("english")}.}
+
+\item{...}{Additional arguments passed to \link[stm]{stm}.}
 }
 \value{
-Object of class \link[stm:stm]{STM}
+Object of class \link[stm]{stm}.
 }
 \description{
-Estimate a STM topic model
+Estimate a structural topic model
+}
+\details{
+Use this to function estimate a STM from a data frame of parsed Tweets.
+Works with unpooled Tweets only. Pre-processing and fitting is done in one run.
+}
+\seealso{
+\link[stm]{stm}
 }
