@@ -10,6 +10,7 @@ knitr::opts_chunk$set(
 )
 options(width = 100)
 library(Twitmo)
+library(magrittr)
 ```
 
 # Twitmo <img src="man/figures/hexSticker.png" width="160px" align="right"/>
@@ -20,7 +21,7 @@ library(Twitmo)
 
 <!-- badges: end -->
 
-The goal of `Twitmo` is to facilitate topic modeling in R with Twitter data. `Twitmo` provides a broad range of methods to sample, pre-process and visualize Tweets to make modeling the public discourse easy and accessible. This `README` covers the most important features. For more details use `vignette("Twitmo")`.
+The goal of `Twitmo` is to facilitate topic modeling in R with Twitter data. `Twitmo` provides a broad range of methods to sample, pre-process and visualize Tweets to make modeling the public discourse easy and accessible.
 
 ## Installation
 
@@ -44,7 +45,7 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 remotes::install_github("abuchmueller/Twitmo")
 ```
 
-## Example: Collect geo-tagged Tweets
+## Example: Collect geo-tagged tweets
 
 Make sure you have a regular Twitter Account before start to sample your Tweets.
 
@@ -64,7 +65,7 @@ get_tweets(method = 'stream',
 
 ## Parse your tweets from a json file
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 dat <- load_tweets("inst/extdata/tweets_20191027-141233.json")
 ```
 
@@ -100,7 +101,7 @@ or which hashtags are heavily associated with each topic
 lda_hashtags(model)
 ```
 
-## LDA Distribution
+## LDA distribution
 
 Check the distribution of your LDA Model with
 
@@ -108,12 +109,54 @@ Check the distribution of your LDA Model with
 lda_distribution(model)
 ```
 
+# Filtering tweets
+
+Sometimes you can build better topic models by blacklisting or whitelisting certain keywords from your data. 
+You can do this with a keyword dictionary using the `filter_tweets()` function.
+In this example we exclude all Tweets with "football" or "mood" in them from our data.
+
+```{r}
+# Filter Tweets by blacklisting or whitelisting certain keywords
+dat %>% dim()
+filter_tweets(dat, keywords = "football,mood", include = FALSE) %>% dim()
+```
+
+Analogously if you want to run your collected tweets through a whitelist use
+```{r}
+dat %>% dim()
+filter_tweets(dat, keywords = "football,mood", include = TRUE) %>% dim()
+```
+
+
+# Fit STM
+
+Structural topic models can be fitted with additional external covariates. In this example we metadata that comes with the Tweets such as retweet count. This works with parsed unpooled Tweets. Pre-processing and fitting is done with one function.
+
+```{r echo=TRUE, results='hide'}
+stm_model <- fit_stm(dat, n_topics = 7, xcov = ~ retweet_count + followers_count + reply_count + quote_count + favorite_count,
+                     remove_punct = TRUE,
+                     remove_url = TRUE,
+                     remove_emojis = TRUE,
+                     stem = TRUE,
+                     stopwords = "en")
+```
+
+STMs can be inspected via
+
+```{r}
+summary(stm_model)
+```
+
+
+
 ## Visualize with `LDAvis`
 
 Make sure you have `servr` package installed.
 
 ```{r, eval=FALSE}
 to_ldavis(model, pool.corpus, pool.dfm)
+## for STM use (included in the stm package)
+stm::toLDAvis(stm_model, stm_model$prep$documents)
 ```
 
 ![](man/figures/to_ldavis.png)
