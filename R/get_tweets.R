@@ -62,16 +62,22 @@ get_tweets <- function(method = 'stream',
                               parse = FALSE,
                               file_name = file_name,
                               ...)
-      }
+      } else if (!location %in% row.names(bbox_country)) {
 
-      # check rtweet:::citycoords for location if location not found in Twitmo
-      else if (!location %in% row.names(bbox_country)) {
+        #look up location coords in rtweet if not found in Twitmo
+        tryCatch(location <- rtweet::lookup_coords(location)$box,
+                 error = function(e) {
+                   e$message <- paste("Could not find coordinates for your location or a Google Maps API key.
+  The `location` parameter requires a valid character string or Google Maps API key.
+  Use Twitmo:::bbox_country and rtweet:::citycoords for a full list of supported character strings for locations or
+  use supply your own bounding box coordinates in the following format: c(sw.long, sw.lat, ne.long, ne.lat)", sep = " ")
+                   stop(e)
+                 }
+                   )
 
-        #look up location coords in rtweet
-        location <- rtweet::lookup_coords(location)$box
         location <- as.double(location)
 
-        # stream at location
+        # stream at location if location was found or API key given
         rtweet::stream_tweets(q = location,
                               timeout = timeout,
                               parse = FALSE,
@@ -79,14 +85,15 @@ get_tweets <- function(method = 'stream',
                               ...)
       }
 
-    } else (stop("You can use Twitmo:::bbox_country
-and rtweet:::citycoords to see a full list of supported locations or use supply your own bounding box coordinates in the following format: c(sw.long, sw.lat, ne.long, ne.lat)"))
+    }
 
   }
 
   if (method == 'search') {
 
-    warning("You're using the search endpoint. For search this package supports 250 cities worldwide (type rtweet::citycoords to see a list). If you want to use your a custom location with the search endpoint use rtweet::search_tweets()")
+    message("You're using the search endpoint.
+  For search this package includes 250 cities worldwide (type rtweet::citycoords to see a list).
+  If you want to use your a custom location with the search endpoint use rtweet::search_tweets()")
 
     stopifnot(is.character(location)|NULL)
 
