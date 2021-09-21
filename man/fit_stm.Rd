@@ -45,7 +45,7 @@ Defaults to \link[stopwords:stopwords]{stopwords("english")}.}
 \item{...}{Additional arguments passed to \link[stm]{stm}.}
 }
 \value{
-Object of class \link[stm]{stm}.
+Object of class \link[stm]{stm}. Additionally, pre-processed documents are appended into a named list called "prep".
 }
 \description{
 Estimate a structural topic model

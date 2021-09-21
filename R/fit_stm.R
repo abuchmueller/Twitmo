@@ -12,7 +12,7 @@
 #' should be removed. Defaults to TRUE.
 #' @param stem Logical. If \code{TRUE} turn on word stemming for terms.
 #' @param ... Additional arguments passed to \link[stm]{stm}.
-#' @return Object of class \link[stm]{stm}.
+#' @return Object of class \link[stm]{stm}. Additionally, pre-processed documents are appended into a named list called "prep".
 #' @inheritParams pool_tweets
 #'
 #' @export
@@ -104,6 +104,10 @@ Type `?fit_stm` to learn more.")
                         max.em.its = 75,
                         init.type = "Spectral",
                         ...)
+
+  # append prepped data (docs, vocab)
+  model.stm[["prep"]] <- out
+
   return(model.stm)
 
 }
