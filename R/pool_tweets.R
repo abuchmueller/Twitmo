@@ -55,7 +55,6 @@ pool_tweets <- function(data,
   if (missing(data)) stop("Missing data frame with parsed tweets")
 
   n_grams <- as.integer(n_grams)
-  min_pool_size <- as.integer(min_pool_size)
 
   stopifnot(is.logical(remove_numbers),
             is.logical(remove_punct),
