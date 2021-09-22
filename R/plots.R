@@ -18,10 +18,11 @@
 #' library(Twitmo)
 #'
 #' # Plot tweets on mainland USA
-#' mytweets <- load_tweets("inst/extdata/tweets 20191027-141233.json")
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
 #' plot_tweets(mytweets, region = "USA(?!:Alaska|:Hawaii)", alpha=1)
-#' #' # Add title
-#' title("My Tweets on a Map")
+#' # Add title
+#' title("My tweets on a map")
 #' }
 #'
 #' @seealso \link[maps]{map}, \link[maps]{iso3166}
@@ -42,9 +43,9 @@ plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
 
 }
 
-#' Plot tweets with certain hashtag.
+#' Plot tweets containing certain hashtag
 #' @description Plot the locations of certain hashtag on a static map with base plot.
-#' @details This function can be used to generate high resolution spatial plots of tweets.
+#' @details This function can be used to generate high resolution spatial plots of hashtags
 #' Works with data frames of tweets returned by \link[Twitmo]{pool_tweets} as well as data frames
 #' read in by \link[Twitmo]{load_tweets} and then augmented by lat/lng coordinates with \link[rtweet]{lat_lng}.
 #' For larger view resize the plot window then call \code{plot_tweets} again.
@@ -56,18 +57,19 @@ plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
 #' @examples
 #'
 #' \dontrun{
-#'
 #' library(Twitmo)
 #'
-#' # Plot hashtags on mainland USA
-#' mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")
+#' # Plot tweets on mainland USA
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
 #' plot_hashtag(mytweets,
-#'              region = "USA(?!:Alaska|:Hawaii)",
-#'              hashtag = "breakfast",
-#'              ignore_case=TRUE,
-#'              alpha=1)
+#' region = region = "USA(?!:Alaska|:Hawaii)",
+#' hashtag = "breakfast",
+#' ignore_case=TRUE,
+#' alpha=1)
+#'
 #' # Add title
-#' title("My Hashtags on a Map")
+#' title("My hashtags on a map")
 #' }
 #'
 #' @seealso \link[maps]{map}, \link[maps]{iso3166}
@@ -125,7 +127,8 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
 #'
 #' library(Twitmo)
 #'
-#' mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
 #' pool <- pool_tweets(mytweets)
 #' cluster_tweets(mytweets)
 #'

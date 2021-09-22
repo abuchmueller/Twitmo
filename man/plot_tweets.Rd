@@ -36,10 +36,11 @@ For larger view resize the plot window then call \code{plot_tweets} again.
 library(Twitmo)
 
 # Plot tweets on mainland USA
-mytweets <- load_tweets("inst/extdata/tweets 20191027-141233.json")
+mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+
 plot_tweets(mytweets, region = "USA(?!:Alaska|:Hawaii)", alpha=1)
-#' # Add title
-title("My Tweets on a Map")
+# Add title
+title("My tweets on a map")
 }
 
 }

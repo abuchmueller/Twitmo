@@ -2,7 +2,7 @@
 % Please edit documentation in R/plots.R
 \name{plot_hashtag}
 \alias{plot_hashtag}
-\title{Plot tweets with certain hashtag.}
+\title{Plot tweets containing certain hashtag}
 \usage{
 plot_hashtag(
   data,
@@ -35,7 +35,7 @@ Maps where each dot represents a tweet.
 Plot the locations of certain hashtag on a static map with base plot.
 }
 \details{
-This function can be used to generate high resolution spatial plots of tweets.
+This function can be used to generate high resolution spatial plots of hashtags
 Works with data frames of tweets returned by \link[Twitmo]{pool_tweets} as well as data frames
 read in by \link[Twitmo]{load_tweets} and then augmented by lat/lng coordinates with \link[rtweet]{lat_lng}.
 For larger view resize the plot window then call \code{plot_tweets} again.
@@ -43,18 +43,19 @@ For larger view resize the plot window then call \code{plot_tweets} again.
 \examples{
 
 \dontrun{
-
 library(Twitmo)
 
-# Plot hashtags on mainland USA
-mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")
+# Plot tweets on mainland USA
+mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+
 plot_hashtag(mytweets,
-             region = "USA(?!:Alaska|:Hawaii)",
-             hashtag = "breakfast",
-             ignore_case=TRUE,
-             alpha=1)
+region = region = "USA(?!:Alaska|:Hawaii)",
+hashtag = "breakfast",
+ignore_case=TRUE,
+alpha=1)
+
 # Add title
-title("My Hashtags on a Map")
+title("My hashtags on a map")
 }
 
 }

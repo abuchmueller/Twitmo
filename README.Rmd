@@ -65,14 +65,16 @@ get_tweets(method = 'stream',
 
 ## Parse your tweets from a json file
 
+A small sample with raw tweets is included in the package. Access via:
 ```{r message=FALSE, warning=FALSE}
-dat <- load_tweets("inst/extdata/tweets_20191027-141233.json")
+raw_path <- system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo")
+mytweets <- load_tweets(raw_path)
 ```
 
 ## Pool tweets into document pools
 
 ```{r}
-pool <- pool_tweets(dat)
+pool <- pool_tweets(mytweets)
 pool.corpus <- pool$corpus
 pool.dfm <- pool$document_term_matrix
 ```
@@ -117,14 +119,14 @@ In this example we exclude all Tweets with "football" or "mood" in them from our
 
 ```{r}
 # Filter Tweets by blacklisting or whitelisting certain keywords
-dat %>% dim()
-filter_tweets(dat, keywords = "football,mood", include = FALSE) %>% dim()
+mytweets %>% dim()
+filter_tweets(mytweets, keywords = "football,mood", include = FALSE) %>% dim()
 ```
 
 Analogously if you want to run your collected tweets through a whitelist use
 ```{r}
-dat %>% dim()
-filter_tweets(dat, keywords = "football,mood", include = TRUE) %>% dim()
+mytweets %>% dim()
+filter_tweets(mytweets, keywords = "football,mood", include = TRUE) %>% dim()
 ```
 
 
@@ -133,7 +135,7 @@ filter_tweets(dat, keywords = "football,mood", include = TRUE) %>% dim()
 Structural topic models can be fitted with additional external covariates. In this example we metadata that comes with the Tweets such as retweet count. This works with parsed unpooled Tweets. Pre-processing and fitting is done with one function.
 
 ```{r echo=TRUE, results='hide'}
-stm_model <- fit_stm(dat, n_topics = 7, xcov = ~ retweet_count + followers_count + reply_count + quote_count + favorite_count,
+stm_model <- fit_stm(mytweets, n_topics = 7, xcov = ~ retweet_count + followers_count + reply_count + quote_count + favorite_count,
                      remove_punct = TRUE,
                      remove_url = TRUE,
                      remove_emojis = TRUE,

@@ -61,15 +61,18 @@ get_tweets(method = 'stream',
 
 ## Parse your tweets from a json file
 
+A small sample with raw tweets is included in the package. Access via:
+
 ``` r
-dat <- load_tweets("inst/extdata/tweets_20191027-141233.json")
+raw_path <- system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo")
+mytweets <- load_tweets(raw_path)
 #>  Found 167 records... Found 193 records... Imported 193 records. Simplifying...
 ```
 
 ## Pool tweets into document pools
 
 ``` r
-pool <- pool_tweets(dat)
+pool <- pool_tweets(mytweets)
 #> 
 #> 193 Tweets total
 #> 158 Tweets without hashtag
@@ -98,17 +101,17 @@ model <- fit_lda(pool.dfm, n_topics = 7)
 
 ``` r
 lda_terms(model)
-#>    Topic.1  Topic.2   Topic.3   Topic.4   Topic.5         Topic.6   Topic.7
-#> 1     meet      job  downtown       see     paola        birthday     today
-#> 2    today     link knoxville       job      says           music democrats
-#> 3   people      bio     place     click     puppy           crazy      jeff
-#> 4    first   hiring      like      link      life         covered  sessions
-#> 5      big    click    church       bio beautiful          waffle    laurel
-#> 6   always   latest        us       can      like          sooooo      glen
-#> 7     love      see      team recommend   posting 9ten_restaurant  trailing
-#> 8     last pharmacy       see    anyone      olde  9tenrestaurant      oaks
-#> 9    night     like    sunday     great       end            time   tuscany
-#> 10     fun mondelēz      yall      care      days            girl        ii
+#>      Topic.1   Topic.2       Topic.3 Topic.4   Topic.5   Topic.6 Topic.7
+#> 1       like       see tenrestaurant   first     today       see      us
+#> 2   downtown     click         paola   music democrats      team  church
+#> 3  knoxville       job          says    meet      jeff      lose    vote
+#> 4      today      link         puppy  people  sessions        ne    even
+#> 5        job       bio           job     big    laurel   handler  though
+#> 6        now      life          link  always      glen   package raining
+#> 7     theres     great           bio    love  trailing    worker outside
+#> 8    nothing      time         crazy    last      oaks       ups   still
+#> 9      quite  birthday       covered   night   tuscany warehouse   today
+#> 10        tn girlhappy        waffle     fun        ii       can    meet
 ```
 
 or which hashtags are heavily associated with each topic
@@ -116,54 +119,54 @@ or which hashtags are heavily associated with each topic
 ``` r
 lda_hashtags(model)
 #>                      Topic
-#> mood                     1
-#> motivate                 5
-#> healthcare               4
-#> mrrbnsnathome            6
-#> newyork                  6
-#> breakfast                6
-#> thisismyplace            3
-#> p4l                      3
-#> chinup                   5
-#> sundayfunday             5
-#> saintsgameday            5
-#> instapuppy               5
-#> woof                     5
-#> tailswagging             5
-#> tickfire                 4
-#> msiclassic               3
-#> nyc                      1
-#> about                    1
-#> joethecrane              1
-#> government               4
-#> ladystrut19              6
-#> ladystrutaccessories     6
-#> smartnews                7
+#> mood                     7
+#> motivate                 6
+#> healthcare               2
+#> mrrbnsnathome            3
+#> newyork                  3
+#> breakfast                3
+#> thisismyplace            2
+#> p4l                      2
+#> chinup                   3
+#> sundayfunday             3
+#> saintsgameday            3
+#> instapuppy               3
+#> woof                     3
+#> tailswagging             3
+#> tickfire                 6
+#> msiclassic               4
+#> nyc                      4
+#> about                    4
+#> joethecrane              4
+#> government               2
+#> ladystrut19              4
+#> ladystrutaccessories     4
+#> smartnews                5
 #> sundaythoughts           1
-#> sf100                    4
-#> openhouse                7
-#> springtx                 7
-#> labor                    4
-#> norfolk                  4
+#> sf100                    5
+#> openhouse                5
+#> springtx                 5
+#> labor                    6
+#> norfolk                  6
 #> oprylandhotel            3
-#> pharmaceutical           2
-#> easthanover              2
-#> sales                    2
-#> scryingartist            5
-#> beautifulskyz            5
-#> knoxvilletn              3
-#> downtownknoxville        3
-#> heartofservice           6
-#> youthmagnet              6
-#> youthmentor              6
-#> bonjour                  4
-#> trump2020                5
-#> spiritchat               3
-#> columbia                 2
-#> newcastle                2
+#> pharmaceutical           1
+#> easthanover              3
+#> sales                    3
+#> scryingartist            2
+#> beautifulskyz            2
+#> knoxvilletn              1
+#> downtownknoxville        1
+#> heartofservice           2
+#> youthmagnet              2
+#> youthmentor              2
+#> bonjour                  7
+#> trump2020                7
+#> spiritchat               7
+#> columbia                 4
+#> newcastle                1
 #> oncology                 2
-#> nbatwitter               3
-#> detroit                  2
+#> nbatwitter               6
+#> detroit                  3
 ```
 
 ## LDA distribution
@@ -173,54 +176,54 @@ Check the distribution of your LDA Model with
 ``` r
 lda_distribution(model)
 #>                         V1    V2    V3    V4    V5    V6    V7
-#> mood                 0.996 0.001 0.001 0.001 0.001 0.001 0.001
-#> motivate             0.001 0.001 0.001 0.001 0.994 0.001 0.001
-#> healthcare           0.001 0.001 0.001 0.996 0.001 0.001 0.001
-#> mrrbnsnathome        0.002 0.002 0.002 0.002 0.002 0.990 0.002
-#> newyork              0.002 0.002 0.002 0.002 0.002 0.990 0.002
-#> breakfast            0.002 0.002 0.002 0.002 0.002 0.990 0.002
-#> thisismyplace        0.001 0.001 0.995 0.001 0.001 0.001 0.001
-#> p4l                  0.001 0.001 0.995 0.001 0.001 0.001 0.001
-#> chinup               0.003 0.003 0.003 0.003 0.981 0.003 0.003
-#> sundayfunday         0.003 0.003 0.003 0.003 0.981 0.003 0.003
-#> saintsgameday        0.003 0.003 0.003 0.003 0.981 0.003 0.003
-#> instapuppy           0.003 0.003 0.003 0.003 0.981 0.003 0.003
-#> woof                 0.003 0.003 0.003 0.003 0.981 0.003 0.003
-#> tailswagging         0.003 0.003 0.003 0.003 0.981 0.003 0.003
-#> tickfire             0.001 0.001 0.001 0.996 0.001 0.001 0.001
-#> msiclassic           0.001 0.001 0.995 0.001 0.001 0.001 0.001
-#> nyc                  0.997 0.001 0.001 0.001 0.001 0.001 0.001
-#> about                0.997 0.001 0.001 0.001 0.001 0.001 0.001
-#> joethecrane          0.997 0.001 0.001 0.001 0.001 0.001 0.001
-#> government           0.001 0.001 0.001 0.996 0.001 0.001 0.001
-#> ladystrut19          0.001 0.001 0.001 0.001 0.001 0.996 0.001
-#> ladystrutaccessories 0.001 0.001 0.001 0.001 0.001 0.996 0.001
-#> smartnews            0.000 0.000 0.000 0.000 0.000 0.000 0.997
-#> sundaythoughts       0.997 0.000 0.000 0.000 0.000 0.000 0.000
-#> sf100                0.001 0.001 0.001 0.996 0.001 0.001 0.001
-#> openhouse            0.000 0.000 0.000 0.000 0.000 0.000 0.998
-#> springtx             0.000 0.000 0.000 0.000 0.000 0.000 0.998
-#> labor                0.001 0.001 0.001 0.996 0.001 0.001 0.001
-#> norfolk              0.001 0.001 0.001 0.996 0.001 0.001 0.001
-#> oprylandhotel        0.001 0.001 0.996 0.001 0.001 0.001 0.001
-#> pharmaceutical       0.001 0.996 0.001 0.001 0.001 0.001 0.001
-#> easthanover          0.001 0.996 0.001 0.001 0.001 0.001 0.001
-#> sales                0.001 0.996 0.001 0.001 0.001 0.001 0.001
-#> scryingartist        0.001 0.001 0.001 0.001 0.996 0.001 0.001
-#> beautifulskyz        0.001 0.001 0.001 0.001 0.996 0.001 0.001
-#> knoxvilletn          0.001 0.001 0.995 0.001 0.001 0.001 0.001
-#> downtownknoxville    0.001 0.001 0.995 0.001 0.001 0.001 0.001
-#> heartofservice       0.002 0.002 0.002 0.002 0.002 0.990 0.002
-#> youthmagnet          0.002 0.002 0.002 0.002 0.002 0.990 0.002
-#> youthmentor          0.002 0.002 0.002 0.002 0.002 0.990 0.002
-#> bonjour              0.001 0.001 0.001 0.995 0.001 0.001 0.001
-#> trump2020            0.001 0.001 0.001 0.001 0.994 0.001 0.001
-#> spiritchat           0.000 0.000 0.997 0.000 0.000 0.000 0.000
-#> columbia             0.001 0.996 0.001 0.001 0.001 0.001 0.001
-#> newcastle            0.001 0.997 0.001 0.001 0.001 0.001 0.001
-#> oncology             0.001 0.996 0.001 0.001 0.001 0.001 0.001
-#> nbatwitter           0.000 0.000 0.998 0.000 0.000 0.000 0.000
-#> detroit              0.001 0.995 0.001 0.001 0.001 0.001 0.001
+#> mood                 0.001 0.001 0.001 0.001 0.001 0.001 0.995
+#> motivate             0.001 0.001 0.001 0.001 0.001 0.993 0.001
+#> healthcare           0.001 0.996 0.001 0.001 0.001 0.001 0.001
+#> mrrbnsnathome        0.002 0.002 0.988 0.002 0.002 0.002 0.002
+#> newyork              0.002 0.002 0.988 0.002 0.002 0.002 0.002
+#> breakfast            0.002 0.002 0.988 0.002 0.002 0.002 0.002
+#> thisismyplace        0.001 0.993 0.001 0.001 0.001 0.001 0.001
+#> p4l                  0.001 0.993 0.001 0.001 0.001 0.001 0.001
+#> chinup               0.004 0.004 0.975 0.004 0.004 0.004 0.004
+#> sundayfunday         0.004 0.004 0.975 0.004 0.004 0.004 0.004
+#> saintsgameday        0.004 0.004 0.975 0.004 0.004 0.004 0.004
+#> instapuppy           0.004 0.004 0.975 0.004 0.004 0.004 0.004
+#> woof                 0.004 0.004 0.975 0.004 0.004 0.004 0.004
+#> tailswagging         0.004 0.004 0.975 0.004 0.004 0.004 0.004
+#> tickfire             0.001 0.001 0.001 0.001 0.001 0.996 0.001
+#> msiclassic           0.001 0.001 0.001 0.994 0.001 0.001 0.001
+#> nyc                  0.001 0.001 0.001 0.996 0.001 0.001 0.001
+#> about                0.001 0.001 0.001 0.996 0.001 0.001 0.001
+#> joethecrane          0.001 0.001 0.001 0.996 0.001 0.001 0.001
+#> government           0.001 0.995 0.001 0.001 0.001 0.001 0.001
+#> ladystrut19          0.001 0.001 0.001 0.996 0.001 0.001 0.001
+#> ladystrutaccessories 0.001 0.001 0.001 0.996 0.001 0.001 0.001
+#> smartnews            0.001 0.001 0.001 0.001 0.996 0.001 0.001
+#> sundaythoughts       0.997 0.001 0.001 0.001 0.001 0.001 0.001
+#> sf100                0.001 0.001 0.001 0.001 0.995 0.001 0.001
+#> openhouse            0.000 0.000 0.000 0.000 0.997 0.000 0.000
+#> springtx             0.000 0.000 0.000 0.000 0.997 0.000 0.000
+#> labor                0.001 0.360 0.001 0.001 0.001 0.635 0.001
+#> norfolk              0.001 0.360 0.001 0.001 0.001 0.635 0.001
+#> oprylandhotel        0.001 0.001 0.995 0.001 0.001 0.001 0.001
+#> pharmaceutical       0.995 0.001 0.001 0.001 0.001 0.001 0.001
+#> easthanover          0.001 0.001 0.995 0.001 0.001 0.001 0.001
+#> sales                0.001 0.001 0.995 0.001 0.001 0.001 0.001
+#> scryingartist        0.001 0.995 0.001 0.001 0.001 0.001 0.001
+#> beautifulskyz        0.001 0.995 0.001 0.001 0.001 0.001 0.001
+#> knoxvilletn          0.994 0.001 0.001 0.001 0.001 0.001 0.001
+#> downtownknoxville    0.994 0.001 0.001 0.001 0.001 0.001 0.001
+#> heartofservice       0.003 0.981 0.003 0.003 0.003 0.003 0.003
+#> youthmagnet          0.003 0.981 0.003 0.003 0.003 0.003 0.003
+#> youthmentor          0.003 0.981 0.003 0.003 0.003 0.003 0.003
+#> bonjour              0.001 0.001 0.001 0.001 0.001 0.001 0.993
+#> trump2020            0.001 0.001 0.001 0.001 0.001 0.001 0.993
+#> spiritchat           0.001 0.001 0.001 0.001 0.001 0.001 0.996
+#> columbia             0.001 0.001 0.001 0.995 0.001 0.001 0.001
+#> newcastle            0.996 0.001 0.001 0.001 0.001 0.001 0.001
+#> oncology             0.001 0.995 0.001 0.001 0.001 0.001 0.001
+#> nbatwitter           0.001 0.001 0.001 0.001 0.001 0.997 0.001
+#> detroit              0.001 0.001 0.994 0.001 0.001 0.001 0.001
 ```
 
 # Filtering tweets
@@ -232,9 +235,9 @@ we exclude all Tweets with “football” or “mood” in them from our data.
 
 ``` r
 # Filter Tweets by blacklisting or whitelisting certain keywords
-dat %>% dim()
+mytweets %>% dim()
 #> [1] 193  93
-filter_tweets(dat, keywords = "football,mood", include = FALSE) %>% dim()
+filter_tweets(mytweets, keywords = "football,mood", include = FALSE) %>% dim()
 #> [1] 183  93
 ```
 
@@ -242,9 +245,9 @@ Analogously if you want to run your collected tweets through a whitelist
 use
 
 ``` r
-dat %>% dim()
+mytweets %>% dim()
 #> [1] 193  93
-filter_tweets(dat, keywords = "football,mood", include = TRUE) %>% dim()
+filter_tweets(mytweets, keywords = "football,mood", include = TRUE) %>% dim()
 #> [1] 10 93
 ```
 
@@ -256,7 +259,7 @@ as retweet count. This works with parsed unpooled Tweets. Pre-processing
 and fitting is done with one function.
 
 ``` r
-stm_model <- fit_stm(dat, n_topics = 7, xcov = ~ retweet_count + followers_count + reply_count + quote_count + favorite_count,
+stm_model <- fit_stm(mytweets, n_topics = 7, xcov = ~ retweet_count + followers_count + reply_count + quote_count + favorite_count,
                      remove_punct = TRUE,
                      remove_url = TRUE,
                      remove_emojis = TRUE,

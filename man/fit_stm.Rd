@@ -33,10 +33,9 @@ should be removed. Defaults to TRUE.}
 
 \item{stem}{Logical. If \code{TRUE} turn on word stemming for terms.}
 
-\item{remove_url}{Logical. If TRUE find and eliminate URLs beginning with http(s).
-See \link[quanteda]{tokens}.}
+\item{remove_url}{Logical. If \code{TRUE} find and eliminate URLs beginning with http(s).}
 
-\item{remove_emojis}{Logical. If TRUE all emojis will be removed from tweets but keeps other symbols.}
+\item{remove_emojis}{Logical. If \code{TRUE} all emojis will be removed from tweets.}
 
 \item{stopwords}{a character vector, list of character vectors, \link[quanteda]{dictionary}
 or collocations object. See \link[quanteda]{pattern} for details.

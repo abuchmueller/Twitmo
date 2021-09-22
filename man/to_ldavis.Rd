@@ -18,8 +18,14 @@ Invisible Object (see \link[LDAvis]{serVis})).
 }
 \description{
 Converts \link[topicmodels:TopicModel-class]{LDA} topic model to LDAvis compatible json string and starts server.
-May requires \code{servr} Package to run properly.
-For conversion of \link[stm:stm]{STM} topic models use \link[stm]{toLDAvis}.
+May require \code{servr} Package to run properly. For conversion of \link[stm:stm]{STM} topic models use \link[stm]{toLDAvis}.
+}
+\details{
+Beware that \code{to_ldavis} might fail if the corpus contains documents that consist ONLY of numbers,
+emojis or punctuation e.g. do not contain a single character string. This is due to a limitation in the \code{topicmodels} package
+used for model fitting that does not consider such terms as words and omits them causing the posterior to differ in length from the corpus.
+If you encounter such an error, redo your pre-processing and exclude emojis, punctuation and numbers.
+When using \code{\link{pool_tweets}} you can remove emojis by specifying \code{remove_emojis = TRUE}.
 }
 \seealso{
 \link[stm]{toLDAvis}
