@@ -10,6 +10,7 @@ Description: Twitmo is tailored for Twitter topic modeling and visualization tas
     and built-in support for LDAvis.
 License: GPL-3 + file LICENSE
 URL: https://github.com/abuchmueller/Twitmo
+BugReports: https://github.com/abuchmueller/Twitmo/issues
 Encoding: UTF-8
 LazyData: true
 Depends: 
@@ -29,7 +30,8 @@ Imports:
     topicmodels,
     stm,
     tidyr,
-    rlang
+    rlang,
+    maps
 RoxygenNote: 7.1.2
 Suggests: 
     rmarkdown,
@@ -42,5 +44,4 @@ Suggests:
     ldatuning,
     stringi,
     servr,
-    maps
 VignetteBuilder: knitr
