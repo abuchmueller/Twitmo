@@ -142,16 +142,14 @@ predict_lda <- function(data, lda_model,
                         remove_numbers = TRUE,
                         remove_punct = TRUE,
                         remove_symbols = TRUE,
-                        remove_url = TRUE,
-                        remove_separators = TRUE) {
+                        remove_url = TRUE) {
 
   quanteda::quanteda_options(pattern_hashtag = NULL, pattern_username = NULL)
 
   stopifnot(is.logical(remove_numbers),
             is.logical(remove_punct),
             is.logical(remove_symbols),
-            is.logical(remove_url),
-            is.logical(remove_separators))
+            is.logical(remove_url))
 
   # Predict topics of tweets using fitted LDA model
   ### corpus of all tweets
@@ -165,7 +163,7 @@ predict_lda <- function(data, lda_model,
                    remove_symbols = remove_symbols,
                    remove_numbers = remove_numbers,
                    remove_url = remove_url,
-                   remove_separators = remove_separators,
+                   remove_separators = TRUE,
                    split_hyphens = FALSE,
                    include_docvars = TRUE,
                    padding = FALSE

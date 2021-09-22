@@ -10,9 +10,10 @@ pool_tweets(
   remove_punct = TRUE,
   remove_symbols = TRUE,
   remove_url = TRUE,
-  remove_separators = TRUE,
   remove_emojis = TRUE,
-  cosine_threshold = 0.8,
+  remove_users = TRUE,
+  remove_hashtags = TRUE,
+  cosine_threshold = 0.9,
   stopwords = "en",
   n_grams = 1L
 )
@@ -21,24 +22,24 @@ pool_tweets(
 \item{data}{Data frame of parsed tweets. Obtained either by using \code{\link{load_tweets}}  or
 \code{\link[jsonlite]{stream_in}} in conjunction with \code{\link[rtweet]{tweets_with_users}}.}
 
-\item{remove_numbers}{Logical. If TRUE remove tokens that consist only of numbers,
+\item{remove_numbers}{Logical. If \code{TRUE} remove tokens that consist only of numbers,
 but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
 
-\item{remove_punct}{Logical. If TRUE remove all characters in the Unicode
+\item{remove_punct}{Logical. If \code{TRUE} remove all characters in the Unicode
 "Punctuation" [P] class, with exceptions for those used as prefixes for valid social media tags if
 \code{preserve_tags = TRUE}. See \link[quanteda]{tokens}}
 
-\item{remove_symbols}{Logical. If TRUE remove all characters in the Unicode "Symbol" [S] class (e.g. emojis)}
+\item{remove_symbols}{Logical. If \code{TRUE} remove all characters in the Unicode "Symbol" [S] class.}
 
-\item{remove_url}{Logical. If TRUE find and eliminate URLs beginning with http(s).
-See \link[quanteda]{tokens}.}
+\item{remove_url}{Logical. If \code{TRUE} find and eliminate URLs beginning with http(s).}
 
-\item{remove_separators}{Logical. If TRUE remove separators and separator characters
-(Unicode "Separator" [Z] and "Control" [C] categories). See \link[quanteda]{tokens}.}
+\item{remove_emojis}{Logical. If \code{TRUE} all emojis will be removed from tweets.}
 
-\item{remove_emojis}{Logical. If TRUE all emojis will be removed from tweets but keeps other symbols.}
+\item{remove_users}{Logical. If \code{TRUE} will remove all mentions of user names from documents.}
 
-\item{cosine_threshold}{Double. Value between 0 and 1 specifying the cosine similarity used
+\item{remove_hashtags}{Logical. If \code{TRUE} will remove hashtags (not only the symbol but the hashtagged word itself) from documents.}
+
+\item{cosine_threshold}{Double. Value between 0 and 1 specifying the cosine similarity threshold to be used
 for document pooling. Tweets without a hashtag will be assigned to document (hashtag) pools
 based upon this metric. Low thresholds will reduce topic coherence by including
 a large number of tweets without a hashtag into the document pools. Higher thresholds will lead
@@ -61,6 +62,28 @@ This function pools a data frame of parsed tweets into document pools.
 Pools tweets by hashtags using cosine similarity to create
 longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
+}
+\examples{
+
+\dontrun{
+
+library(Twitmo)
+
+# Plot tweets on mainland USA
+mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+
+pool <- pool_tweets(data = mytweets,
+remove_numbers = TRUE,
+remove_punct = TRUE,
+remove_symbols = TRUE,
+remove_url = TRUE,
+remove_users = TRUE,
+remove_hashtags = TRUE,
+remove_emojis = TRUE,
+cosine_threshold = 0.9,
+stopwords = "en",
+n_grams = 1)
+}
 }
 \references{
 Mehrotra, Rishabh & Sanner, Scott & Buntine, Wray & Xie, Lexing. (2013).

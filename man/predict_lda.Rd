@@ -11,8 +11,7 @@ predict_lda(
   remove_numbers = TRUE,
   remove_punct = TRUE,
   remove_symbols = TRUE,
-  remove_url = TRUE,
-  remove_separators = TRUE
+  remove_url = TRUE
 )
 }
 \arguments{
@@ -24,20 +23,16 @@ predict_lda(
 \item{response}{Type of response. Either "prob" for probabilities or
 "max" one topic (default).}
 
-\item{remove_numbers}{Logical. If TRUE remove tokens that consist only of numbers,
+\item{remove_numbers}{Logical. If \code{TRUE} remove tokens that consist only of numbers,
 but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
 
-\item{remove_punct}{Logical. If TRUE remove all characters in the Unicode
+\item{remove_punct}{Logical. If \code{TRUE} remove all characters in the Unicode
 "Punctuation" [P] class, with exceptions for those used as prefixes for valid social media tags if
 \code{preserve_tags = TRUE}. See \link[quanteda]{tokens}}
 
-\item{remove_symbols}{Logical. If TRUE remove all characters in the Unicode "Symbol" [S] class (e.g. emojis)}
+\item{remove_symbols}{Logical. If \code{TRUE} remove all characters in the Unicode "Symbol" [S] class.}
 
-\item{remove_url}{Logical. If TRUE find and eliminate URLs beginning with http(s).
-See \link[quanteda]{tokens}.}
-
-\item{remove_separators}{Logical. If TRUE remove separators and separator characters
-(Unicode "Separator" [Z] and "Control" [C] categories). See \link[quanteda]{tokens}.}
+\item{remove_url}{Logical. If \code{TRUE} find and eliminate URLs beginning with http(s).}
 }
 \value{
 Data frame of topic predictions or predicted probabilities per topic (see response).
