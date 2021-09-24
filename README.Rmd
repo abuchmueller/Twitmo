@@ -31,7 +31,7 @@ You can install `Twitmo` from CRAN with:
 install.packages("Twitmo")
 ```
 
-You can install `Twitmo` from github with:
+You can install `Twitmo` from GitHub with:
 
 Before you install from Github make sure you have Rtools for [Windows](https://cran.r-project.org/bin/windows/Rtools/ "Rtools for Windows (CRAN)") or [macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/ "Rtools for macOS") already installed.
 
@@ -63,15 +63,16 @@ get_tweets(method = 'stream',
            file_name = "tweets_from_us_mainland.json")
 ```
 
-## Parse your tweets from a json file
+## Load your tweets from a json file into a data frame
 
 A small sample with raw tweets is included in the package. Access via:
+
 ```{r message=FALSE, warning=FALSE}
 raw_path <- system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo")
 mytweets <- load_tweets(raw_path)
 ```
 
-## Pool tweets into document pools
+## Pool tweets into long pseudo-document
 
 ```{r}
 pool <- pool_tweets(mytweets)
@@ -79,7 +80,7 @@ pool.corpus <- pool$corpus
 pool.dfm <- pool$document_term_matrix
 ```
 
-## Find optimal number of topics
+## Search for optimal number of topics k
 
 ```{r ldatuner, warning=FALSE}
 find_lda(pool.dfm)
@@ -113,22 +114,19 @@ lda_distribution(model)
 
 # Filtering tweets
 
-Sometimes you can build better topic models by blacklisting or whitelisting certain keywords from your data. 
-You can do this with a keyword dictionary using the `filter_tweets()` function.
-In this example we exclude all Tweets with "football" or "mood" in them from our data.
+Sometimes you can build better topic models by blacklisting or whitelisting certain keywords from your data. You can do this with a keyword dictionary using the `filter_tweets()` function. In this example we exclude all Tweets with "football" or "mood" in them from our data.
 
 ```{r}
-# Filter Tweets by blacklisting or whitelisting certain keywords
 mytweets %>% dim()
 filter_tweets(mytweets, keywords = "football,mood", include = FALSE) %>% dim()
 ```
 
 Analogously if you want to run your collected tweets through a whitelist use
+
 ```{r}
 mytweets %>% dim()
 filter_tweets(mytweets, keywords = "football,mood", include = TRUE) %>% dim()
 ```
-
 
 # Fit STM
 
@@ -149,9 +147,7 @@ STMs can be inspected via
 summary(stm_model)
 ```
 
-
-
-## Visualize with `LDAvis`
+## Visualize models with `LDAvis`
 
 Make sure you have `servr` package installed.
 
@@ -162,3 +158,34 @@ stm::toLDAvis(stm_model, stm_model$prep$documents)
 ```
 
 ![](man/figures/to_ldavis.png)
+
+## Plot tweets
+
+Plot your tweets onto a static map
+
+```{r fig.width = 6}
+plot_tweets(mytweets, region = "USA(?!:Alaska|:Hawaii)", alpha=0.1)
+```
+
+or plot the distribution of a certain hashtag onto a static map (UK data not included)
+
+```{r eval=FALSE}
+plot_hashtag(uk_tweets, region = "UK", hashtag = "foodwaste", ignore_case=TRUE, alpha=0.2)
+```
+
+<img src="man/figures/ht_map_uk.png" width="247"/>
+
+## Interactive maps with `leaflet`
+
+Use scroll wheel to zoom into and out of the map. Click markets to see tweets. Make sure you have the `leaflet` package installed.
+
+```{r eval=FALSE}
+## install leaflet package if it's not already
+if (!requireNamespace("leaflet", quietly = TRUE)) {
+  install.packages("leaflet")
+}
+
+cluster_tweets(mytweets)
+```
+
+![](man/figures/leaflet_us.png)
