@@ -22,6 +22,22 @@ Plot with different metrics compared.
 \description{
 Find the optimal hyperparameter k for your LDA model
 }
+\examples{
+\dontrun{
+
+library(Twitmo)
+
+# load tweets (included in package)
+mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+
+# Pool tweets into longer pseudo-documents
+pool <- pool_tweets(data = mytweets)
+pooled_dfm <- pool$document_term_matrix
+
+# use the ldatuner to compare different K
+find_lda(pooled_dfm, search_space = seq(1, 10, 1),  method = "Gibbs")
+}
+}
 \seealso{
 \link[ldatuning]{FindTopicsNumber}
 }

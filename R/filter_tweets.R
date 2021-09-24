@@ -1,6 +1,5 @@
 #' Filter tweets
 #' @description Filter tweets by keywords.
-#' @usage filter_tweets(data, keywords, include = TRUE)
 #' @details Use this function if you want your Tweets to contain certain keywords.
 #' This can be used for iterative filtering to create more coherent topic models.
 #' Keyword filtering is always case insensitive (lowercase).
@@ -17,8 +16,11 @@
 #'
 #' library(Twitmo)
 #'
+#'
+#' # load tweets (included in package)
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
 #' # Exclude Tweets that mention "football" and/or "mood"
-#' mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")
 #' keyword_dict <- "football,mood"
 #' mytweets_reduced <- filter_tweets(mytweets, keywords = keyword_dict, include = FALSE)
 #' }

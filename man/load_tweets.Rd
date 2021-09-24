@@ -26,9 +26,9 @@ and \link[rtweet]{lat_lng} can be used if data has been collected with rtweet 0.
 
 library(Twitmo)
 
-# load tweets from json file
-mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")
-
+# load tweets (included in package)
+raw_path <- system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo")
+mytweets <- load_tweets(raw_path)
 }
 }
 \seealso{

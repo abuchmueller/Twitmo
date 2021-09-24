@@ -26,6 +26,7 @@ This function can be used to create interactive maps on OpenStreetView.
 
 library(Twitmo)
 
+# load tweets (included in package)
 mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
 
 pool <- pool_tweets(mytweets)

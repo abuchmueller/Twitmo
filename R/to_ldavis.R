@@ -1,6 +1,7 @@
 #' Create interactive visualization with LDAvis
 #' @description Converts \link[topicmodels:TopicModel-class]{LDA} topic model to LDAvis compatible json string and starts server.
 #' May require \code{servr} Package to run properly. For conversion of \link[stm:stm]{STM} topic models use \link[stm]{toLDAvis}.
+#' @importFrom utils install.packages
 #' @param fitted Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA})
 #' @param corpus Document corpus. Object of class \link[quanteda:corpus]{corpus})
 #' @param doc_term document term matrix (dtm).
@@ -13,10 +14,40 @@
 #'
 #' @export
 #' @seealso \link[stm]{toLDAvis}
-
+#' @examples
+#' \dontrun{
+#'
+#' library(Twitmo)
+#'
+#' # load tweets (included in package)
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
+#' # Pool tweets into longer pseudo-documents
+#' pool <- pool_tweets(data = mytweets)
+#' pooled_dfm <- pool$document_term_matrix
+#' pooled_corp <- pool$corpus
+#'
+#' # fit your LDA model with 7 topics
+#' model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
+#'
+#' # Explore your topics with LDAvis
+#' to_ldavis(model, pooled_corp, pooled_dfm)
+#' }
 
 to_ldavis <- function(fitted, corpus, doc_term){
 
+  # check for dependencies
+  if (!requireNamespace("LDAvis", quietly = TRUE)) {
+    install.packages("LDAvis")
+  }
+
+  if (!requireNamespace("tm", quietly = TRUE)) {
+    install.packages("tm")
+  }
+
+  if (!requireNamespace("stringi", quietly = TRUE)) {
+    install.packages("stringi")
+  }
 
   ## Conversion of quanteda objects onto their tm counterparts
 

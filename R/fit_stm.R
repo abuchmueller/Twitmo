@@ -17,6 +17,25 @@
 #'
 #' @export
 #' @seealso \link[stm]{stm}
+#'
+#' @examples
+#' \dontrun{
+#'
+#' library(Twitmo)
+#'
+#' # load tweets (included in package)
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
+#' # fit STM with tweets
+#' stm_model <- fit_stm(mytweets, n_topics = 7,
+#'                      xcov = ~ retweet_count + followers_count + reply_count +
+#'                      quote_count + favorite_count,
+#'                      remove_punct = TRUE,
+#'                      remove_url = TRUE,
+#'                      remove_emojis = TRUE,
+#'                      stem = TRUE,
+#'                      stopwords = "en")
+#' }
 
 fit_stm <- function(data, n_topics = 2L, xcov,
                     remove_punct = TRUE,
@@ -121,7 +140,22 @@ Type `?fit_stm` to learn more.")
 #'
 #' @export
 #' @seealso \link[stm]{stm}
-
+#'
+#' @examples
+#' \dontrun{
+#'
+#' library(Twitmo)
+#'
+#' # load tweets (included in package)
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
+#' # Pool tweets into longer pseudo-documents
+#' pool <- pool_tweets(data = mytweets)
+#' pooled_dfm <- pool$document_term_matrix
+#'
+#' # fit your CTM with 7 topics
+#' ctm_model <- fit_ctm(pooled_dfm, n_topics =7)
+#' }
 
 fit_ctm <- function(pooled_dfm, n_topics = 2L, ...) {
 
@@ -140,22 +174,61 @@ fit_ctm <- function(pooled_dfm, n_topics = 2L, ...) {
 
 #' Find best STM/CTM
 #' @description Gridsearch for optimal K for your STM/CTM
-#' @param pooled_dfm object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets
+#' @details Wrapper function around \code{\link[stm]{searchK}} for pooled dfm objects returned by
+#' \link{pool_tweets} and prepped stm documents returned by \code{\link{fit_stm}}.
+#' @param data Either a pooled dfm object returned by \link{pool_tweets} or
+#' a named list of pre-processed tweets for stm modeling returned by \code{\link{fit_stm}}.
 #' @param search_space Vector with number of topics to compare different models.
 #' @param ... Additional parameters passed to \link[stm]{searchK}
 #' @seealso \link[stm]{searchK}
 #' @return Plot with different metrics compared.
 #'
 #' @export
-#' @seealso \link[stm]{stm}
+#' @seealso \link[stm]{searchK}
+#'
+#' @examples
+#' \dontrun{
+#'
+#' library(Twitmo)
+#'
+#' # load tweets (included in package)
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
+#' # Pool tweets into longer pseudo-documents
+#' pool <- pool_tweets(data = mytweets)
+#' pooled_dfm <- pool$document_term_matrix
+#'
+#' # compare different K for CTM
+#' find_stm(pooled_dfm, search_space = seq(1, 10, 1))
+#'
+#' # OR
+#'
+#' # compare different K for STM
+#' prepped_stm <- stm_model$prep
+#' find_stm(prepped_stm, search_space = seq(4, 16, by = 2))
+#' }
 
-find_stm <- function(pooled_dfm, search_space = seq(4, 20, by = 2), ...) {
+find_stm <- function(data, search_space = seq(4, 20, by = 2), ...) {
 
-  dfm2stm <- quanteda::convert(pooled_dfm, to = "stm")
+  # routine if pooled dfm is passed as data (CTM)
+  if (isS4(data)) {
 
-  idealK <- stm::searchK(dfm2stm$documents, dfm2stm$vocab, K = search_space, max.em.its = 75, ...)
+    dfm2stm <- quanteda::convert(data, to = "stm")
 
-  plot(idealK)
+    idealK <- stm::searchK(dfm2stm$documents, dfm2stm$vocab, K = search_space, max.em.its = 75, ...)
+
+    plot(idealK)
+
+  }
+
+  # routine if dataframe or tbl of loaded tweets is passed as data (STM)
+  if (is.list(data)) {
+
+    idealK <- stm::searchK(data$documents, data$vocab, K = search_space, max.em.its = 75, ...)
+
+    plot(idealK)
+
+  } else (message("Please provide a pooled dfm object or prepped stm (see ?fit_stm) as input."))
 
 }
 

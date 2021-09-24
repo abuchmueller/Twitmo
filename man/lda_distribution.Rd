@@ -13,11 +13,32 @@ lda_distribution(lda_model, param = "gamma", tidy = FALSE)
 over topics (term per document) or "gamma" for the document distribution over.
  topics (i.e. hashtag pool per topic probability).}
 
-\item{tidy}{Boolean. Specify TRUE for return distribution in tidy format (tbl).}
+\item{tidy}{Logical. Specify \code{TRUE} for return distribution in tidy format (tbl).}
 }
 \value{
 Data frame or tbl of Term (beta) or document (gamma) distribution over topics.
 }
 \description{
 View the distribution of your fitted LDA model.
+}
+\examples{
+\dontrun{
+
+library(Twitmo)
+
+# load tweets (included in package)
+mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+
+# Pool tweets into longer pseudo-documents
+pool <- pool_tweets(data = mytweets)
+pooled_dfm <- pool$document_term_matrix
+
+# fit your LDA model with 7 topics
+model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
+
+# Choose either "beta" to return the term distribution
+# over topics (term per document) or "gamma" for the document distribution over
+# topics (hashtag pool per topic probability)
+lda_distribution(model, param = "gamma")
+}
 }

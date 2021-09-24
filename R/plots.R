@@ -59,14 +59,15 @@ plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
 #' \dontrun{
 #' library(Twitmo)
 #'
-#' # Plot tweets on mainland USA
+#' # load tweets (included in package)
 #' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
 #'
+#' # Plot tweets on mainland USA region
 #' plot_hashtag(mytweets,
-#' region = region = "USA(?!:Alaska|:Hawaii)",
-#' hashtag = "breakfast",
-#' ignore_case=TRUE,
-#' alpha=1)
+#'              region = region = "USA(?!:Alaska|:Hawaii)",
+#'              hashtag = "breakfast",
+#'              ignore_case=TRUE,
+#'              alpha=1)
 #'
 #' # Add title
 #' title("My hashtags on a map")
@@ -127,6 +128,7 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
 #'
 #' library(Twitmo)
 #'
+#' # load tweets (included in package)
 #' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
 #'
 #' pool <- pool_tweets(mytweets)

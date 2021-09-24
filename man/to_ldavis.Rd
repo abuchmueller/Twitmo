@@ -27,6 +27,26 @@ used for model fitting that does not consider such terms as words and omits them
 If you encounter such an error, redo your pre-processing and exclude emojis, punctuation and numbers.
 When using \code{\link{pool_tweets}} you can remove emojis by specifying \code{remove_emojis = TRUE}.
 }
+\examples{
+\dontrun{
+
+library(Twitmo)
+
+# load tweets (included in package)
+mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+
+# Pool tweets into longer pseudo-documents
+pool <- pool_tweets(data = mytweets)
+pooled_dfm <- pool$document_term_matrix
+pooled_corp <- pool$corpus
+
+# fit your LDA model with 7 topics
+model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
+
+# Explore your topics with LDAvis
+to_ldavis(model, pooled_corp, pooled_dfm)
+}
+}
 \seealso{
 \link[stm]{toLDAvis}
 }

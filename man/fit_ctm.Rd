@@ -19,6 +19,22 @@ Object of class \link[stm]{stm}
 \description{
 Estimate a CTM topic model.
 }
+\examples{
+\dontrun{
+
+library(Twitmo)
+
+# load tweets (included in package)
+mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+
+# Pool tweets into longer pseudo-documents
+pool <- pool_tweets(data = mytweets)
+pooled_dfm <- pool$document_term_matrix
+
+# fit your CTM with 7 topics
+ctm_model <- fit_ctm(pooled_dfm, n_topics =7)
+}
+}
 \seealso{
 \link[stm]{stm}
 }

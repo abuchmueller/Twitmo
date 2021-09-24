@@ -18,10 +18,9 @@ predict_lda(
 \item{data}{Data frame of parsed tweets. Obtained either by using \code{\link{load_tweets}}  or
 \code{\link[jsonlite]{stream_in}} in conjunction with \code{\link[rtweet]{tweets_with_users}}.}
 
-\item{lda_model}{Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA}).}
+\item{lda_model}{Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA}.}
 
-\item{response}{Type of response. Either "prob" for probabilities or
-"max" one topic (default).}
+\item{response}{Type of response. Either "prob" for probabilities or "max" one topic (default).}
 
 \item{remove_numbers}{Logical. If \code{TRUE} remove tokens that consist only of numbers,
 but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.}
@@ -39,5 +38,23 @@ Data frame of topic predictions or predicted probabilities per topic (see respon
 }
 \description{
 Predict topics of tweets using fitted LDA model.
-\code{jsonlite::stream_in()} and \code{`rtweet::tweets_with_users(s)`}.
+}
+\examples{
+\dontrun{
+
+library(Twitmo)
+
+# load tweets (included in package)
+mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+
+# Pool tweets into longer pseudo-documents
+pool <- pool_tweets(data = mytweets)
+pooled_dfm <- pool$document_term_matrix
+
+# fit your LDA model with 7 topics
+model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
+
+# Predict topics of tweets using your fitted LDA model
+predict_lda(mytweets, model, response = "prob")
+}
 }

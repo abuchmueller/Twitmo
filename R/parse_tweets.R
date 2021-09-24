@@ -18,9 +18,9 @@
 #'
 #' library(Twitmo)
 #'
-#' # load tweets from json file
-#' mytweets <- load_tweets("inst/extdata/tweets_20191027-141233.json")
-#'
+#' # load tweets (included in package)
+#' raw_path <- system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo")
+#' mytweets <- load_tweets(raw_path)
 #' }
 
 load_tweets <- function(file_name) {
@@ -31,6 +31,7 @@ load_tweets <- function(file_name) {
   # in case there are changes to the way rtweet parses json files
   # in the future.
   # ref: https://github.com/ropensci/rtweet/blob/112f757be3d9a4ed2834547d74d22a95c9c48e7b/R/stream.R
+  # COPYRIGHT HOLDER: Michael W. Kearney
 
   if (!identical(getOption("encoding"), "UTF-8")) {
     op <- getOption("encoding")

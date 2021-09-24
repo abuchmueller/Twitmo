@@ -69,20 +69,20 @@ The method applies an implementation of the pooling algorithm from Mehrotra et a
 
 library(Twitmo)
 
-# Plot tweets on mainland USA
+# load tweets (included in package)
 mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
 
 pool <- pool_tweets(data = mytweets,
-remove_numbers = TRUE,
-remove_punct = TRUE,
-remove_symbols = TRUE,
-remove_url = TRUE,
-remove_users = TRUE,
-remove_hashtags = TRUE,
-remove_emojis = TRUE,
-cosine_threshold = 0.9,
-stopwords = "en",
-n_grams = 1)
+                    remove_numbers = TRUE,
+                    remove_punct = TRUE,
+                    remove_symbols = TRUE,
+                    remove_url = TRUE,
+                    remove_users = TRUE,
+                    remove_hashtags = TRUE,
+                    remove_emojis = TRUE,
+                    cosine_threshold = 0.9,
+                    stopwords = "en",
+                    n_grams = 1)
 }
 }
 \references{

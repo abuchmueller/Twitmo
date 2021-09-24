@@ -4,10 +4,11 @@
 \alias{find_stm}
 \title{Find best STM/CTM}
 \usage{
-find_stm(pooled_dfm, search_space = seq(4, 20, by = 2), ...)
+find_stm(data, search_space = seq(4, 20, by = 2), ...)
 }
 \arguments{
-\item{pooled_dfm}{object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets}
+\item{data}{Either a pooled dfm object returned by \link{pool_tweets} or
+a named list of pre-processed tweets for stm modeling returned by \code{\link{fit_stm}}.}
 
 \item{search_space}{Vector with number of topics to compare different models.}
 
@@ -19,8 +20,34 @@ Plot with different metrics compared.
 \description{
 Gridsearch for optimal K for your STM/CTM
 }
+\details{
+Wrapper function around \code{\link[stm]{searchK}} for pooled dfm objects returned by
+\link{pool_tweets} and prepped stm documents returned by \code{\link{fit_stm}}.
+}
+\examples{
+\dontrun{
+
+library(Twitmo)
+
+# load tweets (included in package)
+mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+
+# Pool tweets into longer pseudo-documents
+pool <- pool_tweets(data = mytweets)
+pooled_dfm <- pool$document_term_matrix
+
+# compare different K for CTM
+find_stm(pooled_dfm, search_space = seq(1, 10, 1))
+
+# OR
+
+# compare different K for STM
+prepped_stm <- stm_model$prep
+find_stm(prepped_stm, search_space = seq(4, 16, by = 2))
+}
+}
 \seealso{
 \link[stm]{searchK}
 
-\link[stm]{stm}
+\link[stm]{searchK}
 }

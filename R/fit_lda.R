@@ -1,12 +1,26 @@
 #' Fit LDA Topic Model
 #' @description Estimate a LDA topic model using VEM or Gibbs Sampling.
-#' @usage fit_lda(pooled_dfm, n_topics, ...)
 #' @param pooled_dfm Object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets.
 #' @param n_topics Integer with number of topics.
 #' @param ... Additional arguments passed to \link[topicmodels]{LDA}.
 #' @return Object of class \link[topicmodels:TopicModel-class]{LDA}.
 #'
 #' @export
+#' @examples
+#' \dontrun{
+#'
+#' library(Twitmo)
+#'
+#' # load tweets (included in package)
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
+#' # Pool tweets into longer pseudo-documents
+#' pool <- pool_tweets(data = mytweets)
+#' pooled_dfm <- pool$document_term_matrix
+#'
+#' # fit your LDA model with 7 topics
+#' model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
+#' }
 
 fit_lda <- function(pooled_dfm, n_topics, ...) {
   ###### LDA ######
@@ -20,7 +34,6 @@ fit_lda <- function(pooled_dfm, n_topics, ...) {
 
 #' Find best LDA model
 #' @description Find the optimal hyperparameter k for your LDA model
-#' @usage find_lda(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs", ...)
 #' @param pooled_dfm object of class dfm (see \link[quanteda]{dfm}) containing (pooled) tweets
 #' @param search_space Vector with number of topics to compare different models.
 #' @param method The method to be used for fitting.
@@ -30,7 +43,21 @@ fit_lda <- function(pooled_dfm, n_topics, ...) {
 #' @return Plot with different metrics compared.
 #'
 #' @export
-
+#' @examples
+#' \dontrun{
+#'
+#' library(Twitmo)
+#'
+#' # load tweets (included in package)
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
+#' # Pool tweets into longer pseudo-documents
+#' pool <- pool_tweets(data = mytweets)
+#' pooled_dfm <- pool$document_term_matrix
+#'
+#' # use the ldatuner to compare different K
+#' find_lda(pooled_dfm, search_space = seq(1, 10, 1),  method = "Gibbs")
+#' }
 
 find_lda <- function(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs", ...) {
 
@@ -57,6 +84,25 @@ find_lda <- function(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs",
 #' @param n_terms Integer number of terms to return.
 #' @return Data frame with top n terms for each topic.
 #' @export
+#' @examples
+#' \dontrun{
+#'
+#' library(Twitmo)
+#'
+#' # load tweets (included in package)
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
+#' # Pool tweets into longer pseudo-documents
+#' pool <- pool_tweets(data = mytweets)
+#' pooled_dfm <- pool$document_term_matrix
+#'
+#' # fit your LDA model with 7 topics
+#' model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
+#'
+# extract the most likely 10 terms for each topic
+# lda_terms(model, n_terms = 10)
+#' }
+
 
 lda_terms <- function(lda_model, n_terms = 10) {
   data.frame(topicmodels::terms(lda_model, n_terms))
@@ -67,6 +113,24 @@ lda_terms <- function(lda_model, n_terms = 10) {
 #' @param lda_model Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA}).
 #' @return Data frame with most likely topic for each hashtag.
 #' @export
+#' @examples
+#' \dontrun{
+#'
+#' library(Twitmo)
+#'
+#' # load tweets (included in package)
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
+#' # Pool tweets into longer pseudo-documents
+#' pool <- pool_tweets(data = mytweets)
+#' pooled_dfm <- pool$document_term_matrix
+#'
+#' # fit your LDA model with 7 topics
+#' model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
+#'
+#  extract the most likely topics for each hashtag
+#' lda_hashtags(model)
+#' }
 
 lda_hashtags <- function(lda_model) {
   data.frame(Topic = topicmodels::topics(lda_model))
@@ -75,24 +139,56 @@ lda_hashtags <- function(lda_model) {
 
 #' View distribution of fitted LDA Models
 #' @importFrom rlang .data
+#' @importFrom utils install.packages
 #' @description View the distribution of your fitted LDA model.
-#' @usage lda_distribution(lda_model, param = "gamma", tidy = FALSE)
 #' @param lda_model Object of class \link[topicmodels:TopicModel-class]{LDA}).
 #' @param param String. Specify either "beta" to return the term distribution
 #' over topics (term per document) or "gamma" for the document distribution over.
 #'  topics (i.e. hashtag pool per topic probability).
-#' @param tidy Boolean. Specify TRUE for return distribution in tidy format (tbl).
+#' @param tidy Logical. Specify \code{TRUE} for return distribution in tidy format (tbl).
 #' @return Data frame or tbl of Term (beta) or document (gamma) distribution over topics.
 #'
 #' @export
+#' @examples
+#' \dontrun{
+#'
+#' library(Twitmo)
+#'
+#' # load tweets (included in package)
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
+#' # Pool tweets into longer pseudo-documents
+#' pool <- pool_tweets(data = mytweets)
+#' pooled_dfm <- pool$document_term_matrix
+#'
+#' # fit your LDA model with 7 topics
+#' model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
+#'
+#' # Choose either "beta" to return the term distribution
+#' # over topics (term per document) or "gamma" for the document distribution over
+#' # topics (hashtag pool per topic probability)
+#' lda_distribution(model, param = "gamma")
+#' }
 
 lda_distribution <- function(lda_model, param = "gamma", tidy = FALSE) {
+
+  # quietly install tidyr and tidytext if user wants results in tidy format but doesn't have the packages installed
+  if (tidy|param == "beta") {
+    if (!requireNamespace("tidytext", quietly = TRUE)) {
+      install.packages("tidytext")
+    }
+    if (!requireNamespace("tidyr", quietly = TRUE)) {
+      install.packages("tidyr")
+    }
+  }
 
   if (param == "beta") {
     if (is.logical(tidy)) {
       if (!tidy) {
         # % Each document (hashtag) belongs to a topic
-        warning('param = "beta" has no base R support. Use `tidy = TRUE`')
+        warning("`param = beta` has no base R support. Continuing with `tidy = TRUE`")
+        res <- tidytext::tidy(lda_model, matrix = c("beta")) %>%
+          tidyr::spread(.data$topic, beta)
       }
 
       if (tidy) {
@@ -102,7 +198,7 @@ lda_distribution <- function(lda_model, param = "gamma", tidy = FALSE) {
         res <- tidytext::tidy(lda_model, matrix = c("beta")) %>%
           tidyr::spread(.data$topic, beta)
       }
-    } else warning('`tidy` must be a boolean value')
+    } else warning('`tidy` must be either TRUE or FALSE')
   }
 
   if (param == "gamma") {
@@ -119,7 +215,7 @@ lda_distribution <- function(lda_model, param = "gamma", tidy = FALSE) {
         res <- tidytext::tidy(lda_model, matrix = c("gamma")) %>%
           tidyr::spread(.data$topic, gamma)
       }
-    } else warning('`tidy` must be a boolean value')
+    } else warning('`tidy` must be either TRUE or FALSE')
   }
 
   if (exists("res")) return(res)
@@ -128,14 +224,30 @@ lda_distribution <- function(lda_model, param = "gamma", tidy = FALSE) {
 
 #' Predict topics of tweets using fitted LDA model
 #' @description Predict topics of tweets using fitted LDA model.
-#' \code{jsonlite::stream_in()} and \code{`rtweet::tweets_with_users(s)`}.
-#' @param lda_model Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA}).
-#' @param response Type of response. Either "prob" for probabilities or
-#' "max" one topic (default).
+#' @param lda_model Fitted LDA Model. Object of class \link[topicmodels:TopicModel-class]{LDA}.
+#' @param response Type of response. Either "prob" for probabilities or "max" one topic (default).
 #' @return Data frame of topic predictions or predicted probabilities per topic (see response).
 #'
 #' @inheritParams pool_tweets
 #' @export
+#' @examples
+#' \dontrun{
+#'
+#' library(Twitmo)
+#'
+#' # load tweets (included in package)
+#' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
+#'
+#' # Pool tweets into longer pseudo-documents
+#' pool <- pool_tweets(data = mytweets)
+#' pooled_dfm <- pool$document_term_matrix
+#'
+#' # fit your LDA model with 7 topics
+#' model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
+#'
+#' # Predict topics of tweets using your fitted LDA model
+#' predict_lda(mytweets, model, response = "prob")
+#' }
 
 predict_lda <- function(data, lda_model,
                         response = "max",

@@ -1,7 +1,7 @@
 #' Sample tweets by streaming or searching
 #' @description Collect Tweets via streaming or searching.
 #' @details A function that calls on \link[rtweet]{stream_tweets} and \link[rtweet]{search_tweets}
-#' (depending on the specified method) and is specifically tailored to sampling geo-tagged data.
+#' (depending on the specified method) and is specifically tailored for sampling geo-tagged data.
 #' This function provides supports additional arguments like location for convenient
 #' sampling of geo-tagged Tweets. Tweets can be searched up to 9 days into the past.
 #' @param method Character string. Supported methods are streaming and searching.
@@ -24,9 +24,30 @@
 #' \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/sample-realtime/api-reference/get-statuses-sample}
 #' @seealso \link[rtweet]{stream_tweets}, \link[rtweet]{search_tweets}
 #' @export
-
-# This is a wrapper function that combines rtweet::stream_tweets() and rtweet::search_tweets()
-# and is specifically tailored to sampling geo-located data.
+#'
+#' @examples
+#' \dontrun{
+#'
+#' # live stream tweets from Germany for 60 seconds and save to current working directory
+#' get_tweets(method = "stream",
+#'            location = "DEU",
+#'            timeout = 60,
+#'            file_name = "german_tweets.json")
+#'
+#' # OR
+#' # live stream tweets from berlin for an hour
+#' get_tweets(method = "stream",
+#'            location = "berlin",
+#'            timeout = 3600,
+#'            file_name = "berlin_tweets.json")
+#'
+#' # OR
+#' # use your own bounding box coordinates to strean tweets indefinitely (interrupt to stop)
+#' get_tweets(method = 'stream',
+#'            location = c(-125, 26, -65, 49),
+#'            timeout = Inf)
+#'
+#' }
 
 get_tweets <- function(method = 'stream',
                        location = c(-180, -90, 180, 90),
