@@ -4,11 +4,11 @@ Title: Twitter Topic Modeling and Visualization for R
 Version: 0.1.0
 Author: Andreas Buchmueller
 Maintainer: Andreas Buchmueller <a.buchmueller@stud.uni-goettingen.de>
-Description: Twitmo is tailored for Twitter topic modeling and visualization tasks in R. 
-    It can be used to collect, pre-process and analyze the contents of Tweets using 
-    LDA and STM models. It also comes with visualizing capabilites like Tweet and hashtag maps 
+Description: Tailored for topic modeling with tweets and fit for visualization tasks in R. 
+    Collect, pre-process and analyze the contents of tweets using 
+    LDA and STM models. Comes with visualizing capabilities like tweet and hashtag maps 
     and built-in support for LDAvis.
-License: GPL-3 + file LICENSE
+License: MIT + file LICENSE
 URL: https://github.com/abuchmueller/Twitmo
 BugReports: https://github.com/abuchmueller/Twitmo/issues
 Encoding: UTF-8
@@ -44,4 +44,3 @@ Suggests:
     ldatuning,
     stringi,
     servr,
-VignetteBuilder: knitr

@@ -4,15 +4,15 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/abuchmueller/Twitmo/workflows/R-CMD-check/badge.svg)](https://github.com/abuchmueller/Twitmo/actions)
-[![License: GPL
-v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <!-- badges: end -->
 
 The goal of `Twitmo` is to facilitate topic modeling in R with Twitter
 data. `Twitmo` provides a broad range of methods to sample, pre-process
-and visualize Tweets to make modeling the public discourse easy and
-accessible.
+and visualize contents of geo-tagged tweets to make modeling the public
+discourse easy and accessible.
 
 ## Installation
 
@@ -40,19 +40,19 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 remotes::install_github("abuchmueller/Twitmo")
 ```
 
-## Example: Collect geo-tagged tweets
+## Collecting geo-tagged tweets
 
 Make sure you have a regular Twitter Account before start to sample your
-Tweets.
+tweets.
 
 ``` r
-# Live stream Tweets from the UK for 30 seconds and save to "uk_tweets.json" in current working directory
+# Live stream tweets from the UK for 30 seconds and save to "uk_tweets.json" in current working directory
 get_tweets(method = 'stream', 
            location = "GBR", 
            timeout = 30, 
            file_name = "uk_tweets.json")
 
-# Use your own bounding box to stream US mainland Tweets
+# Use your own bounding box to stream US mainland tweets
 get_tweets(method = 'stream', 
            location = c(-125, 26, -65, 49), 
            timeout = 30,
@@ -83,7 +83,7 @@ pool.corpus <- pool$corpus
 pool.dfm <- pool$document_term_matrix
 ```
 
-## Search for optimal number of topics k
+## Find optimal number of topics
 
 ``` r
 find_lda(pool.dfm)
@@ -91,7 +91,7 @@ find_lda(pool.dfm)
 
 ![](man/figures/README-ldatuner-1.png)<!-- -->
 
-## Fit LDA model
+## Fitting a LDA model
 
 ``` r
 model <- fit_lda(pool.dfm, n_topics = 7)
@@ -101,17 +101,17 @@ model <- fit_lda(pool.dfm, n_topics = 7)
 
 ``` r
 lda_terms(model)
-#>      Topic.1 Topic.2                Topic.3       Topic.4   Topic.5 Topic.6   Topic.7
-#> 1       like    meet                  music tenrestaurant      link  church     today
-#> 2        job  people                   time         paola       bio    team    laurel
-#> 3   downtown   first               birthday          says     today     see      glen
-#> 4  knoxville     big              girlhappy         puppy       job   place  trailing
-#> 5        can  always          birthdaytasha           job     click  sunday      oaks
-#> 6  recommend    love                     us         crazy  pharmacy    yall   tuscany
-#> 7     anyone    last                morning       covered    hiring morning        ii
-#> 8      click   night                  early        waffle estimator    word    design
-#> 9       link     fun             photoshoot        sooooo       day general perfectly
-#> 10       bio    good shamarathemodelscruggs         great     great worship     sized
+#>      Topic.1   Topic.2                Topic.3   Topic.4       Topic.5       Topic.6   Topic.7
+#> 1        job  downtown                  music     today tenrestaurant         place      like
+#> 2       link knoxville                   team    laurel         paola          life       job
+#> 3        bio democrats                morning      glen          says          time      life
+#> 4      click      jeff                 season  trailing         puppy      birthday beautiful
+#> 5        see  sessions                  early      oaks            us     girlhappy   posting
+#> 6       meet      like             photoshoot   tuscany         crazy birthdaytasha      olde
+#> 7     people    theres shamarathemodelscruggs        ii       covered        church       end
+#> 8        can   nothing               allwomen    design        waffle         today      days
+#> 9  recommend     quite                   stay perfectly        sooooo           see    grains
+#> 10    anyone        tn                  tuned     sized        church        sunday      sand
 ```
 
 or which hashtags are heavily associated with each topic
@@ -119,111 +119,111 @@ or which hashtags are heavily associated with each topic
 ``` r
 lda_hashtags(model)
 #>                      Topic
-#> mood                     6
-#> motivate                 6
+#> mood                     5
+#> motivate                 3
 #> healthcare               1
-#> mrrbnsnathome            4
-#> newyork                  4
-#> breakfast                4
+#> mrrbnsnathome            5
+#> newyork                  5
+#> breakfast                5
 #> thisismyplace            6
 #> p4l                      6
-#> chinup                   4
-#> sundayfunday             4
-#> saintsgameday            4
-#> instapuppy               4
-#> woof                     4
-#> tailswagging             4
-#> tickfire                 6
-#> msiclassic               6
-#> nyc                      2
-#> about                    2
-#> joethecrane              2
-#> government               4
+#> chinup                   5
+#> sundayfunday             5
+#> saintsgameday            5
+#> instapuppy               5
+#> woof                     5
+#> tailswagging             5
+#> tickfire                 1
+#> msiclassic               3
+#> nyc                      1
+#> about                    1
+#> joethecrane              1
+#> government               5
 #> ladystrut19              3
 #> ladystrutaccessories     3
-#> smartnews                4
-#> sundaythoughts           5
+#> smartnews                2
+#> sundaythoughts           6
 #> sf100                    3
-#> openhouse                7
-#> springtx                 7
+#> openhouse                4
+#> springtx                 4
 #> labor                    1
 #> norfolk                  1
-#> oprylandhotel            7
-#> pharmaceutical           5
-#> easthanover              2
-#> sales                    2
-#> scryingartist            1
-#> beautifulskyz            1
-#> knoxvilletn              1
-#> downtownknoxville        1
-#> heartofservice           3
-#> youthmagnet              3
-#> youthmentor              3
-#> bonjour                  5
-#> trump2020                4
-#> spiritchat               3
-#> columbia                 5
-#> newcastle                1
-#> oncology                 4
+#> oprylandhotel            2
+#> pharmaceutical           7
+#> easthanover              1
+#> sales                    1
+#> scryingartist            7
+#> beautifulskyz            7
+#> knoxvilletn              2
+#> downtownknoxville        2
+#> heartofservice           6
+#> youthmagnet              6
+#> youthmentor              6
+#> bonjour                  2
+#> trump2020                7
+#> spiritchat               5
+#> columbia                 3
+#> newcastle                7
+#> oncology                 5
 #> nbatwitter               6
-#> detroit                  5
+#> detroit                  1
 ```
 
-## LDA distribution
+## Inspecting LDA distributions
 
 Check the distribution of your LDA Model with
 
 ``` r
 lda_distribution(model)
 #>                         V1    V2    V3    V4    V5    V6    V7
-#> mood                 0.001 0.001 0.001 0.001 0.001 0.996 0.001
-#> motivate             0.001 0.001 0.001 0.001 0.001 0.994 0.001
+#> mood                 0.001 0.001 0.001 0.001 0.996 0.001 0.001
+#> motivate             0.001 0.001 0.995 0.001 0.001 0.001 0.001
 #> healthcare           0.996 0.001 0.001 0.001 0.001 0.001 0.001
-#> mrrbnsnathome        0.002 0.002 0.002 0.990 0.002 0.002 0.002
-#> newyork              0.002 0.002 0.002 0.990 0.002 0.002 0.002
-#> breakfast            0.002 0.002 0.002 0.990 0.002 0.002 0.002
-#> thisismyplace        0.001 0.001 0.001 0.001 0.001 0.994 0.001
-#> p4l                  0.001 0.001 0.001 0.001 0.001 0.994 0.001
-#> chinup               0.003 0.003 0.003 0.980 0.003 0.003 0.003
-#> sundayfunday         0.003 0.003 0.003 0.980 0.003 0.003 0.003
-#> saintsgameday        0.003 0.003 0.003 0.980 0.003 0.003 0.003
-#> instapuppy           0.003 0.003 0.003 0.980 0.003 0.003 0.003
-#> woof                 0.003 0.003 0.003 0.980 0.003 0.003 0.003
-#> tailswagging         0.003 0.003 0.003 0.980 0.003 0.003 0.003
-#> tickfire             0.001 0.001 0.001 0.001 0.001 0.996 0.001
-#> msiclassic           0.001 0.001 0.001 0.001 0.001 0.995 0.001
-#> nyc                  0.001 0.997 0.001 0.001 0.001 0.001 0.001
-#> about                0.001 0.997 0.001 0.001 0.001 0.001 0.001
-#> joethecrane          0.001 0.997 0.001 0.001 0.001 0.001 0.001
-#> government           0.001 0.001 0.001 0.996 0.001 0.001 0.001
+#> mrrbnsnathome        0.002 0.002 0.002 0.002 0.990 0.002 0.002
+#> newyork              0.002 0.002 0.002 0.002 0.990 0.002 0.002
+#> breakfast            0.002 0.002 0.002 0.002 0.990 0.002 0.002
+#> thisismyplace        0.001 0.001 0.001 0.001 0.001 0.995 0.001
+#> p4l                  0.001 0.001 0.001 0.001 0.001 0.995 0.001
+#> chinup               0.003 0.003 0.003 0.003 0.980 0.003 0.003
+#> sundayfunday         0.003 0.003 0.003 0.003 0.980 0.003 0.003
+#> saintsgameday        0.003 0.003 0.003 0.003 0.980 0.003 0.003
+#> instapuppy           0.003 0.003 0.003 0.003 0.980 0.003 0.003
+#> woof                 0.003 0.003 0.003 0.003 0.980 0.003 0.003
+#> tailswagging         0.003 0.003 0.003 0.003 0.980 0.003 0.003
+#> tickfire             0.996 0.001 0.001 0.001 0.001 0.001 0.001
+#> msiclassic           0.001 0.001 0.995 0.001 0.001 0.001 0.001
+#> nyc                  0.997 0.001 0.001 0.001 0.001 0.001 0.001
+#> about                0.997 0.001 0.001 0.001 0.001 0.001 0.001
+#> joethecrane          0.997 0.001 0.001 0.001 0.001 0.001 0.001
+#> government           0.001 0.001 0.001 0.001 0.996 0.001 0.001
 #> ladystrut19          0.001 0.001 0.996 0.001 0.001 0.001 0.001
 #> ladystrutaccessories 0.001 0.001 0.996 0.001 0.001 0.001 0.001
-#> smartnews            0.001 0.001 0.001 0.997 0.001 0.001 0.001
-#> sundaythoughts       0.000 0.000 0.000 0.000 0.997 0.000 0.000
+#> smartnews            0.001 0.997 0.001 0.001 0.001 0.001 0.001
+#> sundaythoughts       0.000 0.000 0.000 0.000 0.000 0.997 0.000
 #> sf100                0.001 0.001 0.996 0.001 0.001 0.001 0.001
-#> openhouse            0.000 0.000 0.000 0.000 0.000 0.000 0.998
-#> springtx             0.000 0.000 0.000 0.000 0.000 0.000 0.998
+#> openhouse            0.000 0.000 0.000 0.998 0.000 0.000 0.000
+#> springtx             0.000 0.000 0.000 0.998 0.000 0.000 0.000
 #> labor                0.996 0.001 0.001 0.001 0.001 0.001 0.001
 #> norfolk              0.996 0.001 0.001 0.001 0.001 0.001 0.001
-#> oprylandhotel        0.001 0.001 0.001 0.001 0.001 0.001 0.996
-#> pharmaceutical       0.001 0.001 0.001 0.001 0.996 0.001 0.001
-#> easthanover          0.001 0.996 0.001 0.001 0.001 0.001 0.001
-#> sales                0.001 0.996 0.001 0.001 0.001 0.001 0.001
-#> scryingartist        0.996 0.001 0.001 0.001 0.001 0.001 0.001
-#> beautifulskyz        0.996 0.001 0.001 0.001 0.001 0.001 0.001
-#> knoxvilletn          0.995 0.001 0.001 0.001 0.001 0.001 0.001
-#> downtownknoxville    0.995 0.001 0.001 0.001 0.001 0.001 0.001
-#> heartofservice       0.003 0.003 0.985 0.003 0.003 0.003 0.003
-#> youthmagnet          0.003 0.003 0.985 0.003 0.003 0.003 0.003
-#> youthmentor          0.003 0.003 0.985 0.003 0.003 0.003 0.003
-#> bonjour              0.001 0.001 0.001 0.001 0.994 0.001 0.001
-#> trump2020            0.001 0.001 0.001 0.994 0.001 0.001 0.001
-#> spiritchat           0.001 0.001 0.997 0.001 0.001 0.001 0.001
-#> columbia             0.001 0.001 0.001 0.001 0.996 0.001 0.001
-#> newcastle            0.997 0.001 0.001 0.001 0.001 0.001 0.001
-#> oncology             0.001 0.001 0.001 0.996 0.001 0.001 0.001
+#> oprylandhotel        0.001 0.996 0.001 0.001 0.001 0.001 0.001
+#> pharmaceutical       0.001 0.001 0.001 0.001 0.001 0.001 0.996
+#> easthanover          0.996 0.001 0.001 0.001 0.001 0.001 0.001
+#> sales                0.996 0.001 0.001 0.001 0.001 0.001 0.001
+#> scryingartist        0.001 0.001 0.001 0.001 0.001 0.001 0.996
+#> beautifulskyz        0.001 0.001 0.001 0.001 0.001 0.001 0.996
+#> knoxvilletn          0.001 0.995 0.001 0.001 0.001 0.001 0.001
+#> downtownknoxville    0.001 0.995 0.001 0.001 0.001 0.001 0.001
+#> heartofservice       0.002 0.002 0.002 0.002 0.002 0.985 0.002
+#> youthmagnet          0.002 0.002 0.002 0.002 0.002 0.985 0.002
+#> youthmentor          0.002 0.002 0.002 0.002 0.002 0.985 0.002
+#> bonjour              0.001 0.995 0.001 0.001 0.001 0.001 0.001
+#> trump2020            0.001 0.001 0.001 0.001 0.001 0.001 0.995
+#> spiritchat           0.001 0.001 0.001 0.001 0.997 0.001 0.001
+#> columbia             0.001 0.001 0.996 0.001 0.001 0.001 0.001
+#> newcastle            0.001 0.001 0.001 0.001 0.001 0.001 0.997
+#> oncology             0.001 0.001 0.001 0.001 0.996 0.001 0.001
 #> nbatwitter           0.000 0.000 0.000 0.000 0.000 0.997 0.000
-#> detroit              0.001 0.001 0.001 0.001 0.995 0.001 0.001
+#> detroit              0.995 0.001 0.001 0.001 0.001 0.001 0.001
 ```
 
 # Filtering tweets
@@ -231,13 +231,13 @@ lda_distribution(model)
 Sometimes you can build better topic models by blacklisting or
 whitelisting certain keywords from your data. You can do this with a
 keyword dictionary using the `filter_tweets()` function. In this example
-we exclude all Tweets with “football” or “mood” in them from our data.
+we exclude all tweets with “football” or “mood” in them from our data.
 
 ``` r
 mytweets %>% dim()
-#> [1] 193  93
+#> [1] 193  92
 filter_tweets(mytweets, keywords = "football,mood", include = FALSE) %>% dim()
-#> [1] 183  93
+#> [1] 183  92
 ```
 
 Analogously if you want to run your collected tweets through a whitelist
@@ -245,16 +245,16 @@ use
 
 ``` r
 mytweets %>% dim()
-#> [1] 193  93
+#> [1] 193  92
 filter_tweets(mytweets, keywords = "football,mood", include = TRUE) %>% dim()
-#> [1] 10 93
+#> [1] 10 92
 ```
 
-# Fit STM
+# Fiting a STM
 
 Structural topic models can be fitted with additional external
-covariates. In this example we metadata that comes with the Tweets such
-as retweet count. This works with parsed unpooled Tweets. Pre-processing
+covariates. In this example we metadata that comes with the tweets such
+as retweet count. This works with parsed unpooled tweets. Pre-processing
 and fitting is done with one function.
 
 ``` r
@@ -308,9 +308,24 @@ summary(stm_model)
 #>       Score: feel, school, think, set, say, everyon, happen
 ```
 
-## Visualize models with `LDAvis`
+## Visualizing models with `LDAvis`
 
-Make sure you have `servr` package installed.
+Make sure you have `LDAvis` and `servr` installed.
+
+``` r
+## install LDAvis package if it's not already
+if (!requireNamespace("LDAvis", quietly = TRUE)) {
+  install.packages("LDAvis")
+}
+
+## install servr package if it's not already
+if (!requireNamespace("servr", quietly = TRUE)) {
+  install.packages("servr")
+}
+```
+
+Export fitted models into interactive `LDAvis` visualizations with one
+line of code
 
 ``` r
 to_ldavis(model, pool.corpus, pool.dfm)
@@ -320,7 +335,7 @@ stm::toLDAvis(stm_model, stm_model$prep$documents)
 
 ![](man/figures/to_ldavis.png)
 
-## Plot tweets
+## Plotting geo-tagged tweets
 
 Plot your tweets onto a static map
 
