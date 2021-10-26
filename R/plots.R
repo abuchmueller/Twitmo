@@ -34,6 +34,10 @@ plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
   # remove opacity if sample size is small
   if (nrow(data) < 100) alpha <- 1
 
+  # restore user options on exit
+  oldpar <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(oldpar))
+
   ## plot state boundaries
   graphics::par(mar = c(0, 0, 3, 0))
   maps::map("world", region,  ...)
@@ -64,7 +68,7 @@ plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
 #'
 #' # Plot tweets on mainland USA region
 #' plot_hashtag(mytweets,
-#'              region = region = "USA(?!:Alaska|:Hawaii)",
+#'              region = "USA(?!:Alaska|:Hawaii)",
 #'              hashtag = "breakfast",
 #'              ignore_case=TRUE,
 #'              alpha=1)
@@ -81,6 +85,10 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
 
   # remove opacity if sample size is small
   if (nrow(data[which(sapply(data$hashtags, FUN=function(X) hashtag %in% X)), ]) < 100) alpha <- 1
+
+  # restore user options on exit
+  oldpar <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(oldpar))
 
   ## plot state boundaries
   graphics::par(mar = c(0, 0, 3, 0))

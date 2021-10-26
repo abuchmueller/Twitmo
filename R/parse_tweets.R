@@ -8,6 +8,7 @@
 #' @usage load_tweets(file_name)
 #' @param file_name Character string. Name of JSON file with data collected by
 #' \link[rtweet]{stream_tweets} or \code{get_tweets()}.
+#' @return A data frame of tweets data with additional meta data
 #'
 #' @seealso \link[rtweet]{parse_stream}, \link[jsonlite]{stream_in}, \link[rtweet]{tweets_with_users}
 #' @export

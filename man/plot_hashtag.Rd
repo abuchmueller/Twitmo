@@ -50,7 +50,7 @@ mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", pa
 
 # Plot tweets on mainland USA region
 plot_hashtag(mytweets,
-             region = region = "USA(?!:Alaska|:Hawaii)",
+             region = "USA(?!:Alaska|:Hawaii)",
              hashtag = "breakfast",
              ignore_case=TRUE,
              alpha=1)

@@ -1,13 +1,13 @@
 Package: Twitmo
 Type: Package
 Title: Twitter Topic Modeling and Visualization for R
-Version: 0.1.0
+Version: 0.1.1
 Author: Andreas Buchmueller
 Maintainer: Andreas Buchmueller <a.buchmueller@stud.uni-goettingen.de>
 Description: Tailored for topic modeling with tweets and fit for visualization tasks in R. 
     Collect, pre-process and analyze the contents of tweets using 
     LDA and STM models. Comes with visualizing capabilities like tweet and hashtag maps 
-    and built-in support for LDAvis.
+    and built-in support for 'LDAvis'.
 License: MIT + file LICENSE
 URL: https://github.com/abuchmueller/Twitmo
 BugReports: https://github.com/abuchmueller/Twitmo/issues

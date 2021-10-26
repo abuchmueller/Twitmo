@@ -10,6 +10,9 @@ load_tweets(file_name)
 \item{file_name}{Character string. Name of JSON file with data collected by
 \link[rtweet]{stream_tweets} or \code{get_tweets()}.}
 }
+\value{
+A data frame of tweets data with additional meta data
+}
 \description{
 Parse JSON files of collected Tweets
 }
