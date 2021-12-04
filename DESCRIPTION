@@ -1,12 +1,23 @@
 Package: Twitmo
 Type: Package
 Title: Twitter Topic Modeling and Visualization for R
-Version: 0.1.1
-Author: Andreas Buchmueller
-Maintainer: Andreas Buchmueller <a.buchmueller@stud.uni-goettingen.de>
+Version: 0.1.2
+Authors@R: c(
+  person("Andreas", "Buchmueller", email = "a.buchmueller@stud.uni-goettingen.de", role = c("aut", "cre"),
+         comment = "github.com/abuchmueller"),
+  person("Gillian", "Kant", email = "gillian.kant@stud.uni-goettingen.de", role = c("aut", "ths"),
+         comment = c(ORCID = "0000-0003-2346-2841")),
+  person("Christoph", "Weisser", email = "c.weisser@uni-goettingen.de", role = c("aut", "ths"),
+         comment = c(ORCID = "0000-0003-0616-1027")),
+  person("Benjamin", "Saefken", email = "benjamin.saefken@uni-goettingen.de", role = c("aut", "ths"),
+         comment = c(ORCID = "0000-0003-4702-3333")),
+  person("Thomas", "Kneib", email = "thomas.kneib@wiwi.uni-goettingen.de", role = c("rev", "ths", "dgs"),
+         comment = c(ORCID = "0000-0003-3390-0972")),
+  person("Krisztina", "Kis-Katos", email = "krisztina.kis-katos@uni-goettingen.de", role = "rev",
+         comment = c(ORCID = "0000-0003-2459-1274")))
 Description: Tailored for topic modeling with tweets and fit for visualization tasks in R. 
     Collect, pre-process and analyze the contents of tweets using 
-    LDA and STM models. Comes with visualizing capabilities like tweet and hashtag maps 
+    LDA and structural topic models (STM). Comes with visualizing capabilities like tweet and hashtag maps 
     and built-in support for 'LDAvis'.
 License: MIT + file LICENSE
 URL: https://github.com/abuchmueller/Twitmo
@@ -43,4 +54,4 @@ Suggests:
     tm,
     ldatuning,
     stringi,
-    servr,
+    servr
