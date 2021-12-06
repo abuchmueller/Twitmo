@@ -15,7 +15,7 @@ Authors@R: c(
          comment = c(ORCID = "0000-0003-3390-0972")),
   person("Krisztina", "Kis-Katos", email = "krisztina.kis-katos@uni-goettingen.de", role = "rev",
          comment = c(ORCID = "0000-0003-2459-1274")))
-Description: Tailored for topic modeling with tweets and fit for visualization tasks in R. 
+Description: Tailored for topic modeling with tweets and fit for visualization tasks in R.
     Collect, pre-process and analyze the contents of tweets using 
     LDA and structural topic models (STM). Comes with visualizing capabilities like tweet and hashtag maps 
     and built-in support for 'LDAvis'.
@@ -42,16 +42,16 @@ Imports:
     stm,
     tidyr,
     rlang,
-    maps
+    maps,
+    LDAvis,
+    leaflet,
+    ldatuning,
+    stringi,
+    tm
 RoxygenNote: 7.1.2
 Suggests: 
     rmarkdown,
     knitr,
-    leaflet,
     tidytext,
     modeltools,
-    LDAvis,
-    tm,
-    ldatuning,
-    stringi,
     servr

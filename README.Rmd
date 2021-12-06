@@ -32,7 +32,7 @@ You can install `Twitmo` from CRAN with:
 install.packages("Twitmo")
 ```
 
-You can install `Twitmo` from GitHub with:
+You can install `Twitmo` from Github with:
 
 Before you install from Github make sure you have Rtools for [Windows](https://cran.r-project.org/bin/windows/Rtools/ "Rtools for Windows (CRAN)") or [macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/ "Rtools for macOS") already installed.
 
@@ -129,7 +129,7 @@ mytweets %>% dim()
 filter_tweets(mytweets, keywords = "football,mood", include = TRUE) %>% dim()
 ```
 
-# Fiting a STM
+# Fitting a structural topic model (STM)
 
 Structural topic models can be fitted with additional external covariates. In this example we metadata that comes with the tweets such as retweet count. This works with parsed unpooled tweets. Pre-processing and fitting is done with one function.
 

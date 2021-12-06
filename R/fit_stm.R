@@ -8,7 +8,7 @@
 #' or a character vector (\code{c("favourites_count", "retweet_count")})
 #' or comma seperated character string (\code{"favourites_count,retweet_count"})
 #' with column names implying which metadata to use as external covariates.
-#' @param remove_punct Logical. Indicates wheter punctuation (includes Twitter hashtags and usernames)
+#' @param remove_punct Logical. Indicates whether punctuation (includes Twitter hashtags and usernames)
 #' should be removed. Defaults to TRUE.
 #' @param stem Logical. If \code{TRUE} turn on word stemming for terms.
 #' @param ... Additional arguments passed to \link[stm]{stm}.

@@ -28,7 +28,7 @@ or a character vector (\code{c("favourites_count", "retweet_count")})
 or comma seperated character string (\code{"favourites_count,retweet_count"})
 with column names implying which metadata to use as external covariates.}
 
-\item{remove_punct}{Logical. Indicates wheter punctuation (includes Twitter hashtags and usernames)
+\item{remove_punct}{Logical. Indicates whether punctuation (includes Twitter hashtags and usernames)
 should be removed. Defaults to TRUE.}
 
 \item{stem}{Logical. If \code{TRUE} turn on word stemming for terms.}
