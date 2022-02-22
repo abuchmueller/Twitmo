@@ -174,7 +174,7 @@ Press [enter] to continue or [control+c] to abort"))
   }
 
   # remove duplicates quoted tweets and retweets
-  a <- a[a$is_quote == "FALSE" & a$is_retweet == FALSE, ]
+  a <- a[a$is_quote == FALSE & a$is_retweet == FALSE, ]
 
   # pre-selection of metadata for stm modeling
   a <- a[c("created_at", "text", "hashtags", "favorite_count", "retweet_count", "quote_count",
