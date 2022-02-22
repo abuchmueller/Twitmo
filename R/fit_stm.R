@@ -133,7 +133,7 @@ Type `?fit_stm` to learn more.")
   # if user passes formula obj
   if (is.language(xcov)) xcov <- stats::as.formula(xcov)
   model.stm <- stm::stm(documents = out$documents, vocab = out$vocab, data = out$meta,
-                        K = 7,
+                        K = n_topics,
                         prevalence = xcov,
                         max.em.its = 75,
                         init.type = "Spectral",
