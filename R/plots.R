@@ -12,7 +12,6 @@
 #' @param ... Extra arguments passed to \link[graphics]{polygon} or \link[graphics]{lines}.
 #' @return Maps where each dot represents a tweet.
 #' @examples
-#'
 #' \dontrun{
 #'
 #' library(Twitmo)
@@ -20,7 +19,7 @@
 #' # Plot tweets on mainland USA
 #' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
 #'
-#' plot_tweets(mytweets, region = "USA(?!:Alaska|:Hawaii)", alpha=1)
+#' plot_tweets(mytweets, region = "USA(?!:Alaska|:Hawaii)", alpha = 1)
 #' # Add title
 #' title("My tweets on a map")
 #' }
@@ -30,7 +29,6 @@
 #' @export
 
 plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
-
   # remove opacity if sample size is small
   if (nrow(data) < 100) alpha <- 1
 
@@ -40,11 +38,10 @@ plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
 
   ## plot state boundaries
   graphics::par(mar = c(0, 0, 3, 0))
-  maps::map("world", region,  ...)
+  maps::map("world", region, ...)
 
   ## plot lat and lng points onto state map
   with(data, points(lng, lat, pch = 20, cex = .75, col = rgb(0, .3, .7, .75, alpha = alpha)))
-
 }
 
 #' Plot tweets containing certain hashtag
@@ -59,7 +56,6 @@ plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
 #' @inheritParams plot_tweets
 #' @return Maps where each dot represents a tweet.
 #' @examples
-#'
 #' \dontrun{
 #' library(Twitmo)
 #'
@@ -68,10 +64,11 @@ plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
 #'
 #' # Plot tweets on mainland USA region
 #' plot_hashtag(mytweets,
-#'              region = "USA(?!:Alaska|:Hawaii)",
-#'              hashtag = "breakfast",
-#'              ignore_case=TRUE,
-#'              alpha=1)
+#'   region = "USA(?!:Alaska|:Hawaii)",
+#'   hashtag = "breakfast",
+#'   ignore_case = TRUE,
+#'   alpha = 1
+#' )
 #'
 #' # Add title
 #' title("My hashtags on a map")
@@ -82,9 +79,8 @@ plot_tweets <- function(data, region = ".", alpha = 0.01, ...) {
 #' @export
 
 plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_case = TRUE, ...) {
-
   # remove opacity if sample size is small
-  if (nrow(data[which(sapply(data$hashtags, FUN=function(X) hashtag %in% X)), ]) < 100) alpha <- 1
+  if (nrow(data[which(sapply(data$hashtags, FUN = function(X) hashtag %in% X)), ]) < 100) alpha <- 1
 
   # restore user options on exit
   oldpar <- graphics::par(no.readonly = TRUE)
@@ -92,11 +88,10 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
 
   ## plot state boundaries
   graphics::par(mar = c(0, 0, 3, 0))
-  maps::map("world", region,  ...)
+  maps::map("world", region, ...)
 
- # case sensitivity logic
+  # case sensitivity logic
   if (ignore_case) {
-
     # convert query to lowercase
     hashtag <- tolower(hashtag)
 
@@ -104,23 +99,23 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
     data$hashtags <- lapply(data$hashtags, tolower)
 
     # indices of tweets with matching hashtag
-    match_ind <- which(sapply(data$hashtags, FUN=function(X) hashtag %in% X))
+    match_ind <- which(sapply(data$hashtags, FUN = function(X) hashtag %in% X))
 
     ## plot lat and lng points onto state map
-    with(data[match_ind, ],
-         points(lng, lat, pch = 20, cex = .75, col = rgb(1, 0, 0, 0, alpha = alpha)))
-
+    with(
+      data[match_ind, ],
+      points(lng, lat, pch = 20, cex = .75, col = rgb(1, 0, 0, 0, alpha = alpha))
+    )
   } else {
-
     # indices of tweets with matching hashtag
-    match_ind <- which(sapply(data$hashtags, FUN=function(X) hashtag %in% X))
+    match_ind <- which(sapply(data$hashtags, FUN = function(X) hashtag %in% X))
 
     ## plot lat and lng points onto state map
-    with(data[match_ind, ],
-         points(lng, lat, pch = 20, cex = .75, col = rgb(1, 0, 0, 0, alpha = alpha)))
-
+    with(
+      data[match_ind, ],
+      points(lng, lat, pch = 20, cex = .75, col = rgb(1, 0, 0, 0, alpha = alpha))
+    )
   }
-
 }
 
 
@@ -131,7 +126,6 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
 #' @inheritParams plot_tweets
 #' @return Interactive leaflet map
 #' @examples
-#'
 #' \dontrun{
 #'
 #' library(Twitmo)
@@ -151,16 +145,11 @@ plot_hashtag <- function(data, region = ".", alpha = 0.01, hashtag = "", ignore_
 #' @export
 
 cluster_tweets <- function(data, ...) {
-
   # create leaflet map with marker clusters
   m <- leaflet::leaflet() %>%
-    leaflet::addTiles() %>%  # Add default OpenStreetMap map tiles
-    leaflet::addMarkers(lng=data$lng, lat=data$lat, clusterOptions = leaflet::markerClusterOptions(...), popup = data$text)
+    leaflet::addTiles() %>% # Add default OpenStreetMap map tiles
+    leaflet::addMarkers(lng = data$lng, lat = data$lat, clusterOptions = leaflet::markerClusterOptions(...), popup = data$text)
 
   # Print the map
   m
 }
-
-
-
-

@@ -62,15 +62,18 @@ library(Twitmo)
 mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
 
 # fit STM with tweets
-stm_model <- fit_stm(mytweets, n_topics = 7,
-                     xcov = ~ retweet_count + followers_count + reply_count +
-                     quote_count + favorite_count,
-                     remove_punct = TRUE,
-                     remove_url = TRUE,
-                     remove_emojis = TRUE,
-                     stem = TRUE,
-                     stopwords = "en")
+stm_model <- fit_stm(mytweets,
+  n_topics = 7,
+  xcov = ~ retweet_count + followers_count + reply_count +
+    quote_count + favorite_count,
+  remove_punct = TRUE,
+  remove_url = TRUE,
+  remove_emojis = TRUE,
+  stem = TRUE,
+  stopwords = "en"
+)
 }
+
 }
 \seealso{
 \link[stm]{stm}

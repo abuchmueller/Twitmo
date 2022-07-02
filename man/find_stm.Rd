@@ -45,6 +45,7 @@ find_stm(pooled_dfm, search_space = seq(1, 10, 1))
 prepped_stm <- stm_model$prep
 find_stm(prepped_stm, search_space = seq(4, 16, by = 2))
 }
+
 }
 \seealso{
 \link[stm]{searchK}

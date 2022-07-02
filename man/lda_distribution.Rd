@@ -41,4 +41,5 @@ model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
 # topics (hashtag pool per topic probability)
 lda_distribution(model, param = "gamma")
 }
+
 }

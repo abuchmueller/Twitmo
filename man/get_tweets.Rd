@@ -53,25 +53,31 @@ sampling of geo-tagged Tweets. Tweets can be searched up to 9 days into the past
 \dontrun{
 
 # live stream tweets from Germany for 60 seconds and save to current working directory
-get_tweets(method = "stream",
-           location = "DEU",
-           timeout = 60,
-           file_name = "german_tweets.json")
+get_tweets(
+  method = "stream",
+  location = "DEU",
+  timeout = 60,
+  file_name = "german_tweets.json"
+)
 
 # OR
 # live stream tweets from berlin for an hour
-get_tweets(method = "stream",
-           location = "berlin",
-           timeout = 3600,
-           file_name = "berlin_tweets.json")
+get_tweets(
+  method = "stream",
+  location = "berlin",
+  timeout = 3600,
+  file_name = "berlin_tweets.json"
+)
 
 # OR
 # use your own bounding box coordinates to strean tweets indefinitely (interrupt to stop)
-get_tweets(method = 'stream',
-           location = c(-125, 26, -65, 49),
-           timeout = Inf)
-
+get_tweets(
+  method = "stream",
+  location = c(-125, 26, -65, 49),
+  timeout = Inf
+)
 }
+
 }
 \references{
 \url{https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets}

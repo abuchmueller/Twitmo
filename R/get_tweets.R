@@ -29,118 +29,116 @@
 #' \dontrun{
 #'
 #' # live stream tweets from Germany for 60 seconds and save to current working directory
-#' get_tweets(method = "stream",
-#'            location = "DEU",
-#'            timeout = 60,
-#'            file_name = "german_tweets.json")
+#' get_tweets(
+#'   method = "stream",
+#'   location = "DEU",
+#'   timeout = 60,
+#'   file_name = "german_tweets.json"
+#' )
 #'
 #' # OR
 #' # live stream tweets from berlin for an hour
-#' get_tweets(method = "stream",
-#'            location = "berlin",
-#'            timeout = 3600,
-#'            file_name = "berlin_tweets.json")
+#' get_tweets(
+#'   method = "stream",
+#'   location = "berlin",
+#'   timeout = 3600,
+#'   file_name = "berlin_tweets.json"
+#' )
 #'
 #' # OR
 #' # use your own bounding box coordinates to strean tweets indefinitely (interrupt to stop)
-#' get_tweets(method = 'stream',
-#'            location = c(-125, 26, -65, 49),
-#'            timeout = Inf)
-#'
+#' get_tweets(
+#'   method = "stream",
+#'   location = c(-125, 26, -65, 49),
+#'   timeout = Inf
+#' )
 #' }
-
-get_tweets <- function(method = 'stream',
+#'
+get_tweets <- function(method = "stream",
                        location = c(-180, -90, 180, 90),
                        timeout = Inf,
                        keywords = "",
                        n_max = 100L,
                        file_name = NULL,
                        ...) {
-
-  if (method == 'stream') {
-
-    stopifnot(is.double(location)|is.character(location))
+  if (method == "stream") {
+    stopifnot(is.double(location) | is.character(location))
 
     # pass bbox coordinates to rtweet if user enters vector of doubles
-    if (is.double(location)) rtweet::stream_tweets(q = location,
-                                                   timeout = timeout,
-                                                   parse = FALSE,
-                                                   file_name = file_name,
-                                                   ...)
+    if (is.double(location)) {
+      rtweet::stream_tweets(
+        q = location,
+        timeout = timeout,
+        parse = FALSE,
+        file_name = file_name,
+        ...
+      )
+    }
 
     # check if location can be found in Twitmo or rtweet if user enters character string
     if (is.character(location)) {
-
       # check for location in country bbox db
       if (location %in% row.names(bbox_country)) {
-
         # pass bbox coordinates if location is found
         location <- as.double(bbox_country[location, ])
 
         # stream at location
-        rtweet::stream_tweets(q = location,
-                              timeout = timeout,
-                              parse = FALSE,
-                              file_name = file_name,
-                              ...)
+        rtweet::stream_tweets(
+          q = location,
+          timeout = timeout,
+          parse = FALSE,
+          file_name = file_name,
+          ...
+        )
       } else if (!location %in% row.names(bbox_country)) {
-
-        #look up location coords in rtweet if not found in Twitmo
+        # look up location coords in rtweet if not found in Twitmo
         tryCatch(location <- rtweet::lookup_coords(location)$box,
-                 error = function(e) {
-                   e$message <- paste("Could not find coordinates for your location or a Google Maps API key.
+          error = function(e) {
+            e$message <- paste("Could not find coordinates for your location or a Google Maps API key.
   The `location` parameter requires a valid character string or Google Maps API key.
   Use Twitmo:::bbox_country and rtweet:::citycoords for a full list of supported character strings for locations or
   use supply your own bounding box coordinates in the following format: c(sw.long, sw.lat, ne.long, ne.lat)", sep = " ")
-                   stop(e)
-                 }
-                   )
+            stop(e)
+          }
+        )
 
         location <- as.double(location)
 
         # stream at location if location was found or API key given
-        rtweet::stream_tweets(q = location,
-                              timeout = timeout,
-                              parse = FALSE,
-                              file_name = file_name,
-                              ...)
+        rtweet::stream_tweets(
+          q = location,
+          timeout = timeout,
+          parse = FALSE,
+          file_name = file_name,
+          ...
+        )
       }
-
     }
-
   }
 
-  if (method == 'search') {
-
+  if (method == "search") {
     message("You're using the search endpoint.
   For search this package includes 250 cities worldwide (type rtweet::citycoords to see a list).
   If you want to use your a custom location with the search endpoint use rtweet::search_tweets()")
 
-    stopifnot(is.character(location)|NULL)
+    stopifnot(is.character(location) | NULL)
 
     # look up location in rtweet
     if (is.character(location)) {
-
       location <- rtweet::lookup_coords(location)$point
 
       # convert point coordinates to valid geocode schema for search endpoint
       # for the search endpoint coordinates need to be "latitude,longitude,radius"
       location <- paste(paste(location, collapse = ",", sep = ","), "50mi", collapse = ",", sep = ",")
-
     }
 
-    rtweet::search_tweets(q = keywords,
-                          n = n_max,
-                          retryonratelimit = TRUE,
-                          geocode = location,
-                          parse = TRUE,
-                          ...)
-
-
-
+    rtweet::search_tweets(
+      q = keywords,
+      n = n_max,
+      retryonratelimit = TRUE,
+      geocode = location,
+      parse = TRUE,
+      ...
+    )
   }
-
 }
-
-
-

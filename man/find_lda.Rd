@@ -35,8 +35,9 @@ pool <- pool_tweets(data = mytweets)
 pooled_dfm <- pool$document_term_matrix
 
 # use the ldatuner to compare different K
-find_lda(pooled_dfm, search_space = seq(1, 10, 1),  method = "Gibbs")
+find_lda(pooled_dfm, search_space = seq(1, 10, 1), method = "Gibbs")
 }
+
 }
 \seealso{
 \link[ldatuning]{FindTopicsNumber}

@@ -33,9 +33,8 @@
 #' # Explore your topics with LDAvis
 #' to_ldavis(model, pooled_corp, pooled_dfm)
 #' }
-
-to_ldavis <- function(fitted, corpus, doc_term){
-
+#'
+to_ldavis <- function(fitted, corpus, doc_term) {
   # check for dependencies
   if (!requireNamespace("LDAvis", quietly = TRUE)) {
     install.packages("LDAvis")
@@ -52,16 +51,17 @@ to_ldavis <- function(fitted, corpus, doc_term){
   ## Conversion of quanteda objects onto their tm counterparts
 
   # Convert our quanteda corpus to a tm corpus object for LDAvis
-  corpus <- quanteda::convert(corpus, to="data.frame")
+  corpus <- quanteda::convert(corpus, to = "data.frame")
   corpus <- tm::SimpleCorpus(tm::DataframeSource(corpus),
-                                    control = list(language = "en"))
+    control = list(language = "en")
+  )
   #  Convert quanteda dfm to tm document term matrix
-  doc_term <- quanteda::convert(doc_term, to="tm")
+  doc_term <- quanteda::convert(doc_term, to = "tm")
 
   # Find required quantities
-  phi <- modeltools::posterior(fitted)$terms %>% as.matrix
+  phi <- modeltools::posterior(fitted)$terms %>% as.matrix()
   phi[phi == 0] <- 1e-16 # Workaround since phi cannot be 0 for PCA
-  theta <- modeltools::posterior(fitted)$topics %>% as.matrix
+  theta <- modeltools::posterior(fitted)$topics %>% as.matrix()
   vocab <- colnames(phi)
   doc_length <- vector()
   for (i in 1:length(corpus)) {
@@ -69,17 +69,22 @@ to_ldavis <- function(fitted, corpus, doc_term){
     doc_length <- c(doc_length, stringi::stri_count(temp, regex = "\\S+"))
   }
   temp_frequency <- as.data.frame(as.matrix(doc_term))
-  freq_matrix <- data.frame(ST = colnames(temp_frequency),
-                            Freq = colSums(temp_frequency))
+  freq_matrix <- data.frame(
+    ST = colnames(temp_frequency),
+    Freq = colSums(temp_frequency)
+  )
   rm(temp_frequency)
 
   # Convert to json
-  json_lda <- LDAvis::createJSON(phi = phi, theta = theta,
-                                 vocab = vocab,
-                                 doc.length = doc_length,
-                                 term.frequency = freq_matrix$Freq)
+  json_lda <- LDAvis::createJSON(
+    phi = phi, theta = theta,
+    vocab = vocab,
+    doc.length = doc_length,
+    term.frequency = freq_matrix$Freq
+  )
 
-  LDAvis::serVis(json = json_lda,
-                 out.dir = tempfile())
-
+  LDAvis::serVis(
+    json = json_lda,
+    out.dir = tempfile()
+  )
 }

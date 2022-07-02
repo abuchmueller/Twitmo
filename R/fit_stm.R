@@ -27,16 +27,18 @@
 #' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
 #'
 #' # fit STM with tweets
-#' stm_model <- fit_stm(mytweets, n_topics = 7,
-#'                      xcov = ~ retweet_count + followers_count + reply_count +
-#'                      quote_count + favorite_count,
-#'                      remove_punct = TRUE,
-#'                      remove_url = TRUE,
-#'                      remove_emojis = TRUE,
-#'                      stem = TRUE,
-#'                      stopwords = "en")
+#' stm_model <- fit_stm(mytweets,
+#'   n_topics = 7,
+#'   xcov = ~ retweet_count + followers_count + reply_count +
+#'     quote_count + favorite_count,
+#'   remove_punct = TRUE,
+#'   remove_url = TRUE,
+#'   remove_emojis = TRUE,
+#'   stem = TRUE,
+#'   stopwords = "en"
+#' )
 #' }
-
+#'
 fit_stm <- function(data, n_topics = 2L, xcov,
                     remove_punct = TRUE,
                     stem = TRUE,
@@ -44,7 +46,6 @@ fit_stm <- function(data, n_topics = 2L, xcov,
                     remove_emojis = TRUE,
                     stopwords = "en",
                     ...) {
-
   if (missing(data)) stop("Missing data frame with parsed tweets")
 
   if (missing(xcov)) stop("Please provide at least one external covariate for STMs
@@ -54,13 +55,15 @@ Type `?fit_stm` to learn more.")
   n_topics <- as.integer(n_topics)
 
   # if stopwords are missing or not a character vector no stopwords will be used
-  if (!is.character(stopwords)|missing(stopwords)) stopwords <- FALSE
+  if (!is.character(stopwords) | missing(stopwords)) stopwords <- FALSE
 
-  stopifnot(is.logical(stem),
-            is.logical(remove_punct),
-            is.logical(remove_url),
-            is.logical(remove_emojis),
-            is.integer(n_topics))
+  stopifnot(
+    is.logical(stem),
+    is.logical(remove_punct),
+    is.logical(remove_url),
+    is.logical(remove_emojis),
+    is.integer(n_topics)
+  )
 
   # perform twitter specific text cleaning by removing urls, emojis, hashtags and usernames from text
   # add single-point latitude and longitude variables to tweets data
@@ -76,46 +79,49 @@ Type `?fit_stm` to learn more.")
 
   # remove urls
   if (remove_url) {
-    data$text <- stringr::str_replace_all(data$text, "https://t.co/[a-z,A-Z,0-9]*","")
+    data$text <- stringr::str_replace_all(data$text, "https://t.co/[a-z,A-Z,0-9]*", "")
   }
 
   # remove hashtags / usernames
   if (remove_punct) {
-    data$text <- stringr::str_replace_all(data$text,"#[a-z,A-Z,_]*","")
+    data$text <- stringr::str_replace_all(data$text, "#[a-z,A-Z,_]*", "")
 
     # remove references to usernames
-    data$text <- stringr::str_replace_all(data$text,"@[a-z,A-Z,_]*","")
-
+    data$text <- stringr::str_replace_all(data$text, "@[a-z,A-Z,_]*", "")
   }
 
   # routine if stopwords missing or set to FALSE by user
   if (isFALSE(stopwords)) {
     # perform usual pre-processing steps w/o stopwords
     processed <- stm::textProcessor(data$text,
-                                    metadata = data,
-                                    lowercase = TRUE,
-                                    removestopwords = FALSE,
-                                    removepunctuation = remove_punct,
-                                    stem = stem,
-                                    language = NA,
-                                    customstopwords = c("amp", "na", "rt", "via"))
+      metadata = data,
+      lowercase = TRUE,
+      removestopwords = FALSE,
+      removepunctuation = remove_punct,
+      stem = stem,
+      language = NA,
+      customstopwords = c("amp", "na", "rt", "via")
+    )
   } else {
     # perform usual pre-processing steps
     processed <- stm::textProcessor(data$text,
-                                    metadata = data,
-                                    lowercase = TRUE,
-                                    removestopwords = TRUE,
-                                    removepunctuation = remove_punct,
-                                    stem = stem,
-                                    language = stopwords,
-                                    customstopwords = c("amp", "na", "rt", "via"))
+      metadata = data,
+      lowercase = TRUE,
+      removestopwords = TRUE,
+      removepunctuation = remove_punct,
+      stem = stem,
+      language = stopwords,
+      customstopwords = c("amp", "na", "rt", "via")
+    )
   }
 
 
   # prepare data for stm modeling
-  out <- stm::prepDocuments(documents = processed$documents,
-                            vocab = processed$vocab,
-                            meta = processed$meta)
+  out <- stm::prepDocuments(
+    documents = processed$documents,
+    vocab = processed$vocab,
+    meta = processed$meta
+  )
 
   # routine for metadata formulation
   # stm takes a formula object with the lhs empty as input
@@ -132,18 +138,19 @@ Type `?fit_stm` to learn more.")
   # make sure external covariates are a into a formula object
   # if user passes formula obj
   if (is.language(xcov)) xcov <- stats::as.formula(xcov)
-  model.stm <- stm::stm(documents = out$documents, vocab = out$vocab, data = out$meta,
-                        K = n_topics,
-                        prevalence = xcov,
-                        max.em.its = 75,
-                        init.type = "Spectral",
-                        ...)
+  model.stm <- stm::stm(
+    documents = out$documents, vocab = out$vocab, data = out$meta,
+    K = n_topics,
+    prevalence = xcov,
+    max.em.its = 75,
+    init.type = "Spectral",
+    ...
+  )
 
   # append prepped data (docs, vocab)
   model.stm[["prep"]] <- out
 
   return(model.stm)
-
 }
 
 #' Fit CTM (Correlated topic model)
@@ -169,21 +176,20 @@ Type `?fit_stm` to learn more.")
 #' pooled_dfm <- pool$document_term_matrix
 #'
 #' # fit your CTM with 7 topics
-#' ctm_model <- fit_ctm(pooled_dfm, n_topics =7)
+#' ctm_model <- fit_ctm(pooled_dfm, n_topics = 7)
 #' }
-
+#'
 fit_ctm <- function(pooled_dfm, n_topics = 2L, ...) {
-
   dfm2ctm <- quanteda::convert(pooled_dfm, to = "stm")
 
   model.ctm <- stm::stm(dfm2ctm$documents,
-                        dfm2ctm$vocab,
-                        K = n_topics,
-                        max.em.its = 75,
-                        ...)
+    dfm2ctm$vocab,
+    K = n_topics,
+    max.em.its = 75,
+    ...
+  )
 
   return(model.ctm)
-
 }
 
 
@@ -222,28 +228,23 @@ fit_ctm <- function(pooled_dfm, n_topics = 2L, ...) {
 #' prepped_stm <- stm_model$prep
 #' find_stm(prepped_stm, search_space = seq(4, 16, by = 2))
 #' }
-
+#'
 find_stm <- function(data, search_space = seq(4, 20, by = 2), ...) {
-
   # routine if pooled dfm is passed as data (CTM)
   if (isS4(data)) {
-
     dfm2stm <- quanteda::convert(data, to = "stm")
 
     idealK <- stm::searchK(dfm2stm$documents, dfm2stm$vocab, K = search_space, max.em.its = 75, ...)
 
     plot(idealK)
-
   }
 
   # routine if dataframe or tbl of loaded tweets is passed as data (STM)
   if (is.list(data)) {
-
     idealK <- stm::searchK(data$documents, data$vocab, K = search_space, max.em.its = 75, ...)
 
     plot(idealK)
-
-  } else (message("Please provide a pooled dfm object or prepped stm (see ?fit_stm) as input."))
-
+  } else {
+    (message("Please provide a pooled dfm object or prepped stm (see ?fit_stm) as input."))
+  }
 }
-

@@ -32,8 +32,9 @@ pool <- pool_tweets(data = mytweets)
 pooled_dfm <- pool$document_term_matrix
 
 # fit your CTM with 7 topics
-ctm_model <- fit_ctm(pooled_dfm, n_topics =7)
+ctm_model <- fit_ctm(pooled_dfm, n_topics = 7)
 }
+
 }
 \seealso{
 \link[stm]{stm}

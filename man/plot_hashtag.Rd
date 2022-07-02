@@ -41,7 +41,6 @@ read in by \link[Twitmo]{load_tweets} and then augmented by lat/lng coordinates 
 For larger view resize the plot window then call \code{plot_tweets} again.
 }
 \examples{
-
 \dontrun{
 library(Twitmo)
 
@@ -50,10 +49,11 @@ mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", pa
 
 # Plot tweets on mainland USA region
 plot_hashtag(mytweets,
-             region = "USA(?!:Alaska|:Hawaii)",
-             hashtag = "breakfast",
-             ignore_case=TRUE,
-             alpha=1)
+  region = "USA(?!:Alaska|:Hawaii)",
+  hashtag = "breakfast",
+  ignore_case = TRUE,
+  alpha = 1
+)
 
 # Add title
 title("My hashtags on a map")

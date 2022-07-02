@@ -27,7 +27,6 @@ This can be used for iterative filtering to create more coherent topic models.
 Keyword filtering is always case insensitive (lowercase).
 }
 \examples{
-
 \dontrun{
 
 library(Twitmo)
@@ -40,4 +39,5 @@ mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", pa
 keyword_dict <- "football,mood"
 mytweets_reduced <- filter_tweets(mytweets, keywords = keyword_dict, include = FALSE)
 }
+
 }

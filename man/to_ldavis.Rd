@@ -46,6 +46,7 @@ model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
 # Explore your topics with LDAvis
 to_ldavis(model, pooled_corp, pooled_dfm)
 }
+
 }
 \seealso{
 \link[stm]{toLDAvis}

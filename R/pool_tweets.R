@@ -36,7 +36,6 @@
 #'
 #' @export
 #' @examples
-#'
 #' \dontrun{
 #'
 #' library(Twitmo)
@@ -44,21 +43,23 @@
 #' # load tweets (included in package)
 #' mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
 #'
-#' pool <- pool_tweets(data = mytweets,
-#'                     remove_numbers = TRUE,
-#'                     remove_punct = TRUE,
-#'                     remove_symbols = TRUE,
-#'                     remove_url = TRUE,
-#'                     remove_users = TRUE,
-#'                     remove_hashtags = TRUE,
-#'                     remove_emojis = TRUE,
-#'                     cosine_threshold = 0.9,
-#'                     stopwords = "en",
-#'                     n_grams = 1)
+#' pool <- pool_tweets(
+#'   data = mytweets,
+#'   remove_numbers = TRUE,
+#'   remove_punct = TRUE,
+#'   remove_symbols = TRUE,
+#'   remove_url = TRUE,
+#'   remove_users = TRUE,
+#'   remove_hashtags = TRUE,
+#'   remove_emojis = TRUE,
+#'   cosine_threshold = 0.9,
+#'   stopwords = "en",
+#'   n_grams = 1
+#' )
 #' }
-
+#'
 # TODO: add meta data to dfm objects
-
+#'
 pool_tweets <- function(data,
                         remove_numbers = TRUE,
                         remove_punct = TRUE,
@@ -70,26 +71,26 @@ pool_tweets <- function(data,
                         cosine_threshold = 0.9,
                         stopwords = "en",
                         n_grams = 1L) {
-
   quanteda::quanteda_options(pattern_hashtag = NULL, pattern_username = NULL)
 
   if (missing(data)) stop("Missing data frame with parsed tweets")
 
   n_grams <- as.integer(n_grams)
 
-  stopifnot(is.logical(remove_numbers),
-            is.logical(remove_punct),
-            is.logical(remove_symbols),
-            is.logical(remove_url),
-            is.logical(remove_emojis),
-            is.logical(remove_users),
-            is.logical(remove_hashtags),
-            is.double(cosine_threshold),
-            is.integer(n_grams),
-            cosine_threshold >= 0.01 && cosine_threshold <= 1)
+  stopifnot(
+    is.logical(remove_numbers),
+    is.logical(remove_punct),
+    is.logical(remove_symbols),
+    is.logical(remove_url),
+    is.logical(remove_emojis),
+    is.logical(remove_users),
+    is.logical(remove_hashtags),
+    is.double(cosine_threshold),
+    is.integer(n_grams),
+    cosine_threshold >= 0.01 && cosine_threshold <= 1
+  )
 
   if (cosine_threshold <= 0.2) {
-
     invisible(readline(prompt = "Low cosine thresholds can increase calculation time and memory usage significantly and even lead to crashes.
 Press [enter] to continue or [control+c] to abort"))
 
@@ -119,7 +120,7 @@ Press [enter] to continue or [control+c] to abort"))
   cat("Pooling", nrow(tweets_w_hashtags), "Tweets with hashtags #", sep = " ")
 
   hashtags.unique <- unlist(data$hashtags)
-  hashtags.unique  <- unique(hashtags.unique)
+  hashtags.unique <- unique(hashtags.unique)
   hashtags.unique <- hashtags.unique[!is.na(hashtags.unique)]
   cat("\n")
   cat(length(hashtags.unique), "Unique hashtags total", sep = " ")
@@ -140,36 +141,36 @@ Press [enter] to continue or [control+c] to abort"))
 
   # remove URLs
   if (remove_url) {
-    a$text <- stringr::str_replace_all(a$text, "https://t.co/[a-z,A-Z,0-9]*","") %>%
-      #remove whitespaces if tweet only consists of url
+    a$text <- stringr::str_replace_all(a$text, "https://t.co/[a-z,A-Z,0-9]*", "") %>%
+      # remove whitespaces if tweet only consists of url
       stringr::str_trim()
   }
 
   # remove hashtags
   if (remove_hashtags) {
-    a$text <- stringr::str_replace_all(a$text,"#[a-z,A-Z,_]*","") %>%
-      #remove whitespaces if tweet only consists of hashtags
+    a$text <- stringr::str_replace_all(a$text, "#[a-z,A-Z,_]*", "") %>%
+      # remove whitespaces if tweet only consists of hashtags
       stringr::str_trim()
   }
 
   if (remove_users) {
     # remove references to usernames
-    a$text <- stringr::str_replace_all(a$text,"@[a-z,A-Z,_]*","") %>%
-      #remove whitespaces if tweet only consists of usernames
+    a$text <- stringr::str_replace_all(a$text, "@[a-z,A-Z,_]*", "") %>%
+      # remove whitespaces if tweet only consists of usernames
       stringr::str_trim()
   }
 
   if (remove_numbers) {
     # remove numbers in tweets
-    a$text <- stringr::str_replace_all(a$text,"[[:digit:]]","") %>%
-      #remove whitespaces if tweet only consists of digits
+    a$text <- stringr::str_replace_all(a$text, "[[:digit:]]", "") %>%
+      # remove whitespaces if tweet only consists of digits
       stringr::str_trim()
   }
 
   if (remove_punct) {
     # remove all punctuation
-    a$text <- stringr::str_replace_all(a$text,"[[:punct:]]","") %>%
-      #remove whitespaces if tweet only consists of punctuation
+    a$text <- stringr::str_replace_all(a$text, "[[:punct:]]", "") %>%
+      # remove whitespaces if tweet only consists of punctuation
       stringr::str_trim()
   }
 
@@ -177,11 +178,13 @@ Press [enter] to continue or [control+c] to abort"))
   a <- a[a$is_quote == FALSE & a$is_retweet == FALSE, ]
 
   # pre-selection of metadata for stm modeling
-  a <- a[c("created_at", "text", "hashtags", "favorite_count", "retweet_count", "quote_count",
-           "reply_count", "quoted_friends_count", "favourites_count", "friends_count",
-           "followers_count", "screen_name")]
+  a <- a[c(
+    "created_at", "text", "hashtags", "favorite_count", "retweet_count", "quote_count",
+    "reply_count", "quoted_friends_count", "favourites_count", "friends_count",
+    "followers_count", "screen_name"
+  )]
 
-  #unfold/explode twitter data by hashtags
+  # unfold/explode twitter data by hashtags
   b <- a %>%
     tidyr::unnest(.data$hashtags)
 
@@ -193,7 +196,7 @@ Press [enter] to continue or [control+c] to abort"))
   # collect unique hashtags
   df <- data.frame(
     doc_id = unique(tolower(na.omit(unlist(a$hashtags)))) %>%
-      seq_along %>%
+      seq_along() %>%
       paste0("doc", .data),
     hashtags = unique(tolower(na.omit(unlist(a$hashtags))))
   )
@@ -219,22 +222,25 @@ Press [enter] to continue or [control+c] to abort"))
 
   # using quanteda
   doc.corpus <- quanteda::corpus(document_hashtag_pools,
-                       meta = document_hashtag_pools$hashtags,
-                       text_field = "tweets_pooled")
+    meta = document_hashtag_pools$hashtags,
+    text_field = "tweets_pooled"
+  )
 
   quanteda::docnames(doc.corpus) <- document_hashtag_pools$hashtags
 
   tokens.pooled <- quanteda::tokens(doc.corpus,
-                                    what = "word",
-                                    remove_url = remove_url,
-                                    remove_punct = remove_punct,
-                                    remove_symbols = remove_symbols,
-                                    remove_numbers = remove_numbers,
-                                    remove_separators = TRUE,
-                                    split_hyphens = FALSE,
-                                    include_docvars = TRUE,
-                                    padding = FALSE
-  ) %>% quanteda::tokens_remove(stopwords) %>% quanteda::tokens_ngrams(n = n_grams)
+    what = "word",
+    remove_url = remove_url,
+    remove_punct = remove_punct,
+    remove_symbols = remove_symbols,
+    remove_numbers = remove_numbers,
+    remove_separators = TRUE,
+    split_hyphens = FALSE,
+    include_docvars = TRUE,
+    padding = FALSE
+  ) %>%
+    quanteda::tokens_remove(stopwords) %>%
+    quanteda::tokens_ngrams(n = n_grams)
 
 
   pooled.dfm <-
@@ -249,28 +255,31 @@ Press [enter] to continue or [control+c] to abort"))
 
   unpooled.corpus <- quanteda::corpus(b.nohashtag, text_field = "text")
 
-  tokens.unpooled <- quanteda::tokens(unpooled.corpus ,
-                                    what = "word",
-                                    remove_url = remove_url,
-                                    remove_punct = remove_punct,
-                                    remove_symbols = remove_symbols,
-                                    remove_numbers = remove_numbers,
-                                    remove_separators = TRUE,
-                                    split_hyphens = FALSE,
-                                    include_docvars = TRUE,
-                                    padding = FALSE
-  ) %>% quanteda::tokens_remove(stopwords) %>% quanteda::tokens_ngrams(n = n_grams)
+  tokens.unpooled <- quanteda::tokens(unpooled.corpus,
+    what = "word",
+    remove_url = remove_url,
+    remove_punct = remove_punct,
+    remove_symbols = remove_symbols,
+    remove_numbers = remove_numbers,
+    remove_separators = TRUE,
+    split_hyphens = FALSE,
+    include_docvars = TRUE,
+    padding = FALSE
+  ) %>%
+    quanteda::tokens_remove(stopwords) %>%
+    quanteda::tokens_ngrams(n = n_grams)
 
   unpooled.dfm <-
-    quanteda::dfm(tokens.unpooled,  tolower = TRUE) %>%
+    quanteda::dfm(tokens.unpooled, tolower = TRUE) %>%
     quanteda::dfm_trim(.) %>%
     quanteda::dfm_tfidf(.)
 
   # calculate cosine similarities between pooled tweets and tweets without hashtags
   h <- suppressWarnings(quanteda.textstats::textstat_simil(pooled.dfm,
-                      unpooled.dfm,
-                      margin = "documents",
-                      method = "cosine"))
+    unpooled.dfm,
+    margin = "documents",
+    method = "cosine"
+  ))
 
   # sample tweets using cosine threshold
   O <- as.data.frame(h)
@@ -278,7 +287,7 @@ Press [enter] to continue or [control+c] to abort"))
 
   # append tweets passing threshold to corresponding hashtag pools
   # skip if no tweets pass the similarity threshold
-  if (!is.na(tt[1,1])) {
+  if (!is.na(tt[1, 1])) {
     for (i in tt) {
       for (j in tt) {
         document_hashtag_pools[document_hashtag_pools["hashtags"] == as.character(i), "tweets_pooled"] <-
@@ -290,8 +299,9 @@ Press [enter] to continue or [control+c] to abort"))
 
   ## Recalculate document frequency matrices after pooling
   doc.corpus <- quanteda::corpus(document_hashtag_pools,
-                       meta = document_hashtag_pools$hashtags,
-                       text_field = 'tweets_pooled')
+    meta = document_hashtag_pools$hashtags,
+    text_field = "tweets_pooled"
+  )
 
   quanteda::docnames(doc.corpus) <- document_hashtag_pools$hashtags
 
@@ -299,34 +309,41 @@ Press [enter] to continue or [control+c] to abort"))
   doc.corpus <- quanteda::corpus_trim(doc.corpus, what = "documents", min_ntoken = 3)
 
   tokens.final <- quanteda::tokens(doc.corpus,
-                                    what = "word",
-                                    remove_url = remove_url,
-                                    remove_punct = remove_punct,
-                                    remove_symbols = remove_symbols,
-                                    remove_numbers = remove_numbers,
-                                    remove_separators = TRUE,
-                                    split_hyphens = FALSE,
-                                    include_docvars = TRUE,
-                                    padding = FALSE
-  ) %>% quanteda::tokens_remove(stopwords) %>% quanteda::tokens_ngrams(n = n_grams)
+    what = "word",
+    remove_url = remove_url,
+    remove_punct = remove_punct,
+    remove_symbols = remove_symbols,
+    remove_numbers = remove_numbers,
+    remove_separators = TRUE,
+    split_hyphens = FALSE,
+    include_docvars = TRUE,
+    padding = FALSE
+  ) %>%
+    quanteda::tokens_remove(stopwords) %>%
+    quanteda::tokens_ngrams(n = n_grams)
 
   # Final pooled document frequency matrix
-  pooled.dfm <- quanteda::dfm(tokens.final,  tolower = TRUE)
+  pooled.dfm <- quanteda::dfm(tokens.final, tolower = TRUE)
 
-  hashtag.freq <- a$hashtags[!is.na(a$hashtags)] %>% unlist %>% tolower() %>% plyr::count() %>%
-    dplyr::arrange(-.data$freq) %>% dplyr::as_tibble() %>% dplyr::rename(hashtag = .data$x, count = .data$freq)
+  hashtag.freq <- a$hashtags[!is.na(a$hashtags)] %>%
+    unlist() %>%
+    tolower() %>%
+    plyr::count() %>%
+    dplyr::arrange(-.data$freq) %>%
+    dplyr::as_tibble() %>%
+    dplyr::rename(hashtag = .data$x, count = .data$freq)
 
-  ret_list <- list("meta" = a,
-                   "hashtags" = hashtag.freq,
-                   "tokens" = tokens.final,
-                   "corpus" = doc.corpus,
-                   "document_term_matrix" = pooled.dfm)
+  ret_list <- list(
+    "meta" = a,
+    "hashtags" = hashtag.freq,
+    "tokens" = tokens.final,
+    "corpus" = doc.corpus,
+    "document_term_matrix" = pooled.dfm
+  )
   cat("Done\n")
 
   return(ret_list)
-
 }
 
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
-
+if (getRversion() >= "2.15.1") utils::globalVariables(c("."))

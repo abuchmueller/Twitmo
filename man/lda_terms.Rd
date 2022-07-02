@@ -33,4 +33,5 @@ pooled_dfm <- pool$document_term_matrix
 model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
 
 }
+
 }

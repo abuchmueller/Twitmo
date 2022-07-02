@@ -21,7 +21,7 @@
 #' # fit your LDA model with 7 topics
 #' model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
 #' }
-
+#'
 fit_lda <- function(pooled_dfm, n_topics, ...) {
   ###### LDA ######
   n_topics <- n_topics
@@ -29,7 +29,6 @@ fit_lda <- function(pooled_dfm, n_topics, ...) {
   lda.model <- topicmodels::LDA(dfm2topicmodels, n_topics, ...)
 
   return(lda.model)
-
 }
 
 #' Find best LDA model
@@ -56,21 +55,22 @@ fit_lda <- function(pooled_dfm, n_topics, ...) {
 #' pooled_dfm <- pool$document_term_matrix
 #'
 #' # use the ldatuner to compare different K
-#' find_lda(pooled_dfm, search_space = seq(1, 10, 1),  method = "Gibbs")
+#' find_lda(pooled_dfm, search_space = seq(1, 10, 1), method = "Gibbs")
 #' }
-
+#'
 find_lda <- function(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs", ...) {
-
   dfm2topicmodels <- quanteda::convert(pooled_dfm, to = "topicmodels")
 
   # LDA Hyperparameter Tuning
   ldatuning_metrics <- ldatuning::FindTopicsNumber(dfm2topicmodels,
-                                                    topics = search_space,
-                                                    metrics = c("Griffiths2004",
-                                                                "CaoJuan2009",
-                                                                "Arun2010",
-                                                                "Deveaud2014"),
-                                                    method = method
+    topics = search_space,
+    metrics = c(
+      "Griffiths2004",
+      "CaoJuan2009",
+      "Arun2010",
+      "Deveaud2014"
+    ),
+    method = method
   )
   return(ldatuning::FindTopicsNumber_plot(ldatuning_metrics))
 }
@@ -102,8 +102,7 @@ find_lda <- function(pooled_dfm, search_space = seq(1, 10, 2), method = "Gibbs",
 # extract the most likely 10 terms for each topic
 # lda_terms(model, n_terms = 10)
 #' }
-
-
+#'
 lda_terms <- function(lda_model, n_terms = 10) {
   data.frame(topicmodels::terms(lda_model, n_terms))
 }
@@ -131,7 +130,7 @@ lda_terms <- function(lda_model, n_terms = 10) {
 #  extract the most likely topics for each hashtag
 #' lda_hashtags(model)
 #' }
-
+#'
 lda_hashtags <- function(lda_model) {
   data.frame(Topic = topicmodels::topics(lda_model))
 }
@@ -169,11 +168,10 @@ lda_hashtags <- function(lda_model) {
 #' # topics (hashtag pool per topic probability)
 #' lda_distribution(model, param = "gamma")
 #' }
-
+#'
 lda_distribution <- function(lda_model, param = "gamma", tidy = FALSE) {
-
   # quietly install tidyr and tidytext if user wants results in tidy format but doesn't have the packages installed
-  if (tidy|param == "beta") {
+  if (tidy | param == "beta") {
     if (!requireNamespace("tidytext", quietly = TRUE)) {
       install.packages("tidytext")
     }
@@ -198,7 +196,9 @@ lda_distribution <- function(lda_model, param = "gamma", tidy = FALSE) {
         res <- tidytext::tidy(lda_model, matrix = c("beta")) %>%
           tidyr::spread(.data$topic, beta)
       }
-    } else warning('`tidy` must be either TRUE or FALSE')
+    } else {
+      warning("`tidy` must be either TRUE or FALSE")
+    }
   }
 
   if (param == "gamma") {
@@ -215,11 +215,14 @@ lda_distribution <- function(lda_model, param = "gamma", tidy = FALSE) {
         res <- tidytext::tidy(lda_model, matrix = c("gamma")) %>%
           tidyr::spread(.data$topic, gamma)
       }
-    } else warning('`tidy` must be either TRUE or FALSE')
+    } else {
+      warning("`tidy` must be either TRUE or FALSE")
+    }
   }
 
-  if (exists("res")) return(res)
-
+  if (exists("res")) {
+    return(res)
+  }
 }
 
 #' Predict topics of tweets using fitted LDA model
@@ -248,44 +251,46 @@ lda_distribution <- function(lda_model, param = "gamma", tidy = FALSE) {
 #' # Predict topics of tweets using your fitted LDA model
 #' predict_lda(mytweets, model, response = "prob")
 #' }
-
+#'
 predict_lda <- function(data, lda_model,
                         response = "max",
                         remove_numbers = TRUE,
                         remove_punct = TRUE,
                         remove_symbols = TRUE,
                         remove_url = TRUE) {
-
   quanteda::quanteda_options(pattern_hashtag = NULL, pattern_username = NULL)
 
-  stopifnot(is.logical(remove_numbers),
-            is.logical(remove_punct),
-            is.logical(remove_symbols),
-            is.logical(remove_url))
+  stopifnot(
+    is.logical(remove_numbers),
+    is.logical(remove_punct),
+    is.logical(remove_symbols),
+    is.logical(remove_url)
+  )
 
   # Predict topics of tweets using fitted LDA model
   ### corpus of all tweets
   tweets.corpus <- quanteda::corpus(data,
-                          meta = list(data$created_at, data$hashtags),
-                          text_field = "text")
+    meta = list(data$created_at, data$hashtags),
+    text_field = "text"
+  )
 
-  tweets.tokens <- quanteda::tokens(tweets.corpus ,
-                   what = "word1",
-                   remove_punct = remove_punct,
-                   remove_symbols = remove_symbols,
-                   remove_numbers = remove_numbers,
-                   remove_url = remove_url,
-                   remove_separators = TRUE,
-                   split_hyphens = FALSE,
-                   include_docvars = TRUE,
-                   padding = FALSE
+  tweets.tokens <- quanteda::tokens(tweets.corpus,
+    what = "word1",
+    remove_punct = remove_punct,
+    remove_symbols = remove_symbols,
+    remove_numbers = remove_numbers,
+    remove_url = remove_url,
+    remove_separators = TRUE,
+    split_hyphens = FALSE,
+    include_docvars = TRUE,
+    padding = FALSE
   ) %>% quanteda::tokens_remove(quanteda::stopwords("english"))
 
   # dfm of all tweets
-  tweets.dfm <- quanteda::dfm(tweets.tokens, tolower=TRUE)
+  tweets.dfm <- quanteda::dfm(tweets.tokens, tolower = TRUE)
 
   # convert to topic models object
-  t2tm <- quanteda::convert(tweets.dfm, to="topicmodels")
+  t2tm <- quanteda::convert(tweets.dfm, to = "topicmodels")
 
   # predict topics on twitter data using fitted model
   predict.topics <- topicmodels::posterior(lda_model, t2tm)
@@ -297,6 +302,4 @@ predict_lda <- function(data, lda_model,
   }
 
   return(res)
-
 }
-

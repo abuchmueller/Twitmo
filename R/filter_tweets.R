@@ -11,7 +11,6 @@
 #'
 #' @export
 #' @examples
-#'
 #' \dontrun{
 #'
 #' library(Twitmo)
@@ -24,15 +23,12 @@
 #' keyword_dict <- "football,mood"
 #' mytweets_reduced <- filter_tweets(mytweets, keywords = keyword_dict, include = FALSE)
 #' }
-
-
+#'
 filter_tweets <- function(data, keywords, include = TRUE) {
-
   # Turn keywords dictionary into Regex
   dict <- stringr::str_replace_all(keywords, ",", "|")
 
   if (include) {
-
     # subset based on Regex
     included <- which(stringr::str_detect(tolower(data$text), dict))
 
@@ -40,11 +36,9 @@ filter_tweets <- function(data, keywords, include = TRUE) {
     df_new <- data[included, ]
 
     return(df_new)
-
   }
 
   if (!include) {
-
     # subset based on Regex
     excluded <- which(!stringr::str_detect(tolower(data$text), dict))
 
@@ -52,9 +46,5 @@ filter_tweets <- function(data, keywords, include = TRUE) {
     df_new <- data[excluded, ]
 
     return(df_new)
-
   }
-
 }
-
-

@@ -32,4 +32,5 @@ model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
 
 lda_hashtags(model)
 }
+
 }

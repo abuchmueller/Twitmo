@@ -21,7 +21,6 @@ Plot into clusters on an interactive map
 This function can be used to create interactive maps on OpenStreetView.
 }
 \examples{
-
 \dontrun{
 
 library(Twitmo)

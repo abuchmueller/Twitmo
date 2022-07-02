@@ -14,7 +14,6 @@
 #' @export
 #'
 #' @examples
-#'
 #' \dontrun{
 #'
 #' library(Twitmo)
@@ -23,9 +22,8 @@
 #' raw_path <- system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo")
 #' mytweets <- load_tweets(raw_path)
 #' }
-
+#'
 load_tweets <- function(file_name) {
-
   # this code is mostly from rtweet <0.7.0
   # since this package relies on the json files pulled with twitters api
   # to be in a certain format this is here to ensure parsing works
@@ -39,8 +37,9 @@ load_tweets <- function(file_name) {
     options(encoding = "UTF-8")
     on.exit(options(encoding = op), add = TRUE)
   }
-  s <- tryCatch(jsonlite::stream_in(file(file_name)), error = function(e)
-    return(NULL))
+  s <- tryCatch(jsonlite::stream_in(file(file_name)), error = function(e) {
+    return(NULL)
+  })
   if (is.null(s)) {
     d <- readr::read_lines(file_name)
     if (length(d) > 0) {
@@ -51,8 +50,13 @@ load_tweets <- function(file_name) {
     if (length(d) > 0) {
       dd <- sapply(d, function(x) {
         o <- tryCatch(jsonlite::fromJSON(x),
-                      error = function(e) return(FALSE))
-        if (identical(o, FALSE)) return(FALSE)
+          error = function(e) {
+            return(FALSE)
+          }
+        )
+        if (identical(o, FALSE)) {
+          return(FALSE)
+        }
         return(TRUE)
       }, USE.NAMES = FALSE)
       writeLines(d[dd], tmp)
@@ -64,7 +68,6 @@ load_tweets <- function(file_name) {
 
   # add single-point latitude and longitude variables to tweets data
   rtweet::lat_lng(r)
-
 }
 
 # from rtweet 0.6.7: Ensures only complete lines are read.
@@ -76,4 +79,3 @@ load_tweets <- function(file_name) {
 good_lines <- function(x) {
   grep("^\\{\"created.*ms\":\"\\d+\"\\}$", x, value = TRUE)
 }
-

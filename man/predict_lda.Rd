@@ -57,4 +57,5 @@ model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
 # Predict topics of tweets using your fitted LDA model
 predict_lda(mytweets, model, response = "prob")
 }
+
 }

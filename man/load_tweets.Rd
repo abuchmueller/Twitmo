@@ -24,7 +24,6 @@ Alternatively \link[jsonlite]{stream_in} in conjunction with \link[rtweet]{tweet
 and \link[rtweet]{lat_lng} can be used if data has been collected with rtweet 0.7 or newer.
 }
 \examples{
-
 \dontrun{
 
 library(Twitmo)
@@ -33,6 +32,7 @@ library(Twitmo)
 raw_path <- system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo")
 mytweets <- load_tweets(raw_path)
 }
+
 }
 \seealso{
 \link[rtweet]{parse_stream}, \link[jsonlite]{stream_in}, \link[rtweet]{tweets_with_users}

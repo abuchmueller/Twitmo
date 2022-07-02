@@ -34,4 +34,5 @@ pooled_dfm <- pool$document_term_matrix
 # fit your LDA model with 7 topics
 model <- fit_lda(pooled_dfm, n_topics = 7, method = "Gibbs")
 }
+
 }

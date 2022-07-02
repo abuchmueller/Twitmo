@@ -64,7 +64,6 @@ longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
 }
 \examples{
-
 \dontrun{
 
 library(Twitmo)
@@ -72,18 +71,22 @@ library(Twitmo)
 # load tweets (included in package)
 mytweets <- load_tweets(system.file("extdata", "tweets_20191027-141233.json", package = "Twitmo"))
 
-pool <- pool_tweets(data = mytweets,
-                    remove_numbers = TRUE,
-                    remove_punct = TRUE,
-                    remove_symbols = TRUE,
-                    remove_url = TRUE,
-                    remove_users = TRUE,
-                    remove_hashtags = TRUE,
-                    remove_emojis = TRUE,
-                    cosine_threshold = 0.9,
-                    stopwords = "en",
-                    n_grams = 1)
+pool <- pool_tweets(
+  data = mytweets,
+  remove_numbers = TRUE,
+  remove_punct = TRUE,
+  remove_symbols = TRUE,
+  remove_url = TRUE,
+  remove_users = TRUE,
+  remove_hashtags = TRUE,
+  remove_emojis = TRUE,
+  cosine_threshold = 0.9,
+  stopwords = "en",
+  n_grams = 1
+)
 }
+
+
 }
 \references{
 Mehrotra, Rishabh & Sanner, Scott & Buntine, Wray & Xie, Lexing. (2013).
