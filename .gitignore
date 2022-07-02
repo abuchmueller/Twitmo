@@ -46,3 +46,7 @@ docs/
 # translation temp files
 po/*~
 inst/doc
+
+# renv
+.Rprofile
+/renv
