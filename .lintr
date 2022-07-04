@@ -1,2 +1,5 @@
-linters: linters_with_defaults() # see vignette("lintr")
+linters: linters_with_defaults(
+    line_length_linter(120),
+    commented_code_linter = NULL
+  ) # see vignette("lintr")
 encoding: "UTF-8"
