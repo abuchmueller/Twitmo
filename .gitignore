@@ -47,6 +47,3 @@ docs/
 po/*~
 inst/doc
 
-# renv
-.Rprofile
-/renv
