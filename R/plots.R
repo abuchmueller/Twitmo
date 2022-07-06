@@ -148,7 +148,10 @@ cluster_tweets <- function(data, ...) {
   # create leaflet map with marker clusters
   m <- leaflet::leaflet() %>%
     leaflet::addTiles() %>% # Add default OpenStreetMap map tiles
-    leaflet::addMarkers(lng = data$lng, lat = data$lat, clusterOptions = leaflet::markerClusterOptions(...), popup = data$text)
+    leaflet::addMarkers(
+      lng = data$lng, lat = data$lat,
+      clusterOptions = leaflet::markerClusterOptions(...), popup = data$text
+    )
 
   # Print the map
   m

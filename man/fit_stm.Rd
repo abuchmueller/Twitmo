@@ -17,8 +17,12 @@ fit_stm(
 )
 }
 \arguments{
-\item{data}{Data frame of parsed tweets. Obtained either by using \code{\link{load_tweets}}  or
-\code{\link[jsonlite]{stream_in}} in conjunction with \code{\link[rtweet]{tweets_with_users}}.}
+\item{data}{Data frame containing tweets and hashtags. Works with any data frame, as long as there
+is a "text" column of type character string and a "hashtags" column with comma separated character vectors.
+Can be obtained either by using \code{\link{load_tweets}} on a json object returned by Twitter's API v1.1 or
+by using \code{\link[jsonlite]{stream_in}} on any json file, as long as it has a "text" and "hashtags" field.
+If you are unsure about the requirements you may load the sample piece of data contained in the package by
+following the example in the the example section of this help page.}
 
 \item{n_topics}{Integer with number of topics.}
 
