@@ -5,8 +5,12 @@
 #' longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 #' The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.
 #' @description This function pools a data frame of parsed tweets into document pools.
-#' @param data Data frame of parsed tweets. Obtained either by using \code{\link{load_tweets}}  or
-#' \code{\link[jsonlite]{stream_in}} in conjunction with \code{\link[rtweet]{tweets_with_users}}.
+#' @param data Data frame containing tweets and hashtags. Works with any data frame, as long as there
+#' is a "text" column of type character string and a "hashtags" column with comma separated character vectors.
+#' Can be obtained either by using \code{\link{load_tweets}} on a json object returned by Twitter's API v1.1 or
+#' by using \code{\link[jsonlite]{stream_in}} on any json file, as long as it has a "text" and "hashtags" field.
+#' If you are unsure about the requirements you may load the sample piece of data contained in the package by
+#' following the example in the the example section of this help page.
 #' @param remove_numbers Logical. If \code{TRUE} remove tokens that consist only of numbers,
 #' but not words that start with digits, e.g. 2day. See \link[quanteda]{tokens}.
 #' @param remove_punct Logical. If \code{TRUE} remove all characters in the Unicode
@@ -73,11 +77,13 @@ pool_tweets <- function(data,
                         n_grams = 1L) {
   quanteda::quanteda_options(pattern_hashtag = NULL, pattern_username = NULL)
 
-  if (missing(data)) stop("Missing data frame with parsed tweets")
+  if (missing(data)) stop("Missing input data frame with no default.")
 
   n_grams <- as.integer(n_grams)
 
   stopifnot(
+    "text" %in% colnames(data),
+    "hashtags" %in% colnames(data),
     is.logical(remove_numbers),
     is.logical(remove_punct),
     is.logical(remove_symbols),
@@ -176,13 +182,6 @@ Press [enter] to continue or [control+c] to abort"))
 
   # remove duplicates quoted tweets and retweets
   a <- a[a$is_quote == FALSE & a$is_retweet == FALSE, ]
-
-  # pre-selection of metadata for stm modeling
-  a <- a[c(
-    "created_at", "text", "hashtags", "favorite_count", "retweet_count", "quote_count",
-    "reply_count", "quoted_friends_count", "favourites_count", "friends_count",
-    "followers_count", "screen_name"
-  )]
 
   # unfold/explode twitter data by hashtags
   b <- a %>%
