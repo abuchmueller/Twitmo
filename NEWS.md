@@ -1,3 +1,10 @@
+# Version 0.1.4
+
+- refactored the code
+- added linting (`lintr`)
+- added `renv`
+- `pool_tweets()` now only requires a dataframe with a "hastag" and "text" column as input
+
 # Version 0.1.3
 
 - Fixed an issue with `fit_stm()` where n_topics hard-coded to 7

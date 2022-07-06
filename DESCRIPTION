@@ -1,7 +1,7 @@
 Package: Twitmo
 Type: Package
 Title: Twitter Topic Modeling and Visualization for R
-Version: 0.1.2
+Version: 0.1.4
 Authors@R: c(
   person("Andreas", "Buchmueller", email = "a.buchmueller@stud.uni-goettingen.de", role = c("aut", "cre"),
          comment = "github.com/abuchmueller"),
@@ -54,4 +54,6 @@ Suggests:
     knitr,
     tidytext,
     modeltools,
-    servr
+    servr,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
