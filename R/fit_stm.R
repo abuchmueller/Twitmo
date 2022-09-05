@@ -6,7 +6,7 @@
 #' @param xcov Either a \[stats]{formula} with an empty left-hand side specifying external covariates
 #' (meta data) to use.e.g. \code{~favourites_count + retweet_count}
 #' or a character vector (\code{c("favourites_count", "retweet_count")})
-#' or comma seperated character string (\code{"favourites_count,retweet_count"})
+#' or comma separated character string (\code{"favourites_count,retweet_count"})
 #' with column names implying which metadata to use as external covariates.
 #' @param remove_punct Logical. Indicates whether punctuation (includes Twitter hashtags and usernames)
 #' should be removed. Defaults to TRUE.

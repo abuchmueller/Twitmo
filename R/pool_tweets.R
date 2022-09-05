@@ -1,6 +1,7 @@
 #' Prepare Tweets for topic modeling by pooling
 #' @importFrom rlang .data
 #' @importFrom stats na.omit
+#' @importFrom rtweet lat_lng
 #' @details Pools tweets by hashtags using cosine similarity to create
 #' longer pseudo-documents for better LDA estimation and creates n-gram tokens.
 #' The method applies an implementation of the pooling algorithm from Mehrotra et al. 2013.

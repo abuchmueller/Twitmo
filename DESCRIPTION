@@ -25,7 +25,8 @@ BugReports: https://github.com/abuchmueller/Twitmo/issues
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    R (>= 3.5.0)
+    R (>= 3.5.0),
+    rtweet (< 1.0.0)
 Imports:
     jsonlite,
     stats,
@@ -35,7 +36,6 @@ Imports:
     dplyr,
     readr,
     magrittr,
-    rtweet,
     quanteda,
     quanteda.textstats,
     topicmodels,
