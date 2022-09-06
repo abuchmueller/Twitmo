@@ -1,3 +1,7 @@
+# Version 0.1.5
+
+- added `Remotes` to description to ensure `rtweet` v.0.7.0 is installed with `Twitmo`
+
 # Version 0.1.4
 
 -   `Twitmo` 0.1. depends on `rtweet` \< 1.0.0 now (breaking changes)

@@ -17,19 +17,41 @@ discourse easy and accessible.
 
 ## Installation
 
+## Important Note for **NEW** users
+
+If you are using `Twitmo` for the first time, you might already have
+`rtweet` installed. If you have `rtweet` version \>= 1.0.0 installed,
+you will not be able to use certain parts of `Twitmo`, like
+parsing/loading tweets because of breaking changes in `rtweet`. I am
+currently working on a solution but for now, make sure you have the
+correct version of `rtweet` installed by running
+
+``` r
+## install remotes package if it's not already
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+
+devtools::install_version("rtweet", version = "0.7.0", repos = "http://cran.us.r-project.org")
+```
+
 You can install `Twitmo` from CRAN with:
 
 ``` r
 install.packages("Twitmo")
 ```
 
+or install from Github where the correct version of `rtweet` will
+automatically be installed.
+
 You can install `Twitmo` from Github with:
 
-Before you install from Github make sure you have Rtools for
-[Windows](https://cran.r-project.org/bin/windows/Rtools/ "Rtools for Windows (CRAN)")
-or
-[macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/ "Rtools for macOS")
-already installed.
+**Note**: Installing from Github may require you to have Rtools on your
+system.
+
+-   [Windows](https://cran.r-project.org/bin/windows/Rtools/ "Rtools for Windows (CRAN)")
+
+-   [macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/ "Rtools for macOS")
 
 ``` r
 ## install remotes package if it's not already
@@ -102,17 +124,17 @@ model <- fit_lda(pool.dfm, n_topics = 7)
 
 ``` r
 lda_terms(model)
-#>      Topic.1       Topic.2   Topic.3 Topic.4       Topic.5 Topic.6    Topic.7
-#> 1      today         music beautiful   paola           job    good   downtown
-#> 2     laurel       holiday      life    says          link    meet  knoxville
-#> 3       glen          time    season   puppy           bio  people       like
-#> 4   trailing      birthday      like  church tenrestaurant   first         us
-#> 5       oaks     girlhappy   posting     job         click     big       care
-#> 6    tuscany birthdaytasha      olde      us           see  always     theres
-#> 7         ii         today       end    link         crazy    love    nothing
-#> 8     design       morning      days     bio       covered    last      quite
-#> 9  perfectly         early    grains     see        waffle   night         tn
-#> 10     sized    photoshoot      sand  sunday        sooooo     fun especially
+#>          Topic.1  Topic.2    Topic.3    Topic.4                Topic.5 Topic.6 Topic.7
+#> 1  tenrestaurant    paola   downtown       link                  music    meet      us
+#> 2          crazy     says  knoxville        bio                morning  people    life
+#> 3        covered    puppy       like        job                  early   first     see
+#> 4         waffle    today     theres      click             photoshoot     big  church
+#> 5         sooooo   laurel    nothing        see shamarathemodelscruggs  always   today
+#> 6           time     glen      quite     hiring               allwomen    love  sunday
+#> 7       birthday trailing         tn      great                   stay    last    yall
+#> 8      girlhappy     oaks especially       care                  tuned   night morning
+#> 9  birthdaytasha  tuscany       vols technician               fabulous     fun    word
+#> 10          team       ii        win       life                holiday    good general
 ```
 
 or which hashtags are heavily associated with each topic
@@ -120,54 +142,54 @@ or which hashtags are heavily associated with each topic
 ``` r
 lda_hashtags(model)
 #>                      Topic
-#> mood                     4
-#> motivate                 5
-#> healthcare               7
-#> mrrbnsnathome            5
-#> newyork                  5
-#> breakfast                5
-#> thisismyplace            4
-#> p4l                      4
-#> chinup                   4
-#> sundayfunday             4
-#> saintsgameday            4
-#> instapuppy               4
-#> woof                     4
-#> tailswagging             4
-#> tickfire                 1
-#> msiclassic               3
+#> mood                     6
+#> motivate                 4
+#> healthcare               4
+#> mrrbnsnathome            1
+#> newyork                  1
+#> breakfast                1
+#> thisismyplace            7
+#> p4l                      7
+#> chinup                   2
+#> sundayfunday             2
+#> saintsgameday            2
+#> instapuppy               2
+#> woof                     2
+#> tailswagging             2
+#> tickfire                 6
+#> msiclassic               1
 #> nyc                      6
 #> about                    6
 #> joethecrane              6
-#> government               5
-#> ladystrut19              2
-#> ladystrutaccessories     2
+#> government               7
+#> ladystrut19              5
+#> ladystrutaccessories     5
 #> smartnews                5
-#> sundaythoughts           2
+#> sundaythoughts           7
 #> sf100                    6
-#> openhouse                1
-#> springtx                 1
-#> labor                    5
-#> norfolk                  5
+#> openhouse                2
+#> springtx                 2
+#> labor                    1
+#> norfolk                  1
 #> oprylandhotel            3
-#> pharmaceutical           5
+#> pharmaceutical           3
 #> easthanover              4
 #> sales                    4
-#> scryingartist            3
-#> beautifulskyz            3
-#> knoxvilletn              7
-#> downtownknoxville        7
-#> heartofservice           2
-#> youthmagnet              2
-#> youthmentor              2
-#> bonjour                  2
-#> trump2020                6
+#> scryingartist            4
+#> beautifulskyz            4
+#> knoxvilletn              3
+#> downtownknoxville        3
+#> heartofservice           1
+#> youthmagnet              1
+#> youthmentor              1
+#> bonjour                  4
+#> trump2020                3
 #> spiritchat               7
-#> columbia                 3
-#> newcastle                4
-#> oncology                 5
+#> columbia                 5
+#> newcastle                7
+#> oncology                 4
 #> nbatwitter               1
-#> detroit                  5
+#> detroit                  4
 ```
 
 ## Inspecting LDA distributions
@@ -177,54 +199,54 @@ Check the distribution of your LDA Model with
 ``` r
 lda_distribution(model)
 #>                         V1    V2    V3    V4    V5    V6    V7
-#> mood                 0.001 0.001 0.001 0.996 0.001 0.001 0.001
-#> motivate             0.001 0.001 0.001 0.001 0.995 0.001 0.001
-#> healthcare           0.001 0.001 0.001 0.001 0.001 0.001 0.996
-#> mrrbnsnathome        0.002 0.002 0.002 0.002 0.990 0.002 0.002
-#> newyork              0.002 0.002 0.002 0.002 0.990 0.002 0.002
-#> breakfast            0.002 0.002 0.002 0.002 0.990 0.002 0.002
-#> thisismyplace        0.001 0.001 0.001 0.995 0.001 0.001 0.001
-#> p4l                  0.001 0.001 0.001 0.995 0.001 0.001 0.001
-#> chinup               0.003 0.003 0.003 0.980 0.003 0.003 0.003
-#> sundayfunday         0.003 0.003 0.003 0.980 0.003 0.003 0.003
-#> saintsgameday        0.003 0.003 0.003 0.980 0.003 0.003 0.003
-#> instapuppy           0.003 0.003 0.003 0.980 0.003 0.003 0.003
-#> woof                 0.003 0.003 0.003 0.980 0.003 0.003 0.003
-#> tailswagging         0.003 0.003 0.003 0.980 0.003 0.003 0.003
-#> tickfire             0.996 0.001 0.001 0.001 0.001 0.001 0.001
-#> msiclassic           0.001 0.001 0.995 0.001 0.001 0.001 0.001
-#> nyc                  0.001 0.001 0.001 0.001 0.001 0.997 0.001
-#> about                0.001 0.001 0.001 0.001 0.001 0.997 0.001
-#> joethecrane          0.001 0.001 0.001 0.001 0.001 0.997 0.001
-#> government           0.001 0.001 0.001 0.001 0.996 0.001 0.001
-#> ladystrut19          0.001 0.996 0.001 0.001 0.001 0.001 0.001
-#> ladystrutaccessories 0.001 0.996 0.001 0.001 0.001 0.001 0.001
-#> smartnews            0.000 0.000 0.000 0.000 0.997 0.000 0.000
-#> sundaythoughts       0.000 0.997 0.000 0.000 0.000 0.000 0.000
-#> sf100                0.001 0.001 0.001 0.001 0.001 0.996 0.001
-#> openhouse            0.998 0.000 0.000 0.000 0.000 0.000 0.000
-#> springtx             0.998 0.000 0.000 0.000 0.000 0.000 0.000
-#> labor                0.001 0.001 0.001 0.001 0.996 0.001 0.001
-#> norfolk              0.001 0.001 0.001 0.001 0.996 0.001 0.001
-#> oprylandhotel        0.001 0.001 0.996 0.001 0.001 0.001 0.001
-#> pharmaceutical       0.001 0.001 0.001 0.001 0.996 0.001 0.001
-#> easthanover          0.001 0.001 0.001 0.996 0.001 0.001 0.001
-#> sales                0.001 0.001 0.001 0.996 0.001 0.001 0.001
-#> scryingartist        0.001 0.001 0.996 0.001 0.001 0.001 0.001
-#> beautifulskyz        0.001 0.001 0.996 0.001 0.001 0.001 0.001
-#> knoxvilletn          0.001 0.001 0.001 0.001 0.001 0.001 0.995
-#> downtownknoxville    0.001 0.001 0.001 0.001 0.001 0.001 0.995
-#> heartofservice       0.002 0.985 0.002 0.002 0.002 0.002 0.002
-#> youthmagnet          0.002 0.985 0.002 0.002 0.002 0.002 0.002
-#> youthmentor          0.002 0.985 0.002 0.002 0.002 0.002 0.002
-#> bonjour              0.001 0.995 0.001 0.001 0.001 0.001 0.001
-#> trump2020            0.001 0.001 0.001 0.001 0.001 0.995 0.001
-#> spiritchat           0.001 0.001 0.001 0.001 0.001 0.001 0.997
-#> columbia             0.001 0.001 0.996 0.001 0.001 0.001 0.001
-#> newcastle            0.001 0.001 0.001 0.997 0.001 0.001 0.001
-#> oncology             0.001 0.001 0.001 0.001 0.996 0.001 0.001
-#> nbatwitter           0.997 0.000 0.000 0.000 0.000 0.000 0.000
-#> detroit              0.001 0.001 0.001 0.001 0.995 0.001 0.001
+#> mood                 0.001 0.001 0.001 0.001 0.001 0.994 0.001
+#> motivate             0.001 0.001 0.001 0.992 0.001 0.001 0.001
+#> healthcare           0.001 0.001 0.001 0.995 0.001 0.001 0.001
+#> mrrbnsnathome        0.986 0.002 0.002 0.002 0.002 0.002 0.002
+#> newyork              0.986 0.002 0.002 0.002 0.002 0.002 0.002
+#> breakfast            0.986 0.002 0.002 0.002 0.002 0.002 0.002
+#> thisismyplace        0.001 0.001 0.001 0.001 0.001 0.001 0.992
+#> p4l                  0.001 0.001 0.001 0.001 0.001 0.001 0.992
+#> chinup               0.005 0.973 0.005 0.005 0.005 0.005 0.005
+#> sundayfunday         0.005 0.973 0.005 0.005 0.005 0.005 0.005
+#> saintsgameday        0.005 0.973 0.005 0.005 0.005 0.005 0.005
+#> instapuppy           0.005 0.973 0.005 0.005 0.005 0.005 0.005
+#> woof                 0.005 0.973 0.005 0.005 0.005 0.005 0.005
+#> tailswagging         0.005 0.973 0.005 0.005 0.005 0.005 0.005
+#> tickfire             0.001 0.001 0.001 0.001 0.001 0.995 0.001
+#> msiclassic           0.993 0.001 0.001 0.001 0.001 0.001 0.001
+#> nyc                  0.001 0.001 0.001 0.001 0.001 0.995 0.001
+#> about                0.001 0.001 0.001 0.001 0.001 0.995 0.001
+#> joethecrane          0.001 0.001 0.001 0.001 0.001 0.995 0.001
+#> government           0.001 0.001 0.001 0.467 0.001 0.001 0.528
+#> ladystrut19          0.001 0.001 0.001 0.001 0.995 0.001 0.001
+#> ladystrutaccessories 0.001 0.001 0.001 0.001 0.995 0.001 0.001
+#> smartnews            0.001 0.001 0.001 0.001 0.996 0.001 0.001
+#> sundaythoughts       0.001 0.001 0.001 0.001 0.001 0.001 0.996
+#> sf100                0.001 0.001 0.001 0.001 0.001 0.994 0.001
+#> openhouse            0.000 0.997 0.000 0.000 0.000 0.000 0.000
+#> springtx             0.000 0.997 0.000 0.000 0.000 0.000 0.000
+#> labor                0.629 0.001 0.001 0.366 0.001 0.001 0.001
+#> norfolk              0.629 0.001 0.001 0.366 0.001 0.001 0.001
+#> oprylandhotel        0.001 0.001 0.994 0.001 0.001 0.001 0.001
+#> pharmaceutical       0.001 0.001 0.995 0.001 0.001 0.001 0.001
+#> easthanover          0.001 0.001 0.001 0.995 0.001 0.001 0.001
+#> sales                0.001 0.001 0.001 0.995 0.001 0.001 0.001
+#> scryingartist        0.001 0.001 0.001 0.995 0.001 0.001 0.001
+#> beautifulskyz        0.001 0.001 0.001 0.995 0.001 0.001 0.001
+#> knoxvilletn          0.001 0.001 0.993 0.001 0.001 0.001 0.001
+#> downtownknoxville    0.001 0.001 0.993 0.001 0.001 0.001 0.001
+#> heartofservice       0.979 0.003 0.003 0.003 0.003 0.003 0.003
+#> youthmagnet          0.979 0.003 0.003 0.003 0.003 0.003 0.003
+#> youthmentor          0.979 0.003 0.003 0.003 0.003 0.003 0.003
+#> bonjour              0.001 0.001 0.001 0.992 0.001 0.001 0.001
+#> trump2020            0.001 0.001 0.992 0.001 0.001 0.001 0.001
+#> spiritchat           0.001 0.001 0.001 0.001 0.001 0.001 0.996
+#> columbia             0.001 0.001 0.001 0.001 0.995 0.001 0.001
+#> newcastle            0.001 0.001 0.001 0.001 0.001 0.001 0.996
+#> oncology             0.001 0.001 0.001 0.994 0.001 0.001 0.001
+#> nbatwitter           0.996 0.001 0.001 0.001 0.001 0.001 0.001
+#> detroit              0.001 0.001 0.001 0.994 0.001 0.001 0.001
 ```
 
 # Filtering tweets
@@ -273,40 +295,40 @@ STMs can be inspected via
 summary(stm_model)
 #> A topic model with 7 topics, 137 documents and a 324 word dictionary.
 #> Topic 1 Top Words:
-#>       Highest Prob: like, will, come, help, look, live, fun 
-#>       FREX: hors, intellig, fun, come, enjoy, post, question 
-#>       Lift: anytim, eddi, floyd, gameday, gave, hors, ranch 
-#>       Score: stop, hors, will, come, like, help, anytim 
+#>       Highest Prob: last, today, time, love, show, week, just 
+#>       FREX: love, show, week, give, whole, today, alway 
+#>       Lift: alway, band, fan, give, love, miss, monster 
+#>       Score: stop, love, last, today, week, give, show 
 #> Topic 2 Top Words:
-#>       Highest Prob: last, sunday, know, win, season, want, show 
-#>       FREX: win, know, night, way, last, sunday, area 
-#>       Lift: way, area, photo, three, night, win, boy 
-#>       Score: area, last, win, sunday, night, know, action 
+#>       Highest Prob: see, job, bio, link, click, can, season 
+#>       FREX: bio, link, click, hire, latest, follow, downtown 
+#>       Lift: bio, link, allen, area, develop, downtown, embarrass 
+#>       Score: area, bio, link, job, click, hire, see 
 #> Topic 3 Top Words:
-#>       Highest Prob: game, get, time, trump, can, just, love 
-#>       FREX: game, love, week, al-baghdadi, parti, won, fuck 
-#>       Lift: ’re, baghdadi, bin, counti, els, fail, import 
-#>       Score: parti, game, love, trump, week, get, time 
+#>       Highest Prob: like, one, year, want, think, read, win 
+#>       FREX: year, way, around, parti, ppl, one, match 
+#>       Lift: around, father, parti, ppl, pretti, start, throughout 
+#>       Score: parti, one, year, like, way, ppl, match 
 #> Topic 4 Top Words:
-#>       Highest Prob: one, day, today, open, church, even, life 
-#>       FREX: church, rain, open, now, market, day, one 
-#>       Lift: fat, finish, view, church, market, rain, special 
-#>       Score: support, day, today, church, rain, open, one 
+#>       Highest Prob: happen, life, right, now, say, need, hear 
+#>       FREX: need, keep, action, support, work, right, hear 
+#>       Lift: ’ve, action, difficult, footbal, head, keep, liter 
+#>       Score: support, happen, say, now, need, life, action 
 #> Topic 5 Top Words:
-#>       Highest Prob: see, job, bio, link, click, might, best 
-#>       FREX: job, bio, link, click, might, need, isi 
-#>       Lift: bio, link, might, anyon, better, democrat, develop 
-#>       Score: isi, bio, link, job, click, hire, recommend 
+#>       Highest Prob: trump, know, peopl, game, best, presid, look 
+#>       FREX: trump, know, care, got, intellig, isi, best 
+#>       Lift: baghdadi, better, bin, fail, grow, person, sport 
+#>       Score: isi, know, trump, care, intellig, presid, truth 
 #> Topic 6 Top Words:
-#>       Highest Prob: morn, place, first, read, team, bad, back 
-#>       FREX: morn, place, colleg, lose, made, back, told 
-#>       Lift: morn, place, back, championship, colleg, fall, famili 
-#>       Score: made, morn, place, lose, found, colleg, huh 
+#>       Highest Prob: get, help, come, take, place, team, can 
+#>       FREX: help, pleas, hors, colleg, communiti, made, question 
+#>       Lift: hors, pleas, anytim, awesom, benefit, colleg, communiti 
+#>       Score: made, help, hors, anytim, eddi, floyd, ranch 
 #> Topic 7 Top Words:
-#>       Highest Prob: think, say, school, feel, set, good, happen 
-#>       FREX: feel, say, school, set, downtown, truth, anyth 
-#>       Lift: anyth, benefit, excel, feel, talk, thank, yet 
-#>       Score: feel, school, think, set, say, everyon, happen
+#>       Highest Prob: will, sunday, day, live, morn, school, feel 
+#>       FREX: day, live, morn, feel, fun, good, put 
+#>       Lift: coffe, husband, ice, ladi, morn, park, realli 
+#>       Score: feel, day, will, morn, live, sunday, put
 ```
 
 ## Visualizing models with `LDAvis`

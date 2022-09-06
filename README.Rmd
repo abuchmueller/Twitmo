@@ -17,8 +17,7 @@ library(magrittr)
 
 <!-- badges: start -->
 
-[![](https://www.r-pkg.org/badges/version/Twitmo?color=green)](https://cran.r-project.org/package=Twitmo)
-[![R-CMD-check](https://github.com/abuchmueller/Twitmo/workflows/R-CMD-check/badge.svg)](https://github.com/abuchmueller/Twitmo/actions) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![](https://www.r-pkg.org/badges/version/Twitmo?color=green)](https://cran.r-project.org/package=Twitmo) [![R-CMD-check](https://github.com/abuchmueller/Twitmo/workflows/R-CMD-check/badge.svg)](https://github.com/abuchmueller/Twitmo/actions) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <!-- badges: end -->
 
@@ -26,15 +25,34 @@ The goal of `Twitmo` is to facilitate topic modeling in R with Twitter data. `Tw
 
 ## Installation
 
+## Important Note for **NEW** users
+
+If you are using `Twitmo` for the first time, you might already have `rtweet` installed. If you have `rtweet` version \>= 1.0.0 installed, you will not be able to use certain parts of `Twitmo`, like parsing/loading tweets because of breaking changes in `rtweet`. I am currently working on a solution but for now, make sure you have the correct version of `rtweet` installed by running
+
+```{r rtweet-installation, eval=FALSE}
+## install remotes package if it's not already
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+
+devtools::install_version("rtweet", version = "0.7.0", repos = "http://cran.us.r-project.org")
+```
+
 You can install `Twitmo` from CRAN with:
 
 ```{r cran-installation, eval=FALSE}
 install.packages("Twitmo")
 ```
 
+or install from Github where the correct version of `rtweet` will automatically be installed.
+
 You can install `Twitmo` from Github with:
 
-Before you install from Github make sure you have Rtools for [Windows](https://cran.r-project.org/bin/windows/Rtools/ "Rtools for Windows (CRAN)") or [macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/ "Rtools for macOS") already installed.
+**Note**: Installing from Github may require you to have Rtools on your system.
+
+-   [Windows](https://cran.r-project.org/bin/windows/Rtools/ "Rtools for Windows (CRAN)")
+
+-   [macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/ "Rtools for macOS")
 
 ```{r gh-installation, eval = FALSE}
 ## install remotes package if it's not already
