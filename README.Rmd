@@ -23,11 +23,21 @@ library(magrittr)
 
 The goal of `Twitmo` is to facilitate topic modeling in R with Twitter data. `Twitmo` provides a broad range of methods to sample, pre-process and visualize contents of geo-tagged tweets to make modeling the public discourse easy and accessible.
 
+## Common questions
+
+### Can I use `Twitmo` for pseudo-document pooling if I already sampled data earlier from Twitter without `Twitmo`?
+
+Yes, this is possible in the Github version of `Twitmo.` You can use `pool_tweets()` on any data frame, that has a 'text' and a 'hashtags' columns that are also named that way. Any additional columns you might have, can additionally be used as document meta-data in a STM (see below).
+
+### Can I use `Twitmo` to model topical prevalence over time?
+
+`Twitmo` has no built-in methods for this purpose, however slicing your data time wise and fitting multiple LDA models then comparing topical prevalence over time can be accomplished with `Twitmo` in conjunction with `ggplot2`.
+
 ## Installation
 
 ## Important Note for **NEW** users
 
-If you are using `Twitmo` for the first time, you might already have `rtweet` installed. If you have `rtweet` version \>= 1.0.0 installed, you will not be able to use certain parts of `Twitmo`, like parsing/loading tweets because of breaking changes in `rtweet`. I am currently working on a solution but for now, make sure you have the correct version of `rtweet` installed by running
+If you are using `Twitmo` for the first time, you might not already have `rtweet` installed. If you have `rtweet` version \>= 1.0.0 installed, you will not be able to use certain parts of `Twitmo`, like parsing/loading tweets because of breaking changes in `rtweet`. Since CRAN, by default, only distributes the latest version of a package and R does not respect upper boundaries on dependencies I am currently working on a solution. **You make sure you have the correct version of `rtweet` installed by running**
 
 ```{r rtweet-installation, eval=FALSE}
 ## install remotes package if it's not already
@@ -48,12 +58,6 @@ or install from Github where the correct version of `rtweet` will automatically 
 
 You can install `Twitmo` from Github with:
 
-**Note**: Installing from Github may require you to have Rtools on your system.
-
--   [Windows](https://cran.r-project.org/bin/windows/Rtools/ "Rtools for Windows (CRAN)")
-
--   [macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/ "Rtools for macOS")
-
 ```{r gh-installation, eval = FALSE}
 ## install remotes package if it's not already
 if (!requireNamespace("remotes", quietly = TRUE)) {
@@ -63,6 +67,12 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 ## install dev version of Twitmo from github
 remotes::install_github("abuchmueller/Twitmo")
 ```
+
+**Note**: Installing from Github may require you to have Rtools on your system.
+
+-   [Windows](https://cran.r-project.org/bin/windows/Rtools/ "Rtools for Windows (CRAN)")
+
+-   [macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/ "Rtools for macOS")
 
 ## Collecting geo-tagged tweets
 

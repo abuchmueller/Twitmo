@@ -2,7 +2,7 @@
 
 This is a resubmission. In this version I have:
 
--   `Twitmo` 0.1. depends on `rtweet` \< 1.0.0 now (breaking changes)
+-   `Twitmo` 0.1. depends on `rtweet` < 1.0.0 now (breaking changes)
 -   added linting via `lintr`
 -   added `renv`
 -   `pool_tweets()` now only requires a data frame with a "hashtag" and "text" column as input
