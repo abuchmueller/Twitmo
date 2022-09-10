@@ -15,16 +15,35 @@ data. `Twitmo` provides a broad range of methods to sample, pre-process
 and visualize contents of geo-tagged tweets to make modeling the public
 discourse easy and accessible.
 
+## Common questions
+
+### Can I use `Twitmo` for pseudo-document pooling if I already sampled data earlier from Twitter without `Twitmo`?
+
+Yes, this is possible in the Github version of `Twitmo.` You can use
+`pool_tweets()` on any data frame, that has a ‘text’ and a ‘hashtags’
+columns that are also named that way. Any additional columns you might
+have, can additionally be used as document meta-data in a STM (see
+below).
+
+### Can I use `Twitmo` to model topical prevalence over time?
+
+`Twitmo` has no built-in methods for this purpose, however slicing your
+data time wise and fitting multiple LDA models then comparing topical
+prevalence over time can be accomplished with `Twitmo` in conjunction
+with `ggplot2`.
+
 ## Installation
 
 ## Important Note for **NEW** users
 
-If you are using `Twitmo` for the first time, you might already have
+If you are using `Twitmo` for the first time, you might not already have
 `rtweet` installed. If you have `rtweet` version \>= 1.0.0 installed,
 you will not be able to use certain parts of `Twitmo`, like
-parsing/loading tweets because of breaking changes in `rtweet`. I am
-currently working on a solution but for now, make sure you have the
-correct version of `rtweet` installed by running
+parsing/loading tweets because of breaking changes in `rtweet`. Since
+CRAN, by default, only distributes the latest version of a package and R
+does not respect upper boundaries on dependencies I am currently working
+on a solution. **You make sure you have the correct version of `rtweet`
+installed by running**
 
 ``` r
 ## install remotes package if it's not already
@@ -46,13 +65,6 @@ automatically be installed.
 
 You can install `Twitmo` from Github with:
 
-**Note**: Installing from Github may require you to have Rtools on your
-system.
-
--   [Windows](https://cran.r-project.org/bin/windows/Rtools/ "Rtools for Windows (CRAN)")
-
--   [macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/ "Rtools for macOS")
-
 ``` r
 ## install remotes package if it's not already
 if (!requireNamespace("remotes", quietly = TRUE)) {
@@ -62,6 +74,13 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 ## install dev version of Twitmo from github
 remotes::install_github("abuchmueller/Twitmo")
 ```
+
+**Note**: Installing from Github may require you to have Rtools on your
+system.
+
+-   [Windows](https://cran.r-project.org/bin/windows/Rtools/ "Rtools for Windows (CRAN)")
+
+-   [macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/ "Rtools for macOS")
 
 ## Collecting geo-tagged tweets
 
@@ -124,17 +143,17 @@ model <- fit_lda(pool.dfm, n_topics = 7)
 
 ``` r
 lda_terms(model)
-#>          Topic.1  Topic.2    Topic.3    Topic.4                Topic.5 Topic.6 Topic.7
-#> 1  tenrestaurant    paola   downtown       link                  music    meet      us
-#> 2          crazy     says  knoxville        bio                morning  people    life
-#> 3        covered    puppy       like        job                  early   first     see
-#> 4         waffle    today     theres      click             photoshoot     big  church
-#> 5         sooooo   laurel    nothing        see shamarathemodelscruggs  always   today
-#> 6           time     glen      quite     hiring               allwomen    love  sunday
-#> 7       birthday trailing         tn      great                   stay    last    yall
-#> 8      girlhappy     oaks especially       care                  tuned   night morning
-#> 9  birthdaytasha  tuscany       vols technician               fabulous     fun    word
-#> 10          team       ii        win       life                holiday    good general
+#>      Topic.1 Topic.2   Topic.3   Topic.4       Topic.5                Topic.6 Topic.7
+#> 1        bio    last     today     paola tenrestaurant                  music  church
+#> 2       link    meet    laurel      says         crazy                   time   today
+#> 3      click  people      glen     puppy       covered               birthday morning
+#> 4        job   first  trailing  downtown        waffle              girlhappy   place
+#> 5        see     big      oaks knoxville        sooooo          birthdaytasha    life
+#> 6        can  always   tuscany      like          life                morning     day
+#> 7  recommend    love        ii        us     democrats                  early     see
+#> 8     anyone   night    design    season          jeff             photoshoot  sunday
+#> 9      great     fun perfectly    theres      sessions shamarathemodelscruggs    yall
+#> 10      care    good     sized   nothing     beautiful               allwomen    word
 ```
 
 or which hashtags are heavily associated with each topic
@@ -142,54 +161,54 @@ or which hashtags are heavily associated with each topic
 ``` r
 lda_hashtags(model)
 #>                      Topic
-#> mood                     6
-#> motivate                 4
-#> healthcare               4
-#> mrrbnsnathome            1
-#> newyork                  1
-#> breakfast                1
+#> mood                     7
+#> motivate                 5
+#> healthcare               1
+#> mrrbnsnathome            5
+#> newyork                  5
+#> breakfast                5
 #> thisismyplace            7
 #> p4l                      7
-#> chinup                   2
-#> sundayfunday             2
-#> saintsgameday            2
-#> instapuppy               2
-#> woof                     2
-#> tailswagging             2
+#> chinup                   4
+#> sundayfunday             4
+#> saintsgameday            4
+#> instapuppy               4
+#> woof                     4
+#> tailswagging             4
 #> tickfire                 6
-#> msiclassic               1
-#> nyc                      6
-#> about                    6
-#> joethecrane              6
-#> government               7
-#> ladystrut19              5
-#> ladystrutaccessories     5
+#> msiclassic               4
+#> nyc                      2
+#> about                    2
+#> joethecrane              2
+#> government               1
+#> ladystrut19              6
+#> ladystrutaccessories     6
 #> smartnews                5
 #> sundaythoughts           7
 #> sf100                    6
-#> openhouse                2
-#> springtx                 2
+#> openhouse                3
+#> springtx                 3
 #> labor                    1
 #> norfolk                  1
-#> oprylandhotel            3
+#> oprylandhotel            2
 #> pharmaceutical           3
-#> easthanover              4
-#> sales                    4
-#> scryingartist            4
-#> beautifulskyz            4
-#> knoxvilletn              3
-#> downtownknoxville        3
-#> heartofservice           1
-#> youthmagnet              1
-#> youthmentor              1
+#> easthanover              2
+#> sales                    2
+#> scryingartist            5
+#> beautifulskyz            5
+#> knoxvilletn              4
+#> downtownknoxville        4
+#> heartofservice           6
+#> youthmagnet              6
+#> youthmentor              6
 #> bonjour                  4
-#> trump2020                3
-#> spiritchat               7
-#> columbia                 5
-#> newcastle                7
-#> oncology                 4
-#> nbatwitter               1
-#> detroit                  4
+#> trump2020                7
+#> spiritchat               4
+#> columbia                 1
+#> newcastle                6
+#> oncology                 1
+#> nbatwitter               7
+#> detroit                  1
 ```
 
 ## Inspecting LDA distributions
@@ -199,54 +218,54 @@ Check the distribution of your LDA Model with
 ``` r
 lda_distribution(model)
 #>                         V1    V2    V3    V4    V5    V6    V7
-#> mood                 0.001 0.001 0.001 0.001 0.001 0.994 0.001
-#> motivate             0.001 0.001 0.001 0.992 0.001 0.001 0.001
-#> healthcare           0.001 0.001 0.001 0.995 0.001 0.001 0.001
-#> mrrbnsnathome        0.986 0.002 0.002 0.002 0.002 0.002 0.002
-#> newyork              0.986 0.002 0.002 0.002 0.002 0.002 0.002
-#> breakfast            0.986 0.002 0.002 0.002 0.002 0.002 0.002
-#> thisismyplace        0.001 0.001 0.001 0.001 0.001 0.001 0.992
-#> p4l                  0.001 0.001 0.001 0.001 0.001 0.001 0.992
-#> chinup               0.005 0.973 0.005 0.005 0.005 0.005 0.005
-#> sundayfunday         0.005 0.973 0.005 0.005 0.005 0.005 0.005
-#> saintsgameday        0.005 0.973 0.005 0.005 0.005 0.005 0.005
-#> instapuppy           0.005 0.973 0.005 0.005 0.005 0.005 0.005
-#> woof                 0.005 0.973 0.005 0.005 0.005 0.005 0.005
-#> tailswagging         0.005 0.973 0.005 0.005 0.005 0.005 0.005
-#> tickfire             0.001 0.001 0.001 0.001 0.001 0.995 0.001
-#> msiclassic           0.993 0.001 0.001 0.001 0.001 0.001 0.001
-#> nyc                  0.001 0.001 0.001 0.001 0.001 0.995 0.001
-#> about                0.001 0.001 0.001 0.001 0.001 0.995 0.001
-#> joethecrane          0.001 0.001 0.001 0.001 0.001 0.995 0.001
-#> government           0.001 0.001 0.001 0.467 0.001 0.001 0.528
-#> ladystrut19          0.001 0.001 0.001 0.001 0.995 0.001 0.001
-#> ladystrutaccessories 0.001 0.001 0.001 0.001 0.995 0.001 0.001
-#> smartnews            0.001 0.001 0.001 0.001 0.996 0.001 0.001
-#> sundaythoughts       0.001 0.001 0.001 0.001 0.001 0.001 0.996
-#> sf100                0.001 0.001 0.001 0.001 0.001 0.994 0.001
-#> openhouse            0.000 0.997 0.000 0.000 0.000 0.000 0.000
-#> springtx             0.000 0.997 0.000 0.000 0.000 0.000 0.000
-#> labor                0.629 0.001 0.001 0.366 0.001 0.001 0.001
-#> norfolk              0.629 0.001 0.001 0.366 0.001 0.001 0.001
-#> oprylandhotel        0.001 0.001 0.994 0.001 0.001 0.001 0.001
-#> pharmaceutical       0.001 0.001 0.995 0.001 0.001 0.001 0.001
-#> easthanover          0.001 0.001 0.001 0.995 0.001 0.001 0.001
-#> sales                0.001 0.001 0.001 0.995 0.001 0.001 0.001
-#> scryingartist        0.001 0.001 0.001 0.995 0.001 0.001 0.001
-#> beautifulskyz        0.001 0.001 0.001 0.995 0.001 0.001 0.001
-#> knoxvilletn          0.001 0.001 0.993 0.001 0.001 0.001 0.001
-#> downtownknoxville    0.001 0.001 0.993 0.001 0.001 0.001 0.001
-#> heartofservice       0.979 0.003 0.003 0.003 0.003 0.003 0.003
-#> youthmagnet          0.979 0.003 0.003 0.003 0.003 0.003 0.003
-#> youthmentor          0.979 0.003 0.003 0.003 0.003 0.003 0.003
-#> bonjour              0.001 0.001 0.001 0.992 0.001 0.001 0.001
-#> trump2020            0.001 0.001 0.992 0.001 0.001 0.001 0.001
-#> spiritchat           0.001 0.001 0.001 0.001 0.001 0.001 0.996
-#> columbia             0.001 0.001 0.001 0.001 0.995 0.001 0.001
-#> newcastle            0.001 0.001 0.001 0.001 0.001 0.001 0.996
-#> oncology             0.001 0.001 0.001 0.994 0.001 0.001 0.001
-#> nbatwitter           0.996 0.001 0.001 0.001 0.001 0.001 0.001
-#> detroit              0.001 0.001 0.001 0.994 0.001 0.001 0.001
+#> mood                 0.001 0.001 0.001 0.001 0.001 0.001 0.995
+#> motivate             0.001 0.001 0.001 0.001 0.994 0.001 0.001
+#> healthcare           0.996 0.001 0.001 0.001 0.001 0.001 0.001
+#> mrrbnsnathome        0.002 0.002 0.002 0.002 0.989 0.002 0.002
+#> newyork              0.002 0.002 0.002 0.002 0.989 0.002 0.002
+#> breakfast            0.002 0.002 0.002 0.002 0.989 0.002 0.002
+#> thisismyplace        0.001 0.001 0.001 0.001 0.001 0.001 0.994
+#> p4l                  0.001 0.001 0.001 0.001 0.001 0.001 0.994
+#> chinup               0.004 0.004 0.004 0.978 0.004 0.004 0.004
+#> sundayfunday         0.004 0.004 0.004 0.978 0.004 0.004 0.004
+#> saintsgameday        0.004 0.004 0.004 0.978 0.004 0.004 0.004
+#> instapuppy           0.004 0.004 0.004 0.978 0.004 0.004 0.004
+#> woof                 0.004 0.004 0.004 0.978 0.004 0.004 0.004
+#> tailswagging         0.004 0.004 0.004 0.978 0.004 0.004 0.004
+#> tickfire             0.001 0.001 0.001 0.001 0.001 0.996 0.001
+#> msiclassic           0.001 0.001 0.001 0.994 0.001 0.001 0.001
+#> nyc                  0.001 0.996 0.001 0.001 0.001 0.001 0.001
+#> about                0.001 0.996 0.001 0.001 0.001 0.001 0.001
+#> joethecrane          0.001 0.996 0.001 0.001 0.001 0.001 0.001
+#> government           0.995 0.001 0.001 0.001 0.001 0.001 0.001
+#> ladystrut19          0.001 0.001 0.001 0.001 0.001 0.996 0.001
+#> ladystrutaccessories 0.001 0.001 0.001 0.001 0.001 0.996 0.001
+#> smartnews            0.001 0.001 0.001 0.001 0.997 0.001 0.001
+#> sundaythoughts       0.000 0.000 0.000 0.000 0.000 0.000 0.997
+#> sf100                0.001 0.001 0.001 0.001 0.001 0.995 0.001
+#> openhouse            0.000 0.000 0.998 0.000 0.000 0.000 0.000
+#> springtx             0.000 0.000 0.998 0.000 0.000 0.000 0.000
+#> labor                0.995 0.001 0.001 0.001 0.001 0.001 0.001
+#> norfolk              0.995 0.001 0.001 0.001 0.001 0.001 0.001
+#> oprylandhotel        0.001 0.995 0.001 0.001 0.001 0.001 0.001
+#> pharmaceutical       0.268 0.001 0.729 0.001 0.001 0.001 0.001
+#> easthanover          0.001 0.996 0.001 0.001 0.001 0.001 0.001
+#> sales                0.001 0.996 0.001 0.001 0.001 0.001 0.001
+#> scryingartist        0.001 0.001 0.001 0.001 0.996 0.001 0.001
+#> beautifulskyz        0.001 0.001 0.001 0.001 0.996 0.001 0.001
+#> knoxvilletn          0.001 0.001 0.001 0.994 0.001 0.001 0.001
+#> downtownknoxville    0.001 0.001 0.001 0.994 0.001 0.001 0.001
+#> heartofservice       0.003 0.003 0.003 0.003 0.003 0.983 0.003
+#> youthmagnet          0.003 0.003 0.003 0.003 0.003 0.983 0.003
+#> youthmentor          0.003 0.003 0.003 0.003 0.003 0.983 0.003
+#> bonjour              0.001 0.001 0.001 0.994 0.001 0.001 0.001
+#> trump2020            0.001 0.001 0.001 0.001 0.001 0.001 0.994
+#> spiritchat           0.001 0.001 0.001 0.996 0.001 0.001 0.001
+#> columbia             0.996 0.001 0.001 0.001 0.001 0.001 0.001
+#> newcastle            0.001 0.001 0.001 0.001 0.001 0.996 0.001
+#> oncology             0.995 0.001 0.001 0.001 0.001 0.001 0.001
+#> nbatwitter           0.000 0.000 0.000 0.000 0.000 0.000 0.997
+#> detroit              0.995 0.001 0.001 0.001 0.001 0.001 0.001
 ```
 
 # Filtering tweets
